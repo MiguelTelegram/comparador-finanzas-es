@@ -20,13 +20,13 @@
   "https://www.raisin.es/": {
     "nombre": "Raisin - Depósitos y cuentas",
     "selector_css": null,
-    "hash": "9b1e78d6dd92db233ceae3acab445957c7aa1579b288d30583371d102d648804",
-    "ultimo_cambio": "2026-11-21T09:06:40+00:00"
+    "hash": "a604bdeae04e9d14d4430468929c137856fea6ceec79990ad72ca1fe46b45f17",
+    "ultimo_cambio": "2026-11-21T18:25:09+00:00"
   },
   "https://nexo.com/nexo-card": {
     "nombre": "Nexo - Nexo Card",
     "selector_css": null,
-    "hash": "d604450a654af9df56545aa396b3b31470af8b1671862f1fec6754714d1c203a",
-    "ultimo_cambio": "2026-11-21T09:06:40+00:00"
+    "hash": "0197bc71ef5e5ef70422a2d08272788be5745f926b8025ede3c1893959ad83a7",
+    "ultimo_cambio": "2026-11-21T18:25:09+00:00"
   }
 }
