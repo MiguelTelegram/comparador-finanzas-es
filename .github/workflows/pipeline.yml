@@ -1,0 +1,92 @@
+name: Pipeline monitor y difusión
+
+on:
+  schedule:
+    - cron: "0 */12 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: pipeline-ofertas
+  cancel-in-progress: false
+
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    outputs:
+      web_changed: ${{ steps.commit.outputs.web_changed }}
+    env:
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
+      TELEGRAM_ADMIN_CHAT_ID: ${{ secrets.TELEGRAM_ADMIN_CHAT_ID }}
+      SITE_URL: ${{ secrets.SITE_URL }}
+
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: scripts/requirements.txt
+
+      - name: Instalar dependencias
+        run: pip install -r scripts/requirements.txt
+
+      - name: Monitor de enlaces y condiciones
+        run: python scripts/monitor.py
+
+      - name: Difusión en Telegram
+        if: ${{ !cancelled() }}
+        run: python scripts/difusion.py
+
+      - name: Sincronizar ofertas con la web
+        if: ${{ !cancelled() }}
+        run: |
+          mkdir -p web/data
+          cp data/ofertas.json web/data/ofertas.json
+
+      - name: Commit y push de cambios
+        id: commit
+        if: ${{ !cancelled() }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/ web/data/
+          if git diff --cached --quiet -- web/data/; then
+            echo "web_changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "web_changed=true" >> "$GITHUB_OUTPUT"
+          fi
+          if git diff --cached --quiet; then
+            echo "Sin cambios en data/ ni web/data/."
+            exit 0
+          fi
+          git commit -m "[bot] Actualización automática de estado y ofertas"
+          git pull --rebase
+          git push
+
+      - name: Aviso de fallo por Telegram
+        if: failure()
+        run: |
+          if [ -z "$TELEGRAM_BOT_TOKEN" ] || [ -z "$TELEGRAM_ADMIN_CHAT_ID" ]; then
+            echo "Telegram no configurado; se omite el aviso de fallo."
+            exit 0
+          fi
+          curl -sS -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+            --data-urlencode "chat_id=${TELEGRAM_ADMIN_CHAT_ID}" \
+            --data-urlencode "text=❌ El workflow '${{ github.workflow }}' ha fallado en ${{ github.repository }}. Revisa el log: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+            -o /dev/null
+
+  deploy-pages:
+    needs: pipeline
+    if: ${{ needs.pipeline.outputs.web_changed == 'true' }}
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/pages.yml

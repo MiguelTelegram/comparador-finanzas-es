@@ -1,0 +1,32 @@
+[
+  {
+    "nombre": "Trade Republic - Intereses",
+    "url": "https://traderepublic.com/es-es/interest",
+    "selector_css": "main"
+  },
+  {
+    "nombre": "Revolut - Cuentas de ahorro",
+    "url": "https://www.revolut.com/es-ES/savings-accounts/",
+    "selector_css": "main"
+  },
+  {
+    "nombre": "Raisin - Depósitos y cuentas",
+    "url": "https://www.raisin.es/",
+    "selector_css": "main"
+  },
+  {
+    "nombre": "bunq - Cuenta de ahorro",
+    "url": "https://www.bunq.com/es/savings",
+    "selector_css": "main"
+  },
+  {
+    "nombre": "Nexo - Nexo Card",
+    "url": "https://nexo.com/nexo-card",
+    "selector_css": "main"
+  },
+  {
+    "nombre": "Crypto.com - Tarjetas",
+    "url": "https://crypto.com/es/cards",
+    "selector_css": ""
+  }
+]

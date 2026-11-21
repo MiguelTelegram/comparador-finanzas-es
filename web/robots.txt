@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://migueltelegram.github.io/comparador-finanzas-es/sitemap.xml
