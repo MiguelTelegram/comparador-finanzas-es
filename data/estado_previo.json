@@ -10,5 +10,23 @@
     "selector_css": null,
     "hash": "9b6823c3ada50cf7c53077a144d9a28e8a83d6e78c7ee9070b62b4cdb219118b",
     "ultimo_cambio": "2026-11-21T08:39:33+00:00"
+  },
+  "https://traderepublic.com/es-es": {
+    "nombre": "Trade Republic - Intereses",
+    "selector_css": "main",
+    "hash": "a91f53b0f469479afe2811b9fe302684224ad460974e4776dd8a9effdbc063d7",
+    "ultimo_cambio": "2026-11-21T09:06:40+00:00"
+  },
+  "https://www.raisin.es/": {
+    "nombre": "Raisin - Depósitos y cuentas",
+    "selector_css": null,
+    "hash": "9b1e78d6dd92db233ceae3acab445957c7aa1579b288d30583371d102d648804",
+    "ultimo_cambio": "2026-11-21T09:06:40+00:00"
+  },
+  "https://nexo.com/nexo-card": {
+    "nombre": "Nexo - Nexo Card",
+    "selector_css": null,
+    "hash": "d604450a654af9df56545aa396b3b31470af8b1671862f1fec6754714d1c203a",
+    "ultimo_cambio": "2026-11-21T09:06:40+00:00"
   }
 }
