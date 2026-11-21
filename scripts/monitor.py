@@ -104,6 +104,11 @@ def comprobar_enlace(url: str) -> Optional[str]:
         if r.status_code >= 400:
             r = SESSION.get(url, allow_redirects=True, timeout=TIMEOUT, stream=True)
             r.close()
+        if r.status_code == 403 and (
+            r.headers.get("cf-mitigated")
+            or "cloudflare" in r.headers.get("server", "").lower()
+        ):
+            return None
         if r.status_code >= 400:
             return f"HTTP {r.status_code}"
         return None

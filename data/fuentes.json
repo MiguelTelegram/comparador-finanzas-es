@@ -1,7 +1,7 @@
 [
   {
     "nombre": "Trade Republic - Intereses",
-    "url": "https://traderepublic.com/es-es/interest",
+    "url": "https://traderepublic.com/es-es",
     "selector_css": "main"
   },
   {
@@ -12,7 +12,7 @@
   {
     "nombre": "Raisin - Depósitos y cuentas",
     "url": "https://www.raisin.es/",
-    "selector_css": "main"
+    "selector_css": ""
   },
   {
     "nombre": "bunq - Cuenta de ahorro",
@@ -22,7 +22,7 @@
   {
     "nombre": "Nexo - Nexo Card",
     "url": "https://nexo.com/nexo-card",
-    "selector_css": "main"
+    "selector_css": ""
   },
   {
     "nombre": "Crypto.com - Tarjetas",
