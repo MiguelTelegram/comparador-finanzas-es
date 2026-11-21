@@ -1,1 +1,14 @@
-{}
+{
+  "https://www.bunq.com/es/savings": {
+    "nombre": "bunq - Cuenta de ahorro",
+    "selector_css": "main",
+    "hash": "7655d8f80b57530b352325d9603e238f04237915dcd1aa0daa8e07fa53482efc",
+    "ultimo_cambio": "2026-11-21T08:39:33+00:00"
+  },
+  "https://crypto.com/es/cards": {
+    "nombre": "Crypto.com - Tarjetas",
+    "selector_css": null,
+    "hash": "9b6823c3ada50cf7c53077a144d9a28e8a83d6e78c7ee9070b62b4cdb219118b",
+    "ultimo_cambio": "2026-11-21T08:39:33+00:00"
+  }
+}
