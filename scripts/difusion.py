@@ -2,12 +2,9 @@
 """
 difusion.py — Publica en el canal de Telegram ofertas y nuevas promociones.
 
-1. Lee /data/ofertas.json ("activa": true y "publicar_telegram": true) y
-   /data/novedades.json ("publicar_telegram": true, máx. 3 por ejecución).
-2. Publica mensajes limpios en TELEGRAM_CHANNEL_ID con enlace directo y visible
-   a la web (listos para hacer copy-paste en foros) + botón inline hacia la web.
-3. Envía confirmación breve a TELEGRAM_ADMIN_CHAT_ID.
-4. Marca "publicar_telegram": false y guarda los JSON.
+Mensajes claros en español llano, traducidos a euros reales y con enlace
+ultracorto visible a la web (https://migueltelegram.github.io) para poder hacer
+copy-paste directo en foros como ForoCoches, Rankia, Reddit o Chollometro.
 
 Variables de entorno: TELEGRAM_BOT_TOKEN, TELEGRAM_CHANNEL_ID,
 TELEGRAM_ADMIN_CHAT_ID, SITE_URL.
@@ -27,15 +24,18 @@ import requests
 ROOT = Path(__file__).resolve().parent.parent
 OFERTAS_PATH = ROOT / "data" / "ofertas.json"
 NOVEDADES_PATH = ROOT / "data" / "novedades.json"
-DEFAULT_SITE_URL = "https://migueltelegram.github.io/comparador-finanzas-es/"
+DEFAULT_SITE_URL = "https://migueltelegram.github.io"
 TIMEOUT = 20
 MAX_NOVEDADES_POR_EJECUCION = 3
 
 PAISES = {
-    "ES": "🇪🇸 España", "DE": "🇩🇪 Alemania", "NL": "🇳🇱 Países Bajos", "FR": "🇫🇷 Francia",
-    "IE": "🇮🇪 Irlanda", "LT": "🇱🇹 Lituania", "BE": "🇧🇪 Bélgica", "IT": "🇮🇹 Italia",
-    "PT": "🇵🇹 Portugal", "LU": "🇱🇺 Luxemburgo", "AT": "🇦🇹 Austria", "MT": "🇲🇹 Malta",
-    "FI": "🇫🇮 Finlandia", "EE": "🇪🇪 Estonia", "LV": "🇱🇻 Letonia",
+    "ES": "IBAN español 🇪🇸",
+    "DE": "IBAN alemán 🇩🇪",
+    "NL": "IBAN de Países Bajos 🇳🇱",
+    "NO": "IBAN noruego 🇳🇴",
+    "FR": "IBAN francés 🇫🇷",
+    "IE": "IBAN irlandés 🇮🇪",
+    "LT": "IBAN lituano 🇱🇹",
 }
 
 
@@ -61,16 +61,19 @@ def fmt_eur(valor: float) -> str:
     return f"{fmt_num(valor)} €"
 
 
-def url_web_limpia(site_url: str, oferta_id: Optional[str] = None, fragmento: str = "") -> str:
-    """URL limpia visible en el texto para que funcione al copiar y pegar en foros."""
-    base = (site_url or DEFAULT_SITE_URL).strip() or DEFAULT_SITE_URL
-    if not base.endswith("/"):
-        base += "/"
+def url_corta_visible(site_url: str) -> str:
+    """URL limpia y corta para copiar y pegar en foros."""
+    base = (site_url or DEFAULT_SITE_URL).strip().rstrip("/")
+    return base or DEFAULT_SITE_URL
+
+
+def url_boton(site_url: str, oferta_id: Optional[str] = None, fragmento: str = "") -> str:
+    base = url_corta_visible(site_url)
     if oferta_id:
-        return f"{base}?oferta={oferta_id}"
+        return f"{base}/?o={oferta_id}"
     if fragmento:
-        return f"{base}#{fragmento}"
-    return base
+        return f"{base}/#{fragmento}"
+    return f"{base}/"
 
 
 def con_utm(url: str, campaign: str, source: str = "telegram", medium: str = "canal") -> Optional[str]:
@@ -98,92 +101,102 @@ def telegram(metodo: str, payload: Dict[str, Any]) -> bool:
 
 
 # --------------------------------------------------------------------------- #
-# Formatos listos para copy-paste en foros (siempre dirigiendo a la web)
+# Formatos claros y listos para copy-paste en foros
 # --------------------------------------------------------------------------- #
 def formatear_oferta(o: dict, site_url: str) -> str:
     esc = html.escape
     entidad = esc(o.get("entidad", ""))
     nombre = esc(o.get("nombre", ""))
-    lineas: List[str] = [f"🔥 <b>{entidad} — {nombre}</b>", ""]
+    lineas: List[str] = [f"💰 <b>{entidad}: {nombre}</b>"]
+
+    etiqueta = (o.get("etiqueta_promo") or "").strip()
+    if etiqueta:
+        lineas.append(f"🏷 <i>{esc(etiqueta)}</i>")
+
+    lineas += ["", "👉 <b>Qué te llevas:</b>"]
+
+    bono = num(o.get("bono_fijo_eur"))
+    if bono > 0:
+        lineas.append(f"• <b>{fmt_eur(bono)}</b> de regalo en efectivo")
 
     tae = num(o.get("tae"))
     if tae > 0:
-        linea = f"• <b>Rentabilidad:</b> {fmt_num(tae)}% TAE"
+        euros_10k = fmt_eur(10000 * (tae / 100.0))
+        linea = f"• <b>{fmt_num(tae)}% TAE</b> (por cada 10.000 € son +{euros_10k}/año)"
         if o.get("saldo_maximo_remunerado") is not None:
             linea += f" hasta {fmt_eur(num(o['saldo_maximo_remunerado']))}"
         lineas.append(linea)
 
-    cashback = num(o.get("porcentaje_cashback"))
-    if cashback > 0:
-        linea = f"• <b>Cashback:</b> {fmt_num(cashback)}%"
+    cb = num(o.get("porcentaje_cashback"))
+    if cb > 0:
+        linea = f"• <b>{fmt_num(cb)}% de devolución</b> en compras"
         if o.get("tope_mensual_eur") is not None:
             linea += f" (máx. {fmt_eur(num(o['tope_mensual_eur']))}/mes)"
         lineas.append(linea)
 
-    bono = num(o.get("bono_fijo_eur"))
-    if bono > 0:
-        lineas.append(f"• <b>Bono de bienvenida:</b> {fmt_eur(bono)}")
-
     pais = (o.get("pais_iban") or "N/A").upper()
-    detalles_iban: List[str] = []
-    if pais == "N/A":
-        detalles_iban.append("Servicio crypto")
-    else:
-        detalles_iban.append(f"IBAN {PAISES.get(pais, pais)}")
-    if o.get("sin_nomina"):
-        detalles_iban.append("Sin nómina")
-    if o.get("sin_comisiones"):
-        detalles_iban.append("0% comisiones")
-    lineas.append("• <b>Cuenta:</b> " + " · ".join(esc(d) for d in detalles_iban))
+    iban_txt = "Servicio crypto" if pais == "N/A" else PAISES.get(pais, f"IBAN {pais}")
 
-    resumen = (o.get("resumen_condiciones") or "").strip()
-    if resumen:
-        lineas += ["", esc(resumen)]
+    req = (o.get("requisitos_resumen") or "").strip()
+    if not req:
+        req = "Sin nómina" if o.get("sin_nomina") else "Requiere domiciliar nómina"
+    perm = (o.get("permanencia") or "").strip()
+
+    partes_pide = [req]
+    if perm and perm.lower() not in req.lower():
+        partes_pide.append(perm)
+    if "iban" not in req.lower() and "crypto" not in req.lower():
+        partes_pide.append(iban_txt)
+    if o.get("sin_comisiones"):
+        partes_pide.append("0% comisiones")
+
+    lineas += ["", f"✅ <b>Qué pide:</b> {esc(' · '.join(partes_pide))}"]
+
+    codigo = (o.get("codigo_promo") or "").strip()
+    if codigo:
+        lineas.append(f"🔑 <b>Código promo:</b> <code>{esc(codigo)}</code>")
 
     if o.get("es_crypto") or pais not in ("ES", "N/A"):
-        lineas += ["", "ℹ️ <i>Saldos en el extranjero &gt; 50.000 €: Modelo 720; recompensas crypto tributan en IRPF.</i>"]
+        lineas += ["", "ℹ️ <i>Recuerda: saldos fuera de España &gt; 50.000 € (Modelo 720) y recompensas crypto tributan en IRPF.</i>"]
 
-    url_oferta_web = url_web_limpia(site_url, oferta_id=o.get("id"))
     lineas += [
         "",
-        "👉 <b>Calcula cuánto te da al año y consulta las condiciones:</b>",
-        esc(url_oferta_web),
+        "🧮 Calcula cuánto ganarías tú aquí:",
+        esc(url_corta_visible(site_url)),
     ]
     return "\n".join(lineas)
 
 
 def botones(o: dict, site_url: str) -> Optional[Dict[str, Any]]:
     campaign = o.get("utm_campaign") or o.get("id", "oferta")
-    url_oferta_web = url_web_limpia(site_url, oferta_id=o.get("id"))
-    url_btn = con_utm(url_oferta_web, campaign)
+    url_btn = con_utm(url_boton(site_url, oferta_id=o.get("id")), campaign)
     if not url_btn:
         return None
-    return {"inline_keyboard": [[{"text": "📊 Ver detalles y calcular en la web", "url": url_btn}]]}
+    return {"inline_keyboard": [[{"text": "🧮 Calcular cuánto ganaría yo →", "url": url_btn}]]}
 
 
 def formatear_novedad(n: dict, site_url: str) -> str:
     esc = html.escape
-    titulo = esc(n.get("titulo", "Nueva promoción"))
+    titulo = esc(n.get("titulo", "Nueva promoción bancaria"))
     resumen = esc(n.get("resumen", "")).strip()
-    url_novedades = esc(url_web_limpia(site_url, fragmento="novedades"))
+    link_corto = esc(url_corta_visible(site_url))
 
-    partes = [f"📢 <b>Nueva promoción detectada: {titulo}</b>"]
+    partes = [f"🔥 <b>Nueva promoción bancaria: {titulo}</b>"]
     if resumen:
         partes += ["", resumen]
     partes += [
         "",
-        "👉 Ver detalles y comparar con las mejores cuentas y tarjetas en la calculadora:",
-        url_novedades,
+        "🧮 Mira los detalles y compara con todos los bancos aquí:",
+        link_corto,
     ]
     return "\n".join(partes)
 
 
 def botones_novedad(n: dict, site_url: str) -> Optional[Dict[str, Any]]:
-    url_novedades = url_web_limpia(site_url, fragmento="novedades")
-    url_btn = con_utm(url_novedades, f"novedad_{n.get('id', 'rss')}")
+    url_btn = con_utm(url_boton(site_url, fragmento="novedades"), f"novedad_{n.get('id', 'rss')}")
     if not url_btn:
         return None
-    return {"inline_keyboard": [[{"text": "📊 Ver detalles y comparar en la web", "url": url_btn}]]}
+    return {"inline_keyboard": [[{"text": "📊 Ver detalle y comparar bancos →", "url": url_btn}]]}
 
 
 # --------------------------------------------------------------------------- #
@@ -278,7 +291,7 @@ def main() -> int:
         texto = (
             f"✅ <b>Publicado(s) {total_pub} aviso(s) en el canal</b>\n\n"
             + "\n".join(resumen_lineas)
-            + "\n\n📋 Los mensajes del canal ya incluyen el enlace limpio a la web listos para copiar y pegar en foros."
+            + "\n\n📋 Los mensajes ya incluyen el enlace corto listos para copiar y pegar en foros."
         )
         if fallidas:
             texto += "\n\n⚠️ Fallaron: " + ", ".join(html.escape(f) for f in fallidas)

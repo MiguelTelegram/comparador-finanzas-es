@@ -3,12 +3,13 @@
 monitor.py — Vigilancia de enlaces, páginas de condiciones y radar de nuevas promos.
 
 1. Comprueba el estado HTTP de cada `url_referido` de las ofertas activas.
-   Si alguna falla (status >= 400, timeout o error de conexión) avisa al admin.
-   Ignora desafíos anti-bot de Cloudflare (HTTP 403 con cf-mitigated / server cloudflare).
+   Si alguna falla (404, 410, 5xx, timeout repetido o error de conexión) avisa al admin.
+   Ignora respuestas 403 de protección anti-bot / WAF bancaria.
 2. Descarga cada fuente de /data/fuentes.json, extrae su texto (selector_css o
    <body>), calcula el SHA-256 y lo compara con /data/estado_previo.json.
-3. Lee feeds RSS españoles de finanzas personales para detectar promociones nuevas
-   y guardarlas en /data/novedades.json (marcadas para difundir en Telegram).
+3. Lee feeds RSS españoles (TuCapital, HelpMyCash y Google News ES) para detectar
+   promociones nuevas de bancos (Black Friday, regalos en efectivo, cuentas TAE)
+   y guardarlas en /data/novedades.json marcadas para difundir en Telegram.
 4. Regla del silencio: si todos los enlaces están OK y no hay cambios en fuentes.json,
    no envía alertas al admin (las novedades nuevas las publica difusion.py en el canal).
 
@@ -39,9 +40,9 @@ NOVEDADES_PATH = ROOT / "data" / "novedades.json"
 
 TIMEOUT = 20
 TELEGRAM_MAX_LEN = 4000
-MAX_NOVEDADES = 8
-MAX_RSS_VISTOS = 300
-BOOTSTRAP_NOVEDADES = 6
+MAX_NOVEDADES = 12
+MAX_RSS_VISTOS = 400
+BOOTSTRAP_NOVEDADES = 8
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
@@ -52,23 +53,40 @@ HEADERS = {
 RSS_FUENTES = [
     {"nombre": "TuCapital", "url": "https://www.tucapital.es/feed/"},
     {"nombre": "HelpMyCash", "url": "https://www.helpmycash.com/blog/feed/"},
+    {
+        "nombre": "Google News · Promos Bancos",
+        "url": (
+            "https://news.google.com/rss/search?"
+            "q=(%22cuenta+remunerada%22+OR+%22regala%22+OR+%22promoci%C3%B3n%22+OR+%22black+friday%22)"
+            "+(BBVA+OR+Santander+OR+Sabadell+OR+ING+OR+Bankinter+OR+Revolut+OR+Openbank+OR+Abanca"
+            "+OR+Unicaja+OR+Ibercaja+OR+CaixaBank)+when:14d&hl=es&gl=ES&ceid=ES:es"
+        ),
+    },
 ]
 
 PALABRAS_INCLUIR = (
     "cuenta", "cuentas", "remunerada", "remuneradas", "ahorro", "depósito", "deposito",
     "depósitos", "depositos", "tae", "tin", "cashback", "saveback", "tarjeta", "tarjetas",
     "nómina", "nomina", "bienvenida", "promo", "promoción", "promocion", "bono", "regalo",
-    "interés", "interes", "intereses", "rentabilidad", "revolut", "trade republic", "raisin",
-    "bunq", "nexo", "crypto", "ing ", "cetelem", "renault bank", "sabadell", "bbva",
-    "santander", "bankinter", "openbank", "myinvestor", "imagin", "pibank", "evo", "unicaja",
-    "abanca", "ibercaja", "b100", "n26", "wise", "klarna",
+    "regala", "efectivo", "black friday", "plan amigo", "bizum", "recibos", "bonificación",
+    "bonificacion", "interés", "interes", "intereses", "rentabilidad", "revolut",
+    "trade republic", "raisin", "bunq", "nexo", "crypto", "ing ", "cetelem", "renault bank",
+    "sabadell", "bbva", "santander", "bankinter", "openbank", "myinvestor", "imagin",
+    "caixabank", "deutsche bank", "bank norwegian", "pibank", "evo", "unicaja", "abanca",
+    "ibercaja", "b100", "n26", "wise", "klarna",
 )
 
 PALABRAS_EXCLUIR = (
     "hipoteca", "hipotecas", "vivienda", "viviendas", "alquiler", "inmobiliaria", "casino",
     "casinos", "jugador", "apuestas", "plan de pensiones", "planes de pensiones", "euríbor",
-    "euribor", "bolsa", "ibex", "dividendo", "dividendos", "préstamo personal", "prestamo personal",
-    "seguro de coche", "seguro de hogar",
+    "euribor", "bolsa", "ibex", "dividendo", "dividendos", "resultados", "beneficio neto",
+    "cotización", "cotizacion", "préstamo", "prestamo", "préstamos", "prestamos",
+    "seguro", "seguros", "guía para comprar", "guia para comprar",
+)
+
+PALABRAS_PROMO_DESTACADA = (
+    "black friday", "regala", "regalo", "bono", "plan", "efectivo", "promoción",
+    "promocion", "tae", "cashback", "saveback", "sube la rentabilidad",
 )
 
 SESSION = requests.Session()
@@ -130,24 +148,27 @@ def enviar_telegram(chat_id: str, texto: str) -> bool:
 # --------------------------------------------------------------------------- #
 def comprobar_enlace(url: str) -> Optional[str]:
     """Devuelve None si el enlace está OK o una descripción del error."""
-    try:
-        r = SESSION.head(url, allow_redirects=True, timeout=TIMEOUT)
-        # Algunos servidores no aceptan HEAD: reintentamos con GET.
-        if r.status_code >= 400:
-            r = SESSION.get(url, allow_redirects=True, timeout=TIMEOUT, stream=True)
-            r.close()
-        if r.status_code == 403 and (
-            r.headers.get("cf-mitigated")
-            or "cloudflare" in r.headers.get("server", "").lower()
-        ):
+    for intento in range(2):
+        try:
+            r = SESSION.head(url, allow_redirects=True, timeout=TIMEOUT)
+            if r.status_code == 403:
+                return None
+            # Algunos servidores no aceptan HEAD: reintentamos con GET.
+            if r.status_code >= 400:
+                r = SESSION.get(url, allow_redirects=True, timeout=TIMEOUT, stream=True)
+                r.close()
+            if r.status_code == 403:
+                return None
+            if r.status_code >= 400:
+                return f"HTTP {r.status_code}"
             return None
-        if r.status_code >= 400:
-            return f"HTTP {r.status_code}"
-        return None
-    except requests.Timeout:
-        return "Timeout"
-    except requests.RequestException as e:
-        return f"Error de conexión ({e.__class__.__name__})"
+        except requests.Timeout:
+            if intento == 0:
+                continue
+            return "Timeout"
+        except requests.RequestException as e:
+            return f"Error de conexión ({e.__class__.__name__})"
+    return None
 
 
 def revisar_enlaces(ofertas: List[dict]) -> List[Tuple[dict, str]]:
@@ -250,11 +271,21 @@ def es_promo_relevante(titulo: str) -> bool:
     return any(p in t for p in PALABRAS_INCLUIR)
 
 
-def limpiar_resumen_rss(raw_html: str) -> str:
+def es_promo_destacada(titulo: str) -> bool:
+    t = titulo.lower()
+    return any(p in t for p in PALABRAS_PROMO_DESTACADA)
+
+
+def limpiar_resumen_rss(raw_html: str, titulo: str = "") -> str:
     texto = BeautifulSoup(raw_html or "", "html.parser").get_text(" ", strip=True)
-    texto = re.sub(r"\s*La entrada .*? se publicó primero en .*$", "", texto, flags=re.IGNORECASE)
-    texto = re.sub(r"\s*The post .*? appeared first on .*$", "", texto, flags=re.IGNORECASE)
+    texto = re.sub(r"\s*La entrada\b.*$", "", texto, flags=re.IGNORECASE)
+    texto = re.sub(r"\s*The post\b.*$", "", texto, flags=re.IGNORECASE)
     texto = re.sub(r"\s+", " ", texto).strip()
+    if titulo and texto.lower().startswith(titulo.lower()):
+        resto = texto[len(titulo):].strip(" -–—·|")
+        if len(resto) < 40:
+            return ""
+        texto = resto
     if len(texto) <= 220:
         return texto
     recortado = texto[:219].rsplit(" ", 1)[0].rstrip(".,;:")
@@ -284,6 +315,11 @@ def revisar_rss(estado: dict) -> Tuple[int, bool]:
     if not isinstance(novedades, list):
         novedades = []
     novedades_ids = {n.get("id") for n in novedades if isinstance(n, dict) and n.get("id")}
+    titulos_vistos = {
+        (n.get("titulo") or "").strip().lower()
+        for n in novedades
+        if isinstance(n, dict) and n.get("titulo")
+    }
 
     estado_modificado = False
     novedades_modificado = False
@@ -318,18 +354,24 @@ def revisar_rss(estado: dict) -> Tuple[int, bool]:
             if not es_promo_relevante(titulo):
                 continue
 
+            titulo_norm = titulo.lower()
+            if titulo_norm in titulos_vistos:
+                continue
+            titulos_vistos.add(titulo_norm)
+
             candidatas.append({
                 "id": item_id,
                 "titulo": titulo,
                 "fuente": nombre,
-                "resumen": limpiar_resumen_rss(item.findtext("description") or ""),
+                "resumen": limpiar_resumen_rss(item.findtext("description") or "", titulo=titulo),
                 "url": link,
                 "fecha": fecha_rss_iso(item.findtext("pubDate") or ""),
+                "es_promo_destacada": es_promo_destacada(titulo),
                 "publicar_telegram": inicializado,
             })
 
     if not inicializado and candidatas:
-        candidatas.sort(key=lambda x: x["fecha"], reverse=True)
+        candidatas.sort(key=lambda x: (bool(x["es_promo_destacada"]), x["fecha"]), reverse=True)
         seleccionadas = candidatas[:BOOTSTRAP_NOVEDADES]
         for n in seleccionadas:
             if n["id"] not in novedades_ids:
@@ -340,7 +382,6 @@ def revisar_rss(estado: dict) -> Tuple[int, bool]:
         estado_modificado = True
         print(f"[+] Radar RSS inicializado con {len(seleccionadas)} novedades (sin spamear Telegram).")
     elif not inicializado and not candidatas:
-        # Aunque no hubiera items filtrados hoy, si pudimos leer feeds se marca inicializado la próxima vez.
         if estado_modificado:
             estado["_rss_inicializado"] = True
     else:

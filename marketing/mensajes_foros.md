@@ -1,51 +1,50 @@
 # Mensajes listos para publicación manual en foros
 
-> Publicado en `https://migueltelegram.github.io/comparador-finanzas-es/`. Si vas a incluir enlaces de referido propios en `ofertas.json`, recuerda añadir una nota indicando que algunos enlaces son de afiliación/referido según las normas de cada foro.
+> Ya usa el enlace corto `https://migueltelegram.github.io`. Si incluyes tus enlaces personales de referido en `ofertas.json`, recuerda añadir una breve aclaración según las normas de cada foro.
 
 ---
 
 ## 1. Rankia / Reddit (r/SpainFIRE, r/finanzas)
-**Título:** He montado una calculadora gratuita para comparar el retorno real neto de cuentas remuneradas, tarjetas cashback y tarjetas crypto en España
+**Título:** He montado una calculadora gratuita para comparar todas las cuentas remuneradas, regalos por nómina, Black Friday y tarjetas cashback en España
 
 **Cuerpo:**
 Buenas,
 
-Estaba harto de ver tablas estáticas desactualizadas donde mezclan TAE promocional con topes bajos o tarjetas con cashback que luego tienen límite mensual, así que me he programado una calculadora sencilla y gratuita para ver cuánto dinero real te sacas al año según tu gasto mensual y el saldo que tengas parado.
+Estaba harto de ver listas desactualizadas donde mezclan TAE promocional con topes bajos, regalos en efectivo con letra pequeña o tarjetas con cashback limitado, así que he montado una calculadora gratuita y sin registro para ver cuánto dinero limpio te llevas al año según tus ahorros y tu gasto mensual.
 
-Incluye:
-- Cuentas y tarjetas con IBAN español (Trade Republic, Revolut, etc.).
-- Opciones europeas con IBAN extranjero operables desde España (Raisin, bunq, etc.) marcando claramente el país del IBAN.
-- Tarjetas y servicios crypto (Nexo, Crypto.com, etc.).
+Incluye más de 20 entidades en España y Europa:
+- **Regalos en efectivo y Black Friday:** BBVA (150 € sin nómina o Plan 1.060 €), Sabadell (400 € + 2,75% TAE), Santander, ABANCA (500 €), Deutsche Bank (500 €), Unicaja, CaixaBank, imagin, ING…
+- **Cuentas remuneradas top:** Ibercaja (5,10% TAE), Bankinter (5% TAE), Trade Republic (4,07% TAE + 1% saveback), Revolut, Openbank, B100, Renault Bank.
+- **IBAN extranjero UE/EEE y tarjetas crypto:** Raisin, bunq, Bank Norwegian, Crypto.com y Nexo.
 
-Tiene filtros para ver solo IBAN ES, solo sin nómina o incluir/excluir crypto, y recalcula automáticamente respetando los topes de cada entidad.
+Tiene interruptor para incluir o quitar cuentas con nómina, modo bruto/neto tras IRPF (-19%), buscador, comparador lado a lado y te sugiere automáticamente la mejor combinación de cuenta + tarjeta.
 
-La dejo por aquí por si a alguien le sirve para hacer números rápido:
-👉 https://migueltelegram.github.io/comparador-finanzas-es/
+👉 https://migueltelegram.github.io
 
-Si veis que falta alguna cuenta/tarjeta interesante o algún cambio reciente de condiciones, avisadme por aquí y la meto en el JSON.
+Si echáis en falta alguna promo reciente o veis algún cambio, avisad por aquí y la añado.
 
 ---
 
 ## 2. ForoCoches
-**Título:** [HERRAMIENTA] Calculadora para ver qué cuenta remunerada o tarjeta cashback te da más pasta real al año (España + UE + Crypto)
+**Título:** [HERRAMIENTA] Calculadora para ver qué banco te da más pasta al año (Regalos Black Friday, nóminas, TAE y cashback)
 
 **Cuerpo:**
 Buenas shurs,
 
-Como cada semana sale el típico hilo preguntando dónde meter el dinero parado o qué tarjeta da mejor cashback sin liarla con comisiones, me he hecho una web estática súper rápida para calcularlo al vuelo.
+Como cada semana sale el típico hilo preguntando dónde meter el dinero parado, qué banco da más pasta por la nómina o qué promo merece la pena este Black Friday, he montado esta calculadora rápida para verlo al vuelo.
 
-Pones cuánto gastas al mes con tarjeta y cuánto tienes ahorrado, y te ordena de mayor a menor cuánto dinero limpio te llevas al año (teniendo en cuenta los topes de cada banco/tarjeta).
+Pones cuánto tienes ahorrado, cuánto gastas al mes con tarjeta y si puedes domiciliar nómina o no, y te ordena de mayor a menor cuánto dinero te sacas al año en cada banco (con el bruto y el neto aproximado tras Hacienda).
 
-- Hay filtro para **Solo IBAN español** (para los que no quieren líos con Hacienda).
-- También incluye cuentas con **IBAN europeo** (Alemania, Países Bajos...) y **tarjetas crypto**.
-- Cero registros ni mierdas, solo la calculadora.
+- Incluye **Black Friday BBVA (150 € sin nómina)**, Sabadell, Santander, ABANCA, Deutsche Bank, Unicaja, Ibercaja, ING, Trade Republic, Revolut, Openbank, B100, Raisin, etc.
+- Puedes comparar hasta 3 bancos lado a lado y ver la mejor combinación de cuenta + tarjeta.
+- Cero registros ni mierdas.
 
-Link: https://migueltelegram.github.io/comparador-finanzas-es/
+Link: https://migueltelegram.github.io
 
-Si echáis en falta alguna tarjeta o promo decente, decidlo y la añado.
+Si falta alguna promo decente, decidlo y la meto.
 
 ---
 
 ## 3. Chollometro (en comentarios de hilos de bancos o como aporte útil)
 **Texto:**
-Por si a alguien le ayuda a comparar si le compensa más esta promo frente a otras cuentas remuneradas o tarjetas con cashback (incluyendo IBAN europeo y tarjetas crypto), aquí hay una calculadora donde pones tu gasto mensual y saldo y te saca el beneficio anual real descontando topes: https://migueltelegram.github.io/comparador-finanzas-es/
+Por si a alguien le ayuda a calcular si le compensa más esta promo frente a otros bancos (regalos por nómina, Black Friday de BBVA, cuentas remuneradas sin nómina o tarjetas cashback), aquí tienes una calculadora gratuita donde pones tu saldo y gasto mensual y ves cuánto te llevas al año: https://migueltelegram.github.io
