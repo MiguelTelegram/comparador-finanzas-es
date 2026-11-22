@@ -19,7 +19,7 @@
     "utm_campaign": "trade_republic",
     "fecha_actualizacion": "2026-11-21",
     "activa": true,
-    "publicar_telegram": true
+    "publicar_telegram": false
   },
   {
     "id": "revolut-remunerada",
@@ -53,7 +53,7 @@
     "es_crypto": false,
     "porcentaje_cashback": 0,
     "tope_mensual_eur": null,
-    "tae": 3.30,
+    "tae": 3.3,
     "saldo_maximo_remunerado": 60000,
     "bono_fijo_eur": 0,
     "sin_nomina": true,
@@ -119,7 +119,7 @@
     "es_crypto": true,
     "porcentaje_cashback": 2.0,
     "tope_mensual_eur": 50,
-    "tae": 4.50,
+    "tae": 4.5,
     "saldo_maximo_remunerado": 20000,
     "bono_fijo_eur": 0,
     "sin_nomina": true,
