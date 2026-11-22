@@ -26,8 +26,8 @@
   "https://nexo.com/nexo-card": {
     "nombre": "Nexo - Nexo Card",
     "selector_css": null,
-    "hash": "9ada82ca5c0ee3e502fd90e930b1c707a90a3a70e54eb7f2f7deea294666f954",
-    "ultimo_cambio": "2026-11-22T13:03:49+00:00"
+    "hash": "0dc951d99704d377d9e1509b247b6c9305d9951baa232103b5014cd200eadfb5",
+    "ultimo_cambio": "2026-11-22T13:31:08+00:00"
   },
   "_rss_inicializado": true,
   "_rss_vistos": [
@@ -96,6 +96,9 @@
     "5b96cc9673dc",
     "b259a34d0908",
     "b157bd6377fb",
-    "bb3c0b46fc0b"
+    "bb3c0b46fc0b",
+    "f3b993b13a09",
+    "a589786d75ed",
+    "df8674455a5d"
   ]
 }
