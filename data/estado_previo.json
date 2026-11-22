@@ -20,14 +20,14 @@
   "https://www.raisin.es/": {
     "nombre": "Raisin - Depósitos y cuentas",
     "selector_css": null,
-    "hash": "a5379782d0ba9c072afcf26c07974cec197c57d060f1043a2232dbfbcaffed13",
-    "ultimo_cambio": "2026-11-22T03:51:47+00:00"
+    "hash": "f581291824b927af6f1f2c5d8d7c24a2d796ec56ce2f6a8037de071c0a9d3746",
+    "ultimo_cambio": "2026-11-22T13:03:49+00:00"
   },
   "https://nexo.com/nexo-card": {
     "nombre": "Nexo - Nexo Card",
     "selector_css": null,
-    "hash": "8784f649314045cc3f1e6136209936e4be7e8cdcbc874ae7517562f461eb1cda",
-    "ultimo_cambio": "2026-11-22T12:01:39+00:00"
+    "hash": "9ada82ca5c0ee3e502fd90e930b1c707a90a3a70e54eb7f2f7deea294666f954",
+    "ultimo_cambio": "2026-11-22T13:03:49+00:00"
   },
   "_rss_inicializado": true,
   "_rss_vistos": [
@@ -60,6 +60,42 @@
     "00f7035d2722",
     "2f5671a8a9ca",
     "1c456acd3baa",
-    "6fc2313314bf"
+    "6fc2313314bf",
+    "6b79fd5b8933",
+    "0729ee248258",
+    "04a0eeb2a9d5",
+    "7ee62b91af8d",
+    "e2c5dc337a88",
+    "e7058c9ed747",
+    "1c75498fc4ee",
+    "cf2a087adefa",
+    "8ee4f7f79c2e",
+    "36bb38f47101",
+    "f8190c0f0643",
+    "6bcdb6e7807e",
+    "340185d497f4",
+    "caa6dfc858c8",
+    "7a10e637970e",
+    "4a4b3550c49e",
+    "ab1605464f06",
+    "16251621fb9a",
+    "dbabb9517845",
+    "4d43f5468480",
+    "817dcc4a768b",
+    "bfe8e34216ec",
+    "5e4e4178d2ff",
+    "dda323b5e304",
+    "14dc7cbcf8b5",
+    "4ae7a4256611",
+    "c67c22c69c31",
+    "fecdd7eb8e12",
+    "f7556616e97c",
+    "94e70e72fb47",
+    "3550284c8ed0",
+    "bbca93e9c7fe",
+    "5b96cc9673dc",
+    "b259a34d0908",
+    "b157bd6377fb",
+    "bb3c0b46fc0b"
   ]
 }
