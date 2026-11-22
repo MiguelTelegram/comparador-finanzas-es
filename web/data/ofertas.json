@@ -19,7 +19,7 @@
     "utm_campaign": "trade_republic",
     "fecha_actualizacion": "2026-11-21",
     "activa": true,
-    "publicar_telegram": false
+    "publicar_telegram": true
   },
   {
     "id": "revolut-remunerada",
