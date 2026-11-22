@@ -81,7 +81,8 @@ PALABRAS_EXCLUIR = (
     "casinos", "jugador", "apuestas", "plan de pensiones", "planes de pensiones", "euríbor",
     "euribor", "bolsa", "ibex", "dividendo", "dividendos", "resultados", "beneficio neto",
     "cotización", "cotizacion", "préstamo", "prestamo", "préstamos", "prestamos",
-    "seguro", "seguros", "guía para comprar", "guia para comprar",
+    "seguro", "seguros", "guía para comprar", "guia para comprar", "méxico", "mexico",
+    "buen fin", "etfs", "degiro", "crédito al consumo", "credito al consumo", "mapa de",
 )
 
 PALABRAS_PROMO_DESTACADA = (
@@ -281,9 +282,10 @@ def limpiar_resumen_rss(raw_html: str, titulo: str = "") -> str:
     texto = re.sub(r"\s*La entrada\b.*$", "", texto, flags=re.IGNORECASE)
     texto = re.sub(r"\s*The post\b.*$", "", texto, flags=re.IGNORECASE)
     texto = re.sub(r"\s+", " ", texto).strip()
-    if titulo and texto.lower().startswith(titulo.lower()):
-        resto = texto[len(titulo):].strip(" -–—·|")
-        if len(resto) < 40:
+    titulo_base = titulo.rsplit(" - ", 1)[0].strip() if " - " in titulo else titulo
+    if titulo_base and texto.lower().startswith(titulo_base.lower()):
+        resto = texto[len(titulo_base):].strip(" -–—·|")
+        if len(resto) < 60:
             return ""
         texto = resto
     if len(texto) <= 220:
