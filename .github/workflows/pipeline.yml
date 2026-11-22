@@ -44,11 +44,14 @@ jobs:
         if: ${{ !cancelled() }}
         run: python scripts/difusion.py
 
-      - name: Sincronizar ofertas con la web
+      - name: Sincronizar ofertas y novedades con la web
         if: ${{ !cancelled() }}
         run: |
           mkdir -p web/data
           cp data/ofertas.json web/data/ofertas.json
+          if [ -f data/novedades.json ]; then
+            cp data/novedades.json web/data/novedades.json
+          fi
 
       - name: Commit y push de cambios
         id: commit

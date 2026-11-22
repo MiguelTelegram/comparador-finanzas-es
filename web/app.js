@@ -6,6 +6,7 @@
 
 (() => {
   const DATA_URL = 'data/ofertas.json';
+  const NOVEDADES_URL = 'data/novedades.json';
 
   const LIMITES = {
     gasto: { min: 0, max: 3000 },
@@ -16,6 +17,15 @@
     ES: 'España', DE: 'Alemania', NL: 'Países Bajos', FR: 'Francia', IE: 'Irlanda',
     LT: 'Lituania', BE: 'Bélgica', IT: 'Italia', PT: 'Portugal', LU: 'Luxemburgo',
     AT: 'Austria', MT: 'Malta', FI: 'Finlandia', EE: 'Estonia', LV: 'Letonia',
+  };
+
+  const AVATARES = {
+    'trade-republic': 'TR',
+    'revolut-remunerada': 'R',
+    'raisin-bienvenida': 'Ra',
+    'bunq-free': 'bq',
+    'nexo-card': 'Nx',
+    'cryptocom-levelup': 'C',
   };
 
   // Filtros combinables (lógica AND). "Todos" limpia la selección.
@@ -48,12 +58,47 @@
     lista: $('#resultados'),
     resumen: $('#resumen'),
     avisoFiscal: $('#aviso-fiscal'),
+    statMejor: $('#stat-mejor'),
+    statOfertas: $('#stat-ofertas'),
+    novedadesSec: $('#novedades'),
+    listaNovedades: $('#lista-novedades'),
+    themeToggle: $('#theme-toggle'),
   };
+
+  const ofertaDestacada = new URLSearchParams(window.location.search).get('oferta');
 
   const estado = {
     ofertas: [],
+    novedades: [],
     filtros: new Set(),
+    scrollHecho: false,
   };
+
+  /* ---------- Tema claro / oscuro manual ---------- */
+  function aplicarTema(tema) {
+    const oscuro = tema === 'dark';
+    document.documentElement.dataset.theme = oscuro ? 'dark' : 'light';
+    if (ui.themeToggle) {
+      ui.themeToggle.setAttribute('aria-pressed', String(oscuro));
+      ui.themeToggle.title = oscuro ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro';
+    }
+  }
+
+  function initTema() {
+    let guardado = 'light';
+    try {
+      if (localStorage.getItem('tema') === 'dark') guardado = 'dark';
+    } catch { /* sin acceso a storage */ }
+    aplicarTema(guardado);
+
+    if (ui.themeToggle) {
+      ui.themeToggle.addEventListener('click', () => {
+        const siguiente = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+        aplicarTema(siguiente);
+        try { localStorage.setItem('tema', siguiente); } catch { /* noop */ }
+      });
+    }
+  }
 
   /* ---------- Utilidades ---------- */
   function num(v) {
@@ -67,6 +112,12 @@
 
   function esIbanExtranjero(o) {
     return Boolean(o.pais_iban) && o.pais_iban !== 'ES' && o.pais_iban !== 'N/A';
+  }
+
+  function actualizarProgreso(range, limites) {
+    const val = clamp(range.value, limites);
+    const pct = ((val - limites.min) / (limites.max - limites.min)) * 100;
+    range.style.setProperty('--progress', `${pct}%`);
   }
 
   function el(tag, attrs = {}, children = []) {
@@ -87,6 +138,14 @@
   function formatearFecha(iso) {
     const d = new Date(`${iso}T00:00:00Z`);
     return Number.isNaN(d.getTime()) ? iso : fmtFecha.format(d);
+  }
+
+  function iniciales(o) {
+    if (AVATARES[o.id]) return AVATARES[o.id];
+    const palabras = String(o.entidad || '?').trim().split(/\s+/);
+    return palabras.length > 1
+      ? (palabras[0][0] + palabras[1][0]).toUpperCase()
+      : String(o.entidad || '?').slice(0, 2);
   }
 
   function urlConUtm(oferta) {
@@ -119,7 +178,7 @@
     };
   }
 
-  /* ---------- Render ---------- */
+  /* ---------- Render ofertas ---------- */
   function crearBadges(o, esMejor) {
     const badges = [];
     if (esMejor) badges.push(['Mejor opción', 'badge-best']);
@@ -166,21 +225,31 @@
   function crearTarjeta(item, posicion) {
     const { oferta: o, resultado: r } = item;
     const esMejor = posicion === 1 && r.total > 0;
+    const esDestacada = ofertaDestacada === o.id;
     const idTitulo = `oferta-${o.id}`;
 
-    return el('li', { class: `card offer${esMejor ? ' is-best' : ''}`, 'aria-labelledby': idTitulo }, [
+    const clases = ['card', 'offer'];
+    if (esMejor) clases.push('is-best');
+    if (esDestacada) clases.push('is-highlighted');
+
+    return el('li', { id: `card-${o.id}`, class: clases.join(' '), 'aria-labelledby': idTitulo }, [
       el('div', { class: 'offer-top' }, [
-        el('div', {}, [
-          el('p', { class: 'offer-entity', text: o.entidad }),
-          el('h3', { class: 'offer-name', id: idTitulo, text: o.nombre }),
+        el('div', { class: 'offer-brand' }, [
+          el('span', { class: 'entity-avatar', 'data-entity': o.id, 'aria-hidden': 'true', text: iniciales(o) }),
+          el('div', {}, [
+            el('p', { class: 'offer-entity', text: o.entidad }),
+            el('h3', { class: 'offer-name', id: idTitulo, text: o.nombre }),
+          ]),
         ]),
-        el('span', { class: 'offer-rank', 'aria-label': `Posición ${posicion}`, text: posicion }),
+        el('span', { class: 'offer-rank', 'aria-label': `Posición ${posicion}`, text: `#${posicion}` }),
       ]),
-      el('p', { class: `offer-total${r.total > 0 ? '' : ' is-zero'}` }, [
-        `+${fmtEUR.format(r.total)}`,
-        el('small', { text: '/año' }),
+      el('div', { class: `offer-earnings${r.total > 0 ? '' : ' is-zero'}` }, [
+        el('p', { class: 'offer-total' }, [
+          `+${fmtEUR.format(r.total)}`,
+          el('small', { text: '/año' }),
+        ]),
+        crearDesglose(r),
       ]),
-      crearDesglose(r),
       crearBadges(o, esMejor),
       crearTasas(o),
       el('p', { class: 'offer-summary', text: o.resumen_condiciones }),
@@ -229,23 +298,75 @@
     ui.resumen.textContent = n
       ? `${n} ${n === 1 ? 'oferta' : 'ofertas'} · gasto ${fmtEURCorto.format(gasto)}/mes · saldo ${fmtEURCorto.format(saldo)}`
       : 'Sin resultados con estos filtros';
+
+    if (ui.statMejor) {
+      ui.statMejor.textContent = visibles.length ? `+${fmtEUR.format(visibles[0].resultado.total)}/año` : '—';
+    }
+    if (ui.statOfertas) {
+      const activas = estado.ofertas.filter((o) => o.activa === true).length;
+      ui.statOfertas.textContent = `${activas} ${activas === 1 ? 'oferta' : 'ofertas'}`;
+    }
+
+    if (ofertaDestacada && !estado.scrollHecho) {
+      const target = document.getElementById(`card-${ofertaDestacada}`);
+      if (target) {
+        estado.scrollHecho = true;
+        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+  }
+
+  /* ---------- Render novedades ---------- */
+  function renderNovedades() {
+    if (!ui.novedadesSec || !ui.listaNovedades) return;
+    if (!estado.novedades.length) {
+      ui.novedadesSec.hidden = true;
+      return;
+    }
+
+    const fragment = document.createDocumentFragment();
+    estado.novedades.forEach((n) => {
+      fragment.append(el('li', { class: 'card news-card' }, [
+        el('div', { class: 'news-meta' }, [
+          el('span', { class: 'news-source', text: n.fuente || 'Radar' }),
+          n.fecha ? el('time', { datetime: n.fecha, text: formatearFecha(n.fecha) }) : null,
+        ]),
+        el('h3', { class: 'news-title', text: n.titulo }),
+        n.resumen ? el('p', { class: 'news-excerpt', text: n.resumen }) : null,
+        n.url ? el('a', {
+          class: 'news-link',
+          href: n.url,
+          target: '_blank',
+          rel: 'noopener noreferrer',
+          text: 'Ver fuente original ↗',
+        }) : null,
+      ]));
+    });
+
+    ui.listaNovedades.replaceChildren(fragment);
+    ui.novedadesSec.hidden = false;
   }
 
   /* ---------- Interacción ---------- */
   function sincronizar(range, input, limites) {
+    actualizarProgreso(range, limites);
+
     range.addEventListener('input', () => {
       input.value = range.value;
+      actualizarProgreso(range, limites);
       render();
     });
     input.addEventListener('input', () => {
       if (input.value === '') return;
       range.value = String(clamp(input.value, limites));
+      actualizarProgreso(range, limites);
       render();
     });
     input.addEventListener('change', () => {
       const v = clamp(input.value, limites);
       input.value = String(v);
       range.value = String(v);
+      actualizarProgreso(range, limites);
       render();
     });
   }
@@ -278,26 +399,38 @@
   }
 
   /* ---------- Arranque ---------- */
-  async function cargarOfertas() {
-    const res = await fetch(DATA_URL, { cache: 'no-cache' });
+  async function cargarJson(url) {
+    const res = await fetch(url, { cache: 'no-cache' });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const datos = await res.json();
-    if (!Array.isArray(datos)) throw new Error('Formato de ofertas no válido');
+    if (!Array.isArray(datos)) throw new Error('Formato no válido');
     return datos;
   }
 
   async function init() {
+    initTema();
     initEventos();
-    try {
-      estado.ofertas = await cargarOfertas();
+
+    const [resOfertas, resNovedades] = await Promise.allSettled([
+      cargarJson(DATA_URL),
+      cargarJson(NOVEDADES_URL),
+    ]);
+
+    if (resOfertas.status === 'fulfilled') {
+      estado.ofertas = resOfertas.value;
       render();
-    } catch (err) {
-      console.warn('No se pudieron cargar las ofertas:', err);
+    } else {
+      console.warn('No se pudieron cargar las ofertas:', resOfertas.reason);
       ui.resumen.textContent = 'No se pudieron cargar las ofertas.';
       ui.lista.replaceChildren(el('li', { class: 'card empty-state' }, [
         'No se ha podido cargar data/ofertas.json. Si has abierto el archivo directamente desde el disco, ',
         'sirve la carpeta /web con un servidor local (por ejemplo: python3 -m http.server).',
       ]));
+    }
+
+    if (resNovedades.status === 'fulfilled') {
+      estado.novedades = resNovedades.value;
+      renderNovedades();
     }
   }
 

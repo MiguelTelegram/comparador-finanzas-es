@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
 """
-monitor.py — Vigilancia de enlaces de referido y páginas de condiciones.
+monitor.py — Vigilancia de enlaces, páginas de condiciones y radar de nuevas promos.
 
 1. Comprueba el estado HTTP de cada `url_referido` de las ofertas activas.
    Si alguna falla (status >= 400, timeout o error de conexión) avisa al admin.
+   Ignora desafíos anti-bot de Cloudflare (HTTP 403 con cf-mitigated / server cloudflare).
 2. Descarga cada fuente de /data/fuentes.json, extrae su texto (selector_css o
    <body>), calcula el SHA-256 y lo compara con /data/estado_previo.json.
-3. Si hay cambios, actualiza /data/estado_previo.json y avisa al admin.
-4. Regla del silencio: si todo está OK y no hay cambios, no envía nada.
+3. Lee feeds RSS españoles de finanzas personales para detectar promociones nuevas
+   y guardarlas en /data/novedades.json (marcadas para difundir en Telegram).
+4. Regla del silencio: si todos los enlaces están OK y no hay cambios en fuentes.json,
+   no envía alertas al admin (las novedades nuevas las publica difusion.py en el canal).
 
 Variables de entorno: TELEGRAM_BOT_TOKEN, TELEGRAM_ADMIN_CHAT_ID.
 """
@@ -19,9 +22,11 @@ import json
 import os
 import re
 import sys
+import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
+from email.utils import parsedate_to_datetime
 from pathlib import Path
-from typing import Any, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 import requests
 from bs4 import BeautifulSoup
@@ -30,14 +35,41 @@ ROOT = Path(__file__).resolve().parent.parent
 OFERTAS_PATH = ROOT / "data" / "ofertas.json"
 FUENTES_PATH = ROOT / "data" / "fuentes.json"
 ESTADO_PATH = ROOT / "data" / "estado_previo.json"
+NOVEDADES_PATH = ROOT / "data" / "novedades.json"
 
 TIMEOUT = 20
 TELEGRAM_MAX_LEN = 4000
+MAX_NOVEDADES = 8
+MAX_RSS_VISTOS = 300
+BOOTSTRAP_NOVEDADES = 6
+
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
     "Accept-Language": "es-ES,es;q=0.9,en;q=0.8",
 }
+
+RSS_FUENTES = [
+    {"nombre": "TuCapital", "url": "https://www.tucapital.es/feed/"},
+    {"nombre": "HelpMyCash", "url": "https://www.helpmycash.com/blog/feed/"},
+]
+
+PALABRAS_INCLUIR = (
+    "cuenta", "cuentas", "remunerada", "remuneradas", "ahorro", "depósito", "deposito",
+    "depósitos", "depositos", "tae", "tin", "cashback", "saveback", "tarjeta", "tarjetas",
+    "nómina", "nomina", "bienvenida", "promo", "promoción", "promocion", "bono", "regalo",
+    "interés", "interes", "intereses", "rentabilidad", "revolut", "trade republic", "raisin",
+    "bunq", "nexo", "crypto", "ing ", "cetelem", "renault bank", "sabadell", "bbva",
+    "santander", "bankinter", "openbank", "myinvestor", "imagin", "pibank", "evo", "unicaja",
+    "abanca", "ibercaja", "b100", "n26", "wise", "klarna",
+)
+
+PALABRAS_EXCLUIR = (
+    "hipoteca", "hipotecas", "vivienda", "viviendas", "alquiler", "inmobiliaria", "casino",
+    "casinos", "jugador", "apuestas", "plan de pensiones", "planes de pensiones", "euríbor",
+    "euribor", "bolsa", "ibex", "dividendo", "dividendos", "préstamo personal", "prestamo personal",
+    "seguro de coche", "seguro de hogar",
+)
 
 SESSION = requests.Session()
 SESSION.headers.update(HEADERS)
@@ -209,6 +241,135 @@ def revisar_fuentes(fuentes: List[dict], estado: dict) -> Tuple[List[Tuple[str, 
 
 
 # --------------------------------------------------------------------------- #
+# 3. Radar de nuevas promociones (RSS)
+# --------------------------------------------------------------------------- #
+def es_promo_relevante(titulo: str) -> bool:
+    t = f" {titulo.lower()} "
+    if any(p in t for p in PALABRAS_EXCLUIR):
+        return False
+    return any(p in t for p in PALABRAS_INCLUIR)
+
+
+def limpiar_resumen_rss(raw_html: str) -> str:
+    texto = BeautifulSoup(raw_html or "", "html.parser").get_text(" ", strip=True)
+    texto = re.sub(r"\s*La entrada .*? se publicó primero en .*$", "", texto, flags=re.IGNORECASE)
+    texto = re.sub(r"\s*The post .*? appeared first on .*$", "", texto, flags=re.IGNORECASE)
+    texto = re.sub(r"\s+", " ", texto).strip()
+    if len(texto) <= 220:
+        return texto
+    recortado = texto[:219].rsplit(" ", 1)[0].rstrip(".,;:")
+    return f"{recortado}…"
+
+
+def fecha_rss_iso(raw_date: str) -> str:
+    if raw_date:
+        try:
+            dt = parsedate_to_datetime(raw_date.strip())
+            if dt.tzinfo is None:
+                dt = dt.replace(tzinfo=timezone.utc)
+            return dt.astimezone(timezone.utc).date().isoformat()
+        except (TypeError, ValueError):
+            pass
+    return datetime.now(timezone.utc).date().isoformat()
+
+
+def revisar_rss(estado: dict) -> Tuple[int, bool]:
+    """Detecta promociones nuevas en RSS y actualiza data/novedades.json."""
+    inicializado = bool(estado.get("_rss_inicializado"))
+    vistos_raw = estado.get("_rss_vistos") if isinstance(estado.get("_rss_vistos"), list) else []
+    vistos_list: List[str] = [str(x) for x in vistos_raw]
+    vistos_set = set(vistos_list)
+
+    novedades = cargar_json(NOVEDADES_PATH, [])
+    if not isinstance(novedades, list):
+        novedades = []
+    novedades_ids = {n.get("id") for n in novedades if isinstance(n, dict) and n.get("id")}
+
+    estado_modificado = False
+    novedades_modificado = False
+    nuevas_para_telegram = 0
+    candidatas: List[Dict[str, Any]] = []
+
+    for fuente in RSS_FUENTES:
+        nombre = fuente["nombre"]
+        url = fuente["url"]
+        try:
+            r = SESSION.get(url, timeout=TIMEOUT, headers={"Accept": "application/rss+xml, application/xml, text/xml, */*"})
+            r.raise_for_status()
+            root = ET.fromstring(r.content)
+        except (requests.RequestException, ET.ParseError) as e:
+            print(f"[aviso] No se pudo leer RSS '{nombre}': {e.__class__.__name__}")
+            continue
+
+        for item in root.findall(".//item"):
+            titulo = re.sub(r"\s+", " ", (item.findtext("title") or "")).strip()
+            link = (item.findtext("link") or "").strip()
+            if not titulo or not link:
+                continue
+
+            item_id = hashlib.sha256(link.encode("utf-8")).hexdigest()[:12]
+            if item_id in vistos_set:
+                continue
+
+            vistos_set.add(item_id)
+            vistos_list.append(item_id)
+            estado_modificado = True
+
+            if not es_promo_relevante(titulo):
+                continue
+
+            candidatas.append({
+                "id": item_id,
+                "titulo": titulo,
+                "fuente": nombre,
+                "resumen": limpiar_resumen_rss(item.findtext("description") or ""),
+                "url": link,
+                "fecha": fecha_rss_iso(item.findtext("pubDate") or ""),
+                "publicar_telegram": inicializado,
+            })
+
+    if not inicializado and candidatas:
+        candidatas.sort(key=lambda x: x["fecha"], reverse=True)
+        seleccionadas = candidatas[:BOOTSTRAP_NOVEDADES]
+        for n in seleccionadas:
+            if n["id"] not in novedades_ids:
+                novedades.append(n)
+                novedades_ids.add(n["id"])
+                novedades_modificado = True
+        estado["_rss_inicializado"] = True
+        estado_modificado = True
+        print(f"[+] Radar RSS inicializado con {len(seleccionadas)} novedades (sin spamear Telegram).")
+    elif not inicializado and not candidatas:
+        # Aunque no hubiera items filtrados hoy, si pudimos leer feeds se marca inicializado la próxima vez.
+        if estado_modificado:
+            estado["_rss_inicializado"] = True
+    else:
+        nuevas = [n for n in candidatas if n["id"] not in novedades_ids]
+        if nuevas:
+            nuevas.sort(key=lambda x: x["fecha"], reverse=True)
+            novedades = nuevas + novedades
+            novedades_modificado = True
+            nuevas_para_telegram = len(nuevas)
+            for n in nuevas:
+                print(f"[+] Nueva promoción RSS detectada: {n['titulo']} ({n['fuente']})")
+        else:
+            print("[=] Sin promociones nuevas en RSS.")
+
+    if novedades_modificado:
+        # Prioriza conservar las pendientes de publicar en caso de superar MAX_NOVEDADES.
+        pendientes = [n for n in novedades if n.get("publicar_telegram")]
+        ya_publicadas = [n for n in novedades if not n.get("publicar_telegram")]
+        novedades = (pendientes + ya_publicadas)[:MAX_NOVEDADES]
+        novedades.sort(key=lambda x: (x.get("fecha", ""), bool(x.get("publicar_telegram"))), reverse=True)
+        guardar_json(NOVEDADES_PATH, novedades)
+
+    if estado_modificado:
+        estado["_rss_vistos"] = vistos_list[-MAX_RSS_VISTOS:]
+
+    return nuevas_para_telegram, estado_modificado
+
+
+# --------------------------------------------------------------------------- #
 # Main
 # --------------------------------------------------------------------------- #
 def main() -> int:
@@ -225,14 +386,18 @@ def main() -> int:
         ]
         enviar_telegram(admin_chat, "🚨 <b>Enlaces de referido con error</b>\n\n" + "\n".join(lineas))
 
-    # 2 y 3. Cambios en páginas de condiciones
+    # 2. Cambios en páginas de condiciones
     fuentes = cargar_json(FUENTES_PATH, [])
     estado = cargar_json(ESTADO_PATH, {})
     if not isinstance(estado, dict):
         estado = {}
 
-    cambios, modificado = revisar_fuentes(fuentes if isinstance(fuentes, list) else [], estado)
-    if modificado:
+    cambios, modificado_fuentes = revisar_fuentes(fuentes if isinstance(fuentes, list) else [], estado)
+
+    # 3. Radar RSS de nuevas promociones
+    _, modificado_rss = revisar_rss(estado)
+
+    if modificado_fuentes or modificado_rss:
         guardar_json(ESTADO_PATH, estado)
 
     if cambios:
@@ -244,9 +409,9 @@ def main() -> int:
             + "\n\nRevisa las condiciones y actualiza <code>data/ofertas.json</code> si procede.",
         )
 
-    # 4. Regla del silencio
+    # 4. Regla del silencio (las novedades RSS las difunde difusion.py directamente en el canal)
     if not rotos and not cambios:
-        print("Todo OK y sin cambios. Regla del silencio: no se envía ningún mensaje.")
+        print("Todo OK y sin cambios en condiciones. Regla del silencio: sin alertas al admin.")
     return 0
 
 
