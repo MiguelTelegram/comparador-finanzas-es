@@ -776,6 +776,10 @@ input[type="range"]::-moz-range-thumb {
 .entity-avatar[data-entity="bank-norwegian"] { background: linear-gradient(135deg, #b91c1c, #1d4ed8); }
 .entity-avatar[data-entity="nexo-card"] { background: linear-gradient(135deg, #1e40af, #3b82f6); }
 .entity-avatar[data-entity="cryptocom-levelup"] { background: linear-gradient(135deg, #0f172a, #1d4ed8); }
+.entity-avatar[data-entity^="cajamar"] { background: linear-gradient(135deg, #1e3a8a, #0ea5e9); }
+.entity-avatar[data-entity^="kutxabank"] { background: linear-gradient(135deg, #111827, #374151); }
+.entity-avatar[data-entity^="myinvestor"] { background: linear-gradient(135deg, #1d4ed8, #4f46e5); }
+.entity-avatar[data-entity^="n26"] { background: linear-gradient(135deg, #0d9488, #14b8a6); }
 
 .offer-rank {
   display: inline-grid;
@@ -935,57 +939,6 @@ input[type="range"]::-moz-range-thumb {
   text-align: center;
   color: var(--text-2);
 }
-
-/* ---------- Novedades ---------- */
-.news { padding-block: 1.5rem 1.25rem; scroll-margin-top: 5rem; }
-
-.news-grid {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 460px), 1fr));
-  gap: 1rem;
-}
-
-.news-card {
-  display: flex;
-  flex-direction: column;
-  gap: .5rem;
-  padding: 1.25rem;
-  transition: box-shadow .2s var(--ease), transform .2s var(--ease);
-}
-.news-card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
-
-.news-meta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: .5rem;
-  font-size: .75rem;
-  color: var(--text-2);
-}
-.news-badges { display: flex; flex-wrap: wrap; gap: .35rem; align-items: center; }
-.news-source {
-  padding: .125rem .5rem;
-  font-weight: 600;
-  color: var(--brand-soft-text);
-  background: var(--brand-soft);
-  border-radius: 999px;
-}
-.news-promo {
-  padding: .125rem .5rem;
-  font-weight: 700;
-  color: var(--promo-text);
-  background: var(--promo-soft);
-  border: 1px solid var(--promo-border);
-  border-radius: 999px;
-}
-
-.news-title { font-size: 1rem; margin: 0; line-height: 1.35; }
-.news-excerpt { font-size: .875rem; color: var(--text-2); margin: 0; flex-grow: 1; }
-.news-link { align-self: flex-start; font-size: .875rem; font-weight: 600; text-decoration: none; }
-.news-link:hover { text-decoration: underline; }
 
 /* ---------- FAQ ---------- */
 .faq { padding-block: 2rem 3rem; }

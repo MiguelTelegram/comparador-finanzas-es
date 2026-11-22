@@ -6,7 +6,6 @@
 
 (() => {
   const DATA_URL = 'data/ofertas.json';
-  const NOVEDADES_URL = 'data/novedades.json';
   const SHORT_URL = 'https://migueltelegram.github.io';
   const RETENCION_NETO = 0.81;
 
@@ -23,11 +22,13 @@
   const AVATARES = {
     'bbva-black-friday': 'BB', 'bbva-plan-1060': 'BB', 'sabadell-online': 'SB',
     'santander-online': 'BS', 'abanca-nomina': 'AB', 'deutsche-bank-mas': 'DB',
-    'unicaja-nomina': 'UN', 'caixabank-online': 'CX', 'imagin-nomina': 'im',
-    'ing-nomina': 'ING', 'ibercaja-vamos': 'IB', 'bankinter-nomina': 'BK',
-    'openbank-remunerada': 'OB', 'b100-health': 'B1', 'renault-bank-contigo': 'RB',
-    'trade-republic': 'TR', 'revolut-remunerada': 'R', 'raisin-bienvenida': 'Ra',
-    'bunq-free': 'bq', 'bank-norwegian': 'BN', 'cryptocom-levelup': 'C', 'nexo-card': 'Nx',
+    'cajamar-nomina': 'CJ', 'kutxabank-nomina': 'KB', 'unicaja-nomina': 'UN',
+    'caixabank-online': 'CX', 'imagin-nomina': 'im', 'ing-nomina': 'ING',
+    'ibercaja-vamos': 'IB', 'bankinter-nomina': 'BK', 'openbank-remunerada': 'OB',
+    'myinvestor-remunerada': 'MI', 'b100-health': 'B1', 'renault-bank-contigo': 'RB',
+    'n26-ahorro': 'N26', 'trade-republic': 'TR', 'revolut-remunerada': 'R',
+    'raisin-bienvenida': 'Ra', 'bunq-free': 'bq', 'bank-norwegian': 'BN',
+    'cryptocom-levelup': 'C', 'nexo-card': 'Nx',
   };
 
   const FILTROS = {
@@ -69,8 +70,6 @@
     statMejor: $('#stat-mejor'),
     statOfertas: $('#stat-ofertas'),
     statBonos: $('#stat-bonos'),
-    novedadesSec: $('#novedades'),
-    listaNovedades: $('#lista-novedades'),
     themeToggle: $('#theme-toggle'),
     compareBar: $('#compare-bar'),
     compareCount: $('#compare-count'),
@@ -87,7 +86,6 @@
 
   const estado = {
     ofertas: [],
-    novedades: [],
     filtros: new Set(),
     comparar: new Set(),
     busqueda: '',
@@ -230,17 +228,10 @@
   }
 
   /* ---------- Texto para copiar y pegar en foros ---------- */
-  function textoParaForo(oferta, res, esNeto) {
-    const partes = [`💰 ${oferta.entidad} — ${oferta.nombre}`];
-    if (oferta.etiqueta_promo) partes.push(`🏷 ${oferta.etiqueta_promo}`);
-    partes.push(`👉 Beneficio estimado: +${fmtEUR.format(res.total)}/año (${esNeto ? 'neto aprox.' : 'bruto'})`);
-    if (num(oferta.bono_fijo_eur) > 0) partes.push(`• Regalo efectivo: ${fmtEURCorto.format(oferta.bono_fijo_eur)} (bruto)`);
-    if (num(oferta.tae) > 0) partes.push(`• Rentabilidad: ${fmtPct.format(oferta.tae)}% TAE`);
-    if (num(oferta.porcentaje_cashback) > 0) partes.push(`• Cashback: ${fmtPct.format(oferta.porcentaje_cashback)}%`);
-    if (oferta.requisitos_resumen) partes.push(`✅ Qué pide: ${oferta.requisitos_resumen}`);
-    if (oferta.codigo_promo) partes.push(`🔑 Código promo: ${oferta.codigo_promo}`);
-    partes.push(`🧮 Calcula cuánto ganarías tú aquí: ${SHORT_URL}`);
-    return partes.join('\n');
+  function textoParaForo(oferta) {
+    const titular = `${oferta.entidad} · ${oferta.etiqueta_promo || oferta.nombre}`;
+    const cuerpo = (oferta.texto_telegram || oferta.requisitos_resumen || oferta.resumen_condiciones || '').trim();
+    return `${titular}\n\n${cuerpo}\n\nMás info y calculadora:\n${SHORT_URL}`;
   }
 
   /* ---------- Render combinación óptima ---------- */
@@ -522,40 +513,6 @@
     ui.modalComparar.showModal();
   }
 
-  /* ---------- Render novedades ---------- */
-  function renderNovedades() {
-    if (!ui.novedadesSec || !ui.listaNovedades) return;
-    if (!estado.novedades.length) {
-      ui.novedadesSec.hidden = true;
-      return;
-    }
-
-    const fragment = document.createDocumentFragment();
-    estado.novedades.forEach((n) => {
-      fragment.append(el('li', { class: 'card news-card' }, [
-        el('div', { class: 'news-meta' }, [
-          el('div', { class: 'news-badges' }, [
-            n.es_promo_destacada ? el('span', { class: 'news-promo', text: '🔥 Promo' }) : null,
-            el('span', { class: 'news-source', text: n.fuente || 'Radar' }),
-          ]),
-          n.fecha ? el('time', { datetime: n.fecha, text: formatearFecha(n.fecha) }) : null,
-        ]),
-        el('h3', { class: 'news-title', text: n.titulo }),
-        n.resumen ? el('p', { class: 'news-excerpt', text: n.resumen }) : null,
-        n.url ? el('a', {
-          class: 'news-link',
-          href: n.url,
-          target: '_blank',
-          rel: 'noopener noreferrer',
-          text: 'Ver noticia original ↗',
-        }) : null,
-      ]));
-    });
-
-    ui.listaNovedades.replaceChildren(fragment);
-    ui.novedadesSec.hidden = false;
-  }
-
   /* ---------- Interacción ---------- */
   function sincronizar(range, input, limites) {
     actualizarProgreso(range, limites);
@@ -665,9 +622,7 @@
         const id = copyOfferBtn.getAttribute('data-copy-offer');
         const oferta = estado.ofertas.find((o) => o.id === id);
         if (oferta) {
-          const { gasto, saldo, esNeto } = leerValores();
-          const res = calcular(oferta, gasto, saldo, esNeto);
-          copiarTexto(textoParaForo(oferta, res, esNeto), `Resumen de ${oferta.entidad} copiado para foro`);
+          copiarTexto(textoParaForo(oferta), `Resumen de ${oferta.entidad} copiado para foro`);
         }
       }
     });
@@ -718,25 +673,15 @@
     initTema();
     initEventos();
 
-    const [resOfertas, resNovedades] = await Promise.allSettled([
-      cargarJson(DATA_URL),
-      cargarJson(NOVEDADES_URL),
-    ]);
-
-    if (resOfertas.status === 'fulfilled') {
-      estado.ofertas = resOfertas.value;
+    try {
+      estado.ofertas = await cargarJson(DATA_URL);
       render();
-    } else {
-      console.warn('No se pudieron cargar las ofertas:', resOfertas.reason);
+    } catch (err) {
+      console.warn('No se pudieron cargar las ofertas:', err);
       ui.resumen.textContent = 'No se pudieron cargar las ofertas.';
       ui.lista.replaceChildren(el('li', { class: 'card empty-state' }, [
         'No se ha podido cargar data/ofertas.json. Sirve la carpeta /web con un servidor local (por ejemplo: python3 -m http.server).',
       ]));
-    }
-
-    if (resNovedades.status === 'fulfilled') {
-      estado.novedades = resNovedades.value;
-      renderNovedades();
     }
   }
 

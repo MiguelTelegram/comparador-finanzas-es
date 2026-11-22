@@ -5,8 +5,8 @@
     "selector_css": "main"
   },
   {
-    "nombre": "Revolut - Cuentas de ahorro",
-    "url": "https://www.revolut.com/es-ES/savings-accounts/",
+    "nombre": "bunq - Cuenta de ahorro",
+    "url": "https://www.bunq.com/es/savings",
     "selector_css": "main"
   },
   {
@@ -15,18 +15,13 @@
     "selector_css": ""
   },
   {
-    "nombre": "bunq - Cuenta de ahorro",
-    "url": "https://www.bunq.com/es/savings",
-    "selector_css": "main"
-  },
-  {
-    "nombre": "Nexo - Nexo Card",
-    "url": "https://nexo.com/nexo-card",
-    "selector_css": ""
-  },
-  {
     "nombre": "Crypto.com - Tarjetas",
     "url": "https://crypto.com/es/cards",
     "selector_css": ""
+  },
+  {
+    "nombre": "MyInvestor - Cuenta remunerada",
+    "url": "https://myinvestor.es/",
+    "selector_css": "main"
   }
 ]

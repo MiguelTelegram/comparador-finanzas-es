@@ -1,50 +1,46 @@
-# Mensajes listos para publicación manual en foros
+# Mensajes listos para copiar y pegar en foros
 
-> Ya usa el enlace corto `https://migueltelegram.github.io`. Si incluyes tus enlaces personales de referido en `ofertas.json`, recuerda añadir una breve aclaración según las normas de cada foro.
-
----
-
-## 1. Rankia / Reddit (r/SpainFIRE, r/finanzas)
-**Título:** He montado una calculadora gratuita para comparar todas las cuentas remuneradas, regalos por nómina, Black Friday y tarjetas cashback en España
-
-**Cuerpo:**
-Buenas,
-
-Estaba harto de ver listas desactualizadas donde mezclan TAE promocional con topes bajos, regalos en efectivo con letra pequeña o tarjetas con cashback limitado, así que he montado una calculadora gratuita y sin registro para ver cuánto dinero limpio te llevas al año según tus ahorros y tu gasto mensual.
-
-Incluye más de 20 entidades en España y Europa:
-- **Regalos en efectivo y Black Friday:** BBVA (150 € sin nómina o Plan 1.060 €), Sabadell (400 € + 2,75% TAE), Santander, ABANCA (500 €), Deutsche Bank (500 €), Unicaja, CaixaBank, imagin, ING…
-- **Cuentas remuneradas top:** Ibercaja (5,10% TAE), Bankinter (5% TAE), Trade Republic (4,07% TAE + 1% saveback), Revolut, Openbank, B100, Renault Bank.
-- **IBAN extranjero UE/EEE y tarjetas crypto:** Raisin, bunq, Bank Norwegian, Crypto.com y Nexo.
-
-Tiene interruptor para incluir o quitar cuentas con nómina, modo bruto/neto tras IRPF (-19%), buscador, comparador lado a lado y te sugiere automáticamente la mejor combinación de cuenta + tarjeta.
-
-👉 https://migueltelegram.github.io
-
-Si echáis en falta alguna promo reciente o veis algún cambio, avisad por aquí y la añado.
+Formato corto y directo (igual que los del canal de Telegram `@comparador_finanzas_es`), sin rollos ni enlaces a noticias. Ya llevan la URL corta `https://migueltelegram.github.io`.
 
 ---
 
-## 2. ForoCoches
-**Título:** [HERRAMIENTA] Calculadora para ver qué banco te da más pasta al año (Regalos Black Friday, nóminas, TAE y cashback)
+## 1. Openbank · 3,25% TAE + 200 € recibos (hasta el 30 de noviembre)
 
-**Cuerpo:**
-Buenas shurs,
+Openbank · 3,25% TAE + 200 € recibos · Hasta 30 nov
 
-Como cada semana sale el típico hilo preguntando dónde meter el dinero parado, qué banco da más pasta por la nómina o qué promo merece la pena este Black Friday, he montado esta calculadora rápida para verlo al vuelo.
+3,25% TAE durante 12 meses sin límite de saldo solo activando Bizum (sin nómina) y 200 € extra (20 €/mes durante 10 meses) domiciliando 2 recibos. Usa el código OPEN325 antes del 30 de noviembre.
 
-Pones cuánto tienes ahorrado, cuánto gastas al mes con tarjeta y si puedes domiciliar nómina o no, y te ordena de mayor a menor cuánto dinero te sacas al año en cada banco (con el bruto y el neto aproximado tras Hacienda).
-
-- Incluye **Black Friday BBVA (150 € sin nómina)**, Sabadell, Santander, ABANCA, Deutsche Bank, Unicaja, Ibercaja, ING, Trade Republic, Revolut, Openbank, B100, Raisin, etc.
-- Puedes comparar hasta 3 bancos lado a lado y ver la mejor combinación de cuenta + tarjeta.
-- Cero registros ni mierdas.
-
-Link: https://migueltelegram.github.io
-
-Si falta alguna promo decente, decidlo y la meto.
+Más info y calculadora:
+https://migueltelegram.github.io
 
 ---
 
-## 3. Chollometro (en comentarios de hilos de bancos o como aporte útil)
-**Texto:**
-Por si a alguien le ayuda a calcular si le compensa más esta promo frente a otros bancos (regalos por nómina, Black Friday de BBVA, cuentas remuneradas sin nómina o tarjetas cashback), aquí tienes una calculadora gratuita donde pones tu saldo y gasto mensual y ves cuánto te llevas al año: https://migueltelegram.github.io
+## 2. BBVA Black Friday · 150 € sin nómina (hasta el 1 de diciembre)
+
+BBVA · Black Friday · Hasta 1 dic
+
+Te devuelven hasta 150 € en compras con la tarjeta Aqua Débito el primer mes. Sin nómina ni permanencia, solo activando Bizum y usando el código TARJETA150 antes del 1 de diciembre.
+
+Más info y calculadora:
+https://migueltelegram.github.io
+
+---
+
+## 3. MyInvestor · 2,50% TAE + 25 € Plan Amigo
+
+MyInvestor · 2,50% TAE (6m) + 25 € Plan Amigo
+
+2,50% TAE los primeros 6 meses hasta 70.000 € sin nómina ni comisiones, más 25 € brutos de bienvenida invirtiendo 100 € o manteniendo 1.000 € en cuenta.
+
+Más info y calculadora:
+https://migueltelegram.github.io
+
+---
+
+## 4. Hilos generales ("¿Dónde meter ahorros o domiciliar la nómina?")
+
+Por si te sirve para comparar rápido según lo que tengas ahorrado y lo que gastes con tarjeta, aquí tienes una calculadora gratuita con las promos reales activas en España (Openbank 3,25% + 200 €, BBVA Black Friday 150 € o Plan 1.060 €, Sabadell 400 € + 2,75%, Cajamar hasta 750 € + 2,27%, Kutxabank hasta 600 €, MyInvestor, ING Cuenta Naranja, Trade Republic, Revolut, etc.):
+
+https://migueltelegram.github.io
+
+Te ordena de mayor a menor cuánto dinero limpio te llevas al año (en bruto y neto tras Hacienda) y puedes filtrar por cuentas sin nómina o IBAN español.
