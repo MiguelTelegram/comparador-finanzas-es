@@ -1,1 +1,56 @@
-[]
+[
+  {
+    "id": "f33e62fb7204",
+    "titulo": "BFS sube la rentabilidad de los depósitos cancelables y NO cancelables",
+    "fuente": "TuCapital",
+    "resumen": "BFS ha subido la rentabilidad de los depósitos para clientes con el dinero que ya está entidad tanto cancelables como no cancelables. El depósito Jump y los depósitos para dinero nuevo no han cambiado. The post BFS…",
+    "url": "https://www.tucapital.es/depositos/bfs-sube-la-rentabilidad-de-los-depositos-cancelables-y-no-cancelables/",
+    "fecha": "2026-11-20",
+    "publicar_telegram": false
+  },
+  {
+    "id": "6ddffa705efe",
+    "titulo": "Renault Bank prorroga sus depósitos y cuenta de ahorro sin cambios",
+    "fuente": "TuCapital",
+    "resumen": "Renault Bank amplía el plazo de contratación de sus depósitos y cuenta de ahorro sin cambios hasta el 2 de diciembre de 2026. Ahora ofrece como máximo de 3,55% TAE en sus depósitos y la cuenta sigue al 2,27% TAE para…",
+    "url": "https://www.tucapital.es/depositos/renault-bank-prorroga-sus-depositos-y-cuenta-de-ahorro-sin-cambios/",
+    "fecha": "2026-11-19",
+    "publicar_telegram": false
+  },
+  {
+    "id": "11953e34246e",
+    "titulo": "Así están conquistando las tarjetas a los viajeros: millas aéreas, salas VIP y descuentos en vuelos",
+    "fuente": "HelpMyCash",
+    "resumen": "Las tarjetas para viajar se han convertido en una herramienta imprescindible para muchos viajeros . El 22% de los españoles las usa cuando cruza la frontera, de acuerdo con el Barómetro de Pagos en el sector Turismo…",
+    "url": "https://www.helpmycash.com/blog/asi-estan-conquistando-las-tarjetas-a-los-viajeros-millas-aereas-salas-vip-y-descuentos-en-vuelos/",
+    "fecha": "2026-11-19",
+    "publicar_telegram": false
+  },
+  {
+    "id": "d1f71941112e",
+    "titulo": "ING vuelve a ofrecer un 3% TAE a clientes si incrementas el saldo",
+    "fuente": "TuCapital",
+    "resumen": "ING vuelve a ofrecer el depósito a 4 meses de plazo y al 3% TAE para clientes que incrementen el saldo en la entidad. Este depósito estuvo en vigor hasta el 31 de octubre de 2026 y ha estado desactivado durante más de…",
+    "url": "https://www.tucapital.es/depositos/ing-vuelve-a-ofrecer-un-3-tae-a-clientes-si-incrementas-el-saldo/",
+    "fecha": "2026-11-18",
+    "publicar_telegram": false
+  },
+  {
+    "id": "d9346ed160b1",
+    "titulo": "Las cuentas remuneradas vuelven a superar el 4% TAE, pero ¿qué oferta te permite ganar más?",
+    "fuente": "HelpMyCash",
+    "resumen": "La batalla por los ahorros vuelve a animarse. La semana pasada, Trade Republic lanzó una nueva promoción con una rentabilidad del 4,07 % TAE , y otros bancos también ofrecen cuentas remuneradas que superan el 3% TAE…",
+    "url": "https://www.helpmycash.com/blog/las-cuentas-remuneradas-vuelven-a-superar-el-4-tae-pero-que-oferta-te-permite-ganar-mas/",
+    "fecha": "2026-11-18",
+    "publicar_telegram": false
+  },
+  {
+    "id": "928e7b3c6343",
+    "titulo": "Un lío en la Cuenta Ahorro de Cetelem: ¿3% TIN, 2,28% TIN O 1,75% TIN?",
+    "fuente": "TuCapital",
+    "resumen": "Cetelem está ofreciendo una Cuenta de Ahorro con diferentes rentabilidades dependiendo de si eres nuevo cliente o ya clientes. De hecho se remunera a 3 tipos diferentes de interés, un lío total. The post Un lío en la…",
+    "url": "https://www.tucapital.es/cuentas/un-lio-en-la-cuenta-ahorro-de-cetelem-3-tin-228-tin-o-175-tin/",
+    "fecha": "2026-11-17",
+    "publicar_telegram": false
+  }
+]
