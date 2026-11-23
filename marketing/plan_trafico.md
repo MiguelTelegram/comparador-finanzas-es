@@ -25,9 +25,9 @@ La gente que ya busca promociones bancarias está en cuatro sitios concretos en 
 
 ### A) Foros y comunidades financieras (el canal más rentable al principio)
 - **Rankia** (Foro de Bancos y Depósitos / Cuentas nómina): es donde más se habla de promociones reales, *tintos*, permanencias y Planes Amigo.
-- **Reddit en español:** `r/SpainFIRE`, `r/finanzas` y `r/ahorro`. Cada semana pregunta alguien *«¿Dónde meto 10.000 € parados?»* o *«¿Qué banco da regalo por nómina ahora mismo?»*.
-- **ForoCoches** (hilos semanales de cuentas remuneradas / depósitos / depósitos extranjeros).
-- **Chollometro:** publicar chollos puntuales de campañas claras (por ejemplo, Openbank `OPEN325` o Bankinter Digital 3 % sin nómina) o comentar con criterio cuando haya promo activa.
+- **Reddit en español:** `r/SpainFIRE`, `r/finanzas` y `r/ahorro`. Cada semana pregunta alguien *«¿Dónde meto 10.000 € parados?»*, *«¿Qué banco da regalo por nómina ahora mismo?»* o *«¿Qué tarjeta o app de cashback merece más la pena en España?»*.
+- **ForoCoches** (hilos semanales de cuentas remuneradas / depósitos / tarjetas cashback).
+- **Chollometro:** publicar chollos puntuales de campañas claras (por ejemplo, Openbank `OPEN325`, Bankinter Digital 3 % sin nómina o combinaciones de doble cashback con iGraal/LetyShops + tarjeta) o comentar con criterio cuando haya promo activa.
 
 **Regla de oro anti-ban en foros y Reddit:**
 - **No pongas solo el link.** Responde primero ayudando de verdad (por ejemplo: *«Ahora mismo sin nómina tienes Bankinter Digital al 3 % TAE hasta el 16 de dic o Trade Republic al 4,07 % TAE hasta 20.000 €»*) y añade al final: *«Si quieres ver todas ordenadas según tus ahorros las tienes aquí: https://promosbanco.github.io»*.
@@ -59,17 +59,19 @@ La web sirve para **comparar** y Google/foros traen visitas puntuales; el canal 
 
 - **Formato facilísimo (20–30 segundos, sin mostrar la cara):**
   - Graba la pantalla del móvil navegando por `promosbanco.github.io` (pestaña *Dinero de regalo* → cambiar *Mis ahorros* → abrir detalles) mientras pones texto grande o voz en off sencilla:
-  - *Ejemplo de guion:* *"3 bancos que te pagan en España este mes sin pedirte nómina: 1) Openbank 200 € + 3,25 %, 2) BBVA 150 € en compras, 3) Bankinter 3 % TAE sin límite. El comparador gratis está en mi perfil (y el enlace directo en Telegram `@promosbanco`)."*
+  - *Ejemplo de guion (bancos):* *"3 bancos que te pagan en España este mes sin pedirte nómina: 1) Openbank 200 € + 3,25 %, 2) BBVA 150 € en compras, 3) Bankinter 3 % TAE sin límite. El comparador gratis está en mi perfil (y el enlace directo en Telegram `@promosbanco`)."*
+  - *Ejemplo de guion (doble cashback):* *"Cómo cobrar dos veces cada vez que compras en España: 1) entra por iGraal, LetyShops o TopCashback (pestaña Cashback → Apps), 2) paga con SumUp Pay, Cetelem o Trade Republic. Todas las tarjetas y apps de cashback ordenadas según tu gasto mensual aquí (`promosbanco.github.io/?tab=cashback`)."*
 - Grabar 1 vídeo corto cada vez que empiece mes o salga una campaña potente suele traer más gente nueva a Telegram que semanas publicando en foros.
 
 ---
 
 ## 4. Tráfico pasivo en Google / SEO (fase 2, cuando quieras escalar)
 
-Ahora mismo tienes una sola página (`index.html`), lo cual es ideal por sencillez, pero Google posiciona mejor páginas dedicadas a búsquedas concretas. Más adelante puedes crear 3 subpáginas estáticas muy simples dentro de `/web` (manteniendo 0 €/mes):
+Ahora mismo tienes una sola página (`index.html`), lo cual es ideal por sencillez, pero Google posiciona mejor páginas dedicadas a búsquedas concretas. Más adelante puedes crear 4 subpáginas estáticas muy simples dentro de `/web` (manteniendo 0 €/mes):
 
 - `/cuentas-sin-nomina/` → enfocada a *"mejores cuentas remuneradas sin nómina España"*.
 - `/regalos-nomina/` → enfocada a *"bancos que regalan dinero por domiciliar la nómina"*.
+- `/cashback/` → enfocada a *"mejores tarjetas y apps de cashback en España"*.
 - `/plan-amigo/` → guía limpia explicando requisitos habituales de códigos de invitación.
 
 Además, recuerda aprovechar los momentos pico del año en Google y Telegram:

@@ -6,7 +6,6 @@
 (() => {
   const DATA_URL = 'data/ofertas.json';
   const SHORT_URL = 'https://promosbanco.github.io';
-  const GASTO_TARJETA_MES = 500;
 
   const COLORES = {
     'BBVA': '#004481', 'Banco Sabadell': '#006dff', 'Banco Santander': '#ec0000', 'ABANCA': '#0369a1',
@@ -15,11 +14,28 @@
     'Bankinter': '#c2410c', 'Openbank': '#dc2626', 'MyInvestor': '#4f46e5', 'B100 (Abanca)': '#0ea5e9',
     'Renault Bank': '#ca8a04', 'N26': '#0d9488', 'Trade Republic': '#18181b', 'Revolut': '#2563eb',
     'Raisin': '#0f766e', 'bunq': '#16a34a', 'Bank Norwegian': '#b91c1c', 'Crypto.com': '#1d4ed8', 'Nexo': '#1e40af',
+    'Cetelem': '#15803d', 'Carrefour PASS': '#1d4ed8', 'WiZink': '#7c3aed', 'Moeve Gow': '#0284c7',
+    'American Express': '#006fcf', 'SumUp Pay': '#0f172a', 'Plazo': '#6d28d9', 'Curve': '#dc2626',
+    'Klarna': '#be185d', 'iGraal': '#ea580c', 'LetyShops': '#2563eb', 'TopCashback': '#b91c1c',
+    'Widilo': '#0284c7', 'beruby': '#059669', 'Woolsocks': '#0f766e', 'Waylet': '#ea580c',
+    'Gelt': '#7c3aed', 'ShopBuddies': '#d97706', 'Bybit EU': '#18181b', 'Bleap': '#2563eb',
+    'Bit2Me': '#0284c7', 'Gnosis Pay': '#047857',
   };
   const INICIALES = {
     'Banco Sabadell': 'SB', 'Banco Santander': 'BS', 'Deutsche Bank': 'DB', 'B100 (Abanca)': 'B1',
     'Renault Bank': 'RB', 'Trade Republic': 'TR', 'Bank Norwegian': 'BN', 'Crypto.com': 'C', 'imagin': 'im',
     'MyInvestor': 'MI', 'Kutxabank': 'KB', 'Cajamar': 'CJ', 'CaixaBank': 'CX',
+    'Carrefour PASS': 'CP', 'Moeve Gow': 'MG', 'American Express': 'AX', 'SumUp Pay': 'SU',
+    'TopCashback': 'TC', 'ShopBuddies': 'SH', 'Bybit EU': 'BY', 'Bit2Me': 'B2', 'Gnosis Pay': 'GP',
+    'iGraal': 'iG', 'LetyShops': 'LS', 'Woolsocks': 'WS', 'beruby': 'be', 'WiZink': 'WZ',
+    'Cetelem': 'CT', 'Waylet': 'WY', 'Widilo': 'WD', 'Plazo': 'PZ', 'Curve': 'CV', 'Klarna': 'KL',
+    'Gelt': 'GL', 'Bleap': 'BL',
+  };
+  const ETIQUETAS_CASHBACK = {
+    plataforma: 'App cashback',
+    tarjeta_banco: 'Banco / tarjeta',
+    tarjeta_fintech: 'Fintech',
+    cripto: 'Cripto',
   };
   const PAISES = { DE: 'alemán', NL: 'holandés', NO: 'noruego', FR: 'francés', LT: 'lituano', IE: 'irlandés' };
 
@@ -30,9 +46,12 @@
   const $ = (s) => document.querySelector(s);
   const ui = {
     tabs: Array.from(document.querySelectorAll('.tab')),
+    cashbackBar: $('#cashback-bar'),
+    subtabs: Array.from(document.querySelectorAll('.subtab')),
     buscar: $('#buscar'),
     sinNomina: $('#sin-nomina'),
     ahorros: $('#ahorros'),
+    gasto: $('#gasto'),
     lista: $('#ofertas'),
     resumen: $('#resumen'),
     fecha: $('#fecha-actualizacion'),
@@ -41,7 +60,9 @@
 
   const params = new URLSearchParams(location.search);
   const destacada = params.get('o') || params.get('oferta');
-  const estado = { ofertas: [], tipo: 'todas', busqueda: '', scrollHecho: false, toastTimer: null };
+  const tabParam = params.get('tab');
+  const tabInicial = ['todas', 'regalo', 'intereses', 'cashback'].includes(tabParam) ? tabParam : 'todas';
+  const estado = { ofertas: [], tipo: tabInicial, subCashback: 'todos', busqueda: '', scrollHecho: false, toastTimer: null };
 
   /* ---------- Utilidades ---------- */
   const num = (v) => (Number.isFinite(Number(v)) ? Number(v) : 0);
@@ -103,16 +124,17 @@
   }
 
   /* ---------- Cálculo ---------- */
-  function ganancia(o, ahorros) {
+  function ganancia(o, ahorros, gastoMes) {
     const intereses = Math.min(ahorros, o.saldo_maximo_remunerado ?? Infinity) * (num(o.tae) / 100);
-    const cashback = Math.min(GASTO_TARJETA_MES * (num(o.porcentaje_cashback) / 100), o.tope_mensual_eur ?? Infinity) * 12;
+    const cashback = Math.min(gastoMes * (num(o.porcentaje_cashback) / 100), o.tope_mensual_eur ?? Infinity) * 12;
     const bono = num(o.bono_fijo_eur);
     return { intereses, cashback, bono, total: intereses + cashback + bono };
   }
 
   /* ---------- Texto para foros (igual que Telegram) ---------- */
   function textoForo(o) {
-    const lineas = [`🏦 ${o.entidad}`, `💶 ${o.gancho || o.etiqueta_promo || o.nombre}`, ''];
+    const icono = o.tipo_cashback === 'plataforma' ? '💸' : (o.tipo === 'cashback' ? '💳' : '🏦');
+    const lineas = [`${icono} ${o.entidad}`, `💶 ${o.gancho || o.etiqueta_promo || o.nombre}`, ''];
     lineas.push(`✅ ${o.requisito_corto || o.requisitos_resumen || ''}`);
     if (o.fecha_fin_promo) lineas.push(`⏰ Hasta el ${fecha(o.fecha_fin_promo)}`);
     if (o.codigo_promo) lineas.push(`🔑 Código: ${o.codigo_promo}`);
@@ -131,37 +153,74 @@
     }
     if (o.es_crypto) {
       lista.push(el('li', { class: 'warn', text: 'Servicio cripto (sin fondo de garantía bancario)' }));
-    } else if (o.pais_iban && o.pais_iban !== 'ES') {
+    } else if (o.pais_iban && o.pais_iban !== 'ES' && o.pais_iban !== 'N/A') {
       lista.push(el('li', { class: 'warn', text: `IBAN ${PAISES[o.pais_iban] || o.pais_iban} (lo declaras tú en la renta)` }));
     }
+    if (o.aviso_credito) lista.push(el('li', { class: 'warn', text: o.aviso_credito }));
     if (o.sin_comisiones) lista.push(el('li', { text: 'Sin comisiones' }));
     return el('ul', { class: 'facts' }, lista);
   }
 
-  function tarjeta(item, pos) {
+  function textoEstimacion(o, g, gastoMes) {
+    if (estado.tipo === 'cashback') {
+      if (g.cashback > 0) {
+        const extras = [];
+        if (g.bono > 0) extras.push(`${fmtEUR.format(g.bono)} de regalo`);
+        if (g.intereses > 0) extras.push(`${fmtEUR.format(g.intereses)} de intereses`);
+        return [
+          `Con ${fmtEUR.format(gastoMes)}/mes ganas `,
+          el('strong', { text: `≈ ${fmtEUR.format(g.cashback)}/año` }),
+          ' en cashback',
+          extras.length ? ` (+ ${extras.join(' y ')})` : '',
+        ];
+      }
+      if (o.cashback_nota && g.bono > 0) return [o.cashback_nota, ' · ', el('strong', { text: `+ ${fmtEUR.format(g.bono)} de bienvenida` })];
+      if (o.cashback_nota) return [o.cashback_nota];
+      if (g.bono > 0) return ['Bono de bienvenida de ', el('strong', { text: fmtEUR.format(g.bono) })];
+      return ['Ventaja en tus compras'];
+    }
+
+    if (g.total > 0) {
+      const partes = [];
+      if (g.bono > 0) partes.push(`${fmtEUR.format(g.bono)} de regalo`);
+      if (g.intereses > 0) partes.push(`${fmtEUR.format(g.intereses)} de intereses`);
+      if (g.cashback > 0) partes.push(`${fmtEUR.format(g.cashback)} en compras`);
+
+      let prefijo = 'Ganas ';
+      if (g.intereses > 0 && g.cashback > 0) prefijo = 'Con tus ahorros y compras ganas ';
+      else if (g.cashback > 0) prefijo = `Con ${fmtEUR.format(gastoMes)}/mes en compras ganas `;
+      else if (g.intereses > 0) prefijo = 'Con tus ahorros ganas ';
+
+      return [prefijo, el('strong', { text: `≈ ${fmtEUR.format(g.total)}` }), ` el primer año${partes.length > 1 ? ` (${partes.join(' + ')})` : ''}`];
+    }
+
+    return [o.cashback_nota || 'Ahorro directo en tus compras'];
+  }
+
+  function tarjeta(item, pos, gastoMes) {
     const { o, g } = item;
+    const esTop = pos === 1 && (estado.tipo === 'cashback' ? g.cashback > 0 : g.total > 0);
     const pills = [];
-    if (pos === 1 && g.total > 0) pills.push(el('span', { class: 'pill pill-top', text: 'La que más da' }));
+    if (esTop) pills.push(el('span', { class: 'pill pill-top', text: 'La que más da' }));
+    if (estado.tipo === 'cashback' && o.tipo_cashback && ETIQUETAS_CASHBACK[o.tipo_cashback]) {
+      pills.push(el('span', { class: 'pill pill-cat', text: ETIQUETAS_CASHBACK[o.tipo_cashback] }));
+    }
     if (o.fecha_fin_promo) {
       const d = diasHasta(o.fecha_fin_promo);
       if (d <= 14) pills.push(el('span', { class: 'pill pill-time', text: d <= 0 ? 'Último día' : `Quedan ${d} día${d === 1 ? '' : 's'}` }));
     }
 
     const clases = ['card'];
-    if (pos === 1 && g.total > 0) clases.push('is-top');
+    if (esTop) clases.push('is-top');
     if (destacada === o.id) clases.push('is-highlight');
-
-    const partes = [];
-    if (g.bono > 0) partes.push(`${fmtEUR.format(g.bono)} de regalo`);
-    if (g.intereses > 0) partes.push(`${fmtEUR.format(g.intereses)} de intereses`);
-    if (g.cashback > 0) partes.push(`${fmtEUR.format(g.cashback)} en compras`);
 
     const detalles = [
       ['Condiciones', o.resumen_condiciones],
+      o.cashback_nota ? ['Cashback', o.cashback_nota] : null,
       o.permanencia ? ['Permanencia', o.permanencia] : null,
       o.fgd ? ['Protección', o.fgd] : null,
       o.fecha_fin_promo ? ['Válida hasta', fecha(o.fecha_fin_promo)] : null,
-      g.cashback > 0 ? ['Cálculo', `Compras con tarjeta: suponemos ${fmtEUR.format(GASTO_TARJETA_MES)}/mes`] : null,
+      g.cashback > 0 ? ['Cálculo', `Compras con tarjeta: suponemos ${fmtEUR.format(gastoMes)}/mes`] : null,
       ['Revisada', fmtMes.format(new Date(`${o.fecha_actualizacion}T00:00:00Z`))],
     ].filter(Boolean);
 
@@ -172,16 +231,14 @@
         pills.length ? el('div', { class: 'pills' }, pills) : null,
       ]),
       el('p', { class: 'hook', text: o.gancho || o.etiqueta_promo }),
-      el('p', { class: 'estimate' }, g.total > 0
-        ? ['Con tus ahorros ganas ', el('strong', { text: `≈ ${fmtEUR.format(g.total)}` }), ` el primer año${partes.length > 1 ? ` (${partes.join(' + ')})` : ''}`]
-        : ['Ventaja en tus compras con tarjeta']),
+      el('p', { class: 'estimate' }, textoEstimacion(o, g, gastoMes)),
       hechos(o),
       o.codigo_promo ? el('button', { type: 'button', class: 'code', 'data-code': o.codigo_promo }, [
         el('span', {}, ['Código: ', el('b', { text: o.codigo_promo })]),
         el('span', { text: 'Copiar' }),
       ]) : null,
       el('div', { class: 'card-actions' }, [
-        el('a', { class: 'btn btn-primary', href: urlConUtm(o), target: '_blank', rel: 'nofollow sponsored noopener', text: `Abrir cuenta en ${o.entidad} →` }),
+        el('a', { class: 'btn btn-primary', href: urlConUtm(o), target: '_blank', rel: 'nofollow sponsored noopener', text: o.texto_boton || `Abrir cuenta en ${o.entidad} →` }),
         el('details', { class: 'details' }, [
           el('summary', { text: 'Ver detalles' }),
           el('dl', {}, detalles.flatMap(([k, v]) => [el('dt', { text: k }), el('dd', { text: v })])),
@@ -193,29 +250,56 @@
 
   function render() {
     const ahorros = num(ui.ahorros.value);
+    const gastoMes = ui.gasto ? num(ui.gasto.value) : 500;
     const soloSinNomina = ui.sinNomina.checked;
     const hoy = hoyISO();
     const q = estado.busqueda.trim().toLowerCase();
+
+    if (ui.cashbackBar) ui.cashbackBar.hidden = estado.tipo !== 'cashback';
 
     const visibles = estado.ofertas
       .filter((o) => o.activa === true && (!o.fecha_fin_promo || o.fecha_fin_promo >= hoy))
       .filter((o) => !soloSinNomina || o.sin_nomina === true)
       .filter((o) => estado.tipo === 'todas'
         || (estado.tipo === 'regalo' && num(o.bono_fijo_eur) > 0)
-        || (estado.tipo === 'intereses' && num(o.tae) > 0))
-      .filter((o) => !q || `${o.entidad} ${o.nombre} ${o.gancho || ''} ${o.requisito_corto || ''}`.toLowerCase().includes(q))
-      .map((o) => ({ o, g: ganancia(o, ahorros) }))
-      .sort((a, b) => b.g.total - a.g.total);
+        || (estado.tipo === 'intereses' && num(o.tae) > 0)
+        || (estado.tipo === 'cashback' && (num(o.porcentaje_cashback) > 0 || Boolean(o.tipo_cashback) || o.tipo === 'cashback')))
+      .filter((o) => estado.tipo !== 'cashback' || estado.subCashback === 'todos' || o.tipo_cashback === estado.subCashback)
+      .filter((o) => {
+        if (!q) return true;
+        const tipoCb = o.tipo_cashback ? (ETIQUETAS_CASHBACK[o.tipo_cashback] || '') : '';
+        return `${o.entidad} ${o.nombre} ${o.gancho || ''} ${o.requisito_corto || ''} ${o.cashback_nota || ''} ${o.resumen_condiciones || ''} ${tipoCb}`.toLowerCase().includes(q);
+      })
+      .map((o) => ({ o, g: ganancia(o, ahorros, gastoMes) }))
+      .sort((a, b) => {
+        if (estado.tipo === 'regalo') return (b.g.bono - a.g.bono) || (b.g.total - a.g.total);
+        if (estado.tipo === 'intereses') return (b.g.intereses - a.g.intereses) || (b.g.total - a.g.total);
+        if (estado.tipo === 'cashback') return (b.g.cashback - a.g.cashback) || (b.g.bono - a.g.bono) || (b.g.total - a.g.total);
+        return b.g.total - a.g.total;
+      });
 
     const frag = document.createDocumentFragment();
-    visibles.forEach((it, i) => frag.append(tarjeta(it, i + 1)));
-    if (!visibles.length) frag.append(el('li', { class: 'empty', text: 'No hay ofertas con estos filtros. Prueba a quitar “Solo sin nómina”.' }));
+    visibles.forEach((it, i) => frag.append(tarjeta(it, i + 1, gastoMes)));
+    if (!visibles.length) {
+      const msg = estado.tipo === 'cashback'
+        ? 'No hay opciones de cashback con estos filtros. Prueba a cambiar la subcategoría o limpiar la búsqueda.'
+        : 'No hay ofertas con estos filtros. Prueba a quitar “Solo sin nómina”.';
+      frag.append(el('li', { class: 'empty', text: msg }));
+    }
     ui.lista.replaceChildren(frag);
 
     const n = visibles.length;
-    ui.resumen.textContent = n
-      ? `${n} ${n === 1 ? 'oferta' : 'ofertas'} ordenadas de más a menos dinero el primer año, con ${fmtEUR.format(ahorros)} de ahorros.`
-      : '';
+    if (!n) {
+      ui.resumen.textContent = '';
+    } else if (estado.tipo === 'cashback') {
+      ui.resumen.textContent = `${n} ${n === 1 ? 'opción' : 'opciones'} de cashback (calculado con ${fmtEUR.format(gastoMes)}/mes en compras).`;
+    } else if (estado.tipo === 'regalo') {
+      ui.resumen.textContent = `${n} ${n === 1 ? 'oferta' : 'ofertas'} con regalo en efectivo ordenadas de mayor a menor bono.`;
+    } else if (estado.tipo === 'intereses') {
+      ui.resumen.textContent = `${n} ${n === 1 ? 'cuenta' : 'cuentas'} remuneradas ordenadas para ${fmtEUR.format(ahorros)} de ahorros.`;
+    } else {
+      ui.resumen.textContent = `${n} ${n === 1 ? 'oferta' : 'ofertas'} ordenadas de más a menos dinero el primer año (${fmtEUR.format(ahorros)} de ahorros y ${fmtEUR.format(gastoMes)}/mes en compras).`;
+    }
 
     if (destacada && !estado.scrollHecho) {
       const t = document.getElementById(`card-${destacada}`);
@@ -228,9 +312,15 @@
 
   /* ---------- Eventos ---------- */
   function initEventos() {
+    ui.tabs.forEach((t) => t.setAttribute('aria-selected', String(t.dataset.tipo === estado.tipo)));
     ui.tabs.forEach((tab) => tab.addEventListener('click', () => {
       estado.tipo = tab.dataset.tipo;
       ui.tabs.forEach((t) => t.setAttribute('aria-selected', String(t === tab)));
+      render();
+    }));
+    ui.subtabs.forEach((btn) => btn.addEventListener('click', () => {
+      estado.subCashback = btn.dataset.sub || 'todos';
+      ui.subtabs.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
       render();
     }));
     if (ui.buscar) {
@@ -241,6 +331,7 @@
     }
     ui.sinNomina.addEventListener('change', render);
     ui.ahorros.addEventListener('change', render);
+    if (ui.gasto) ui.gasto.addEventListener('change', render);
 
     ui.lista.addEventListener('click', (e) => {
       const t = e.target instanceof Element ? e.target : null;

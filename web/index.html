@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PromosBanco · Regalos de bancos y cuentas remuneradas en España</title>
-  <meta name="description" content="PromosBanco: todas las promociones reales de bancos en España en un solo sitio. Dinero por abrir cuenta o domiciliar la nómina y las cuentas remuneradas que más pagan, explicadas fácil.">
+  <title>PromosBanco · Regalos de bancos, cuentas remuneradas y cashback en España</title>
+  <meta name="description" content="PromosBanco: todas las promociones reales de bancos, tarjetas y apps de cashback en España en un solo sitio. Dinero por abrir cuenta o domiciliar la nómina, cuentas remuneradas y devolución en tus compras, explicadas fácil.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://promosbanco.github.io/">
   <meta name="color-scheme" content="light">
@@ -14,7 +14,7 @@
   <meta property="og:locale" content="es_ES">
   <meta property="og:site_name" content="PromosBanco">
   <meta property="og:title" content="PromosBanco · Los bancos te pagan. Te decimos cuál.">
-  <meta property="og:description" content="Promociones reales de bancos en España: dinero por abrir cuenta, por la nómina y cuentas remuneradas. Gratis y sin registro.">
+  <meta property="og:description" content="Promociones reales de bancos, tarjetas y apps de cashback en España: dinero por abrir cuenta, por la nómina, intereses por tus ahorros y devolución en compras. Gratis y sin registro.">
   <meta property="og:url" content="https://promosbanco.github.io/">
   <meta property="og:image" content="https://promosbanco.github.io/logo.png">
   <meta name="twitter:card" content="summary">
@@ -53,6 +53,16 @@
         "@type": "Question",
         "name": "¿Qué pasa si cancelo la cuenta antes de tiempo?",
         "acceptedAnswer": { "@type": "Answer", "text": "Si la promoción tiene permanencia y te vas antes, el banco puede pedirte que devuelvas parte del regalo. En cada oferta indicamos los meses de permanencia." }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Qué es el cashback y se puede combinar?",
+        "acceptedAnswer": { "@type": "Answer", "text": "El cashback te devuelve un porcentaje o importe fijo de tus compras. Hay tarjetas y bancos que lo ingresan al pagar y apps o portales (como iGraal, LetyShops o TopCashback) que te pagan por entrar desde su enlace o comprar vales. Muchos usuarios combinan ambos (entrar desde la app y pagar con una tarjeta con cashback) respetando el tope mensual de cada tarjeta." }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Qué hay que vigilar en las tarjetas de crédito con cashback?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Muchas tarjetas gratuitas con devolución en compras son tarjetas de crédito que incluyen modalidad aplazada o revolving. Configura siempre el pago total a fin de mes (100 %) para no pagar intereses que anularían el cashback ganado." }
       }
     ]
   }
@@ -77,7 +87,7 @@
       <div class="container">
         <p class="hero-kicker">Promociones reales · Actualizado <span id="fecha-actualizacion">noviembre 2026</span></p>
         <h1>Los bancos te pagan por ser su cliente.<br><span>Te decimos cuál te da más.</span></h1>
-        <p class="hero-sub">Dinero por abrir una cuenta, por llevar la nómina o por tus ahorros. Todo explicado fácil, gratis y sin registrarte.</p>
+        <p class="hero-sub">Dinero por abrir una cuenta, por llevar la nómina, por tus ahorros o de vuelta en tus compras (cashback). Todo explicado fácil, gratis y sin registrarte.</p>
       </div>
     </section>
 
@@ -86,10 +96,22 @@
         <button type="button" class="tab" role="tab" data-tipo="todas" aria-selected="true">Todas</button>
         <button type="button" class="tab" role="tab" data-tipo="regalo" aria-selected="false">🎁 Dinero de regalo</button>
         <button type="button" class="tab" role="tab" data-tipo="intereses" aria-selected="false">📈 Intereses por ahorrar</button>
+        <button type="button" class="tab" role="tab" data-tipo="cashback" aria-selected="false">💸 Cashback</button>
+      </div>
+
+      <div id="cashback-bar" class="cashback-bar" hidden>
+        <div class="subtabs" role="group" aria-label="Tipo de cashback">
+          <button type="button" class="subtab" data-sub="todos" aria-pressed="true">Todo cashback</button>
+          <button type="button" class="subtab" data-sub="plataforma" aria-pressed="false">🛒 Apps y compras online</button>
+          <button type="button" class="subtab" data-sub="tarjeta_banco" aria-pressed="false">🏦 Bancos y tarjetas</button>
+          <button type="button" class="subtab" data-sub="tarjeta_fintech" aria-pressed="false">📱 Fintech y débito</button>
+          <button type="button" class="subtab" data-sub="cripto" aria-pressed="false">🪙 Tarjetas cripto</button>
+        </div>
+        <p class="cashback-tip"><strong>💡 Truco de doble cashback:</strong> activa una app de compras (iGraal, LetyShops, TopCashback…) y paga con una tarjeta con cashback (Trade Republic, SumUp Pay, Carrefour PASS…). Cobras por los dos lados.</p>
       </div>
 
       <div class="filters-row">
-        <input id="buscar" class="search" type="search" placeholder="Buscar banco (BBVA, Openbank, ING…)" aria-label="Buscar banco" autocomplete="off">
+        <input id="buscar" class="search" type="search" placeholder="Buscar banco, tarjeta o app (BBVA, iGraal, SumUp…)" aria-label="Buscar banco, tarjeta o app" autocomplete="off">
         <label class="check">
           <input id="sin-nomina" type="checkbox">
           <span>Solo sin nómina</span>
@@ -102,6 +124,16 @@
             <option value="10000" selected>10.000 €</option>
             <option value="25000">25.000 €</option>
             <option value="50000">50.000 €</option>
+          </select>
+        </label>
+        <label class="savings">
+          <span>Gasto/mes</span>
+          <select id="gasto">
+            <option value="200">200 €</option>
+            <option value="500" selected>500 €</option>
+            <option value="1000">1.000 €</option>
+            <option value="1500">1.500 €</option>
+            <option value="2500">2.500 €</option>
           </select>
         </label>
       </div>
@@ -117,7 +149,7 @@
       <h2 id="como-titulo">Cómo funciona</h2>
       <ol class="steps">
         <li><span>1</span><div><strong>Elige una oferta</strong><p>Están ordenadas de la que más dinero te da a la que menos.</p></div></li>
-        <li><span>2</span><div><strong>Abre la cuenta desde el botón</strong><p>Se hace desde el móvil en unos minutos. Si hay código promocional, cópialo antes.</p></div></li>
+        <li><span>2</span><div><strong>Abre la cuenta o activa la app desde el botón</strong><p>Se hace desde el móvil en unos minutos. Si hay código promocional, cópialo antes.</p></div></li>
         <li><span>3</span><div><strong>Cumple los requisitos y cobra</strong><p>Normalmente el banco te paga en 1 o 2 meses. Revisa la permanencia en “Ver detalles”.</p></div></li>
       </ol>
     </section>
@@ -137,6 +169,8 @@
       <details><summary>¿Tengo que pagar impuestos por estos regalos?</summary><p>Sí. Los regalos en efectivo y los intereses tributan en el IRPF. Los bancos españoles suelen retener el 19 % automáticamente. Si la cuenta tiene IBAN extranjero, lo declaras tú en la renta (y si superas 50.000 € fuera de España, presentas el Modelo 720).</p></details>
       <details><summary>¿Es seguro abrir una cuenta en otro banco?</summary><p>Todos los bancos de esta web están autorizados en la Unión Europea y tu dinero está protegido por un fondo de garantía hasta 100.000 € por persona y banco (salvo los servicios cripto, que lo indicamos).</p></details>
       <details><summary>¿Qué pasa si cancelo la cuenta antes de tiempo?</summary><p>Si la promoción tiene permanencia y te vas antes, el banco puede pedirte que devuelvas parte del regalo. En cada oferta indicamos los meses de permanencia.</p></details>
+      <details><summary>¿Qué es el cashback y se puede combinar?</summary><p>El cashback te devuelve un porcentaje o importe fijo de tus compras. Hay tarjetas y bancos que lo ingresan al pagar y apps o portales (como iGraal, LetyShops o TopCashback) que te pagan por entrar desde su enlace o comprar vales. Muchos usuarios combinan ambos (entrar desde la app y pagar con una tarjeta con cashback) respetando el tope mensual de cada tarjeta.</p></details>
+      <details><summary>¿Qué hay que vigilar en las tarjetas de crédito con cashback?</summary><p>Muchas tarjetas gratuitas con devolución en compras son tarjetas de crédito que incluyen modalidad aplazada o revolving. Configura siempre el pago total a fin de mes (100 %) para no pagar intereses que anularían el cashback ganado.</p></details>
     </section>
   </main>
 

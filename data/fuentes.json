@@ -23,5 +23,35 @@
     "nombre": "MyInvestor - Cuenta remunerada",
     "url": "https://myinvestor.es/",
     "selector_css": ""
+  },
+  {
+    "nombre": "Cetelem - Cuenta Suma",
+    "url": "https://www.cetelem.es/",
+    "selector_css": ""
+  },
+  {
+    "nombre": "SumUp Pay - Cashback",
+    "url": "https://www.sumup.com/es-es/pay/",
+    "selector_css": ""
+  },
+  {
+    "nombre": "Plazo - Cashback",
+    "url": "https://plazo.es/",
+    "selector_css": ""
+  },
+  {
+    "nombre": "iGraal - España",
+    "url": "https://es.igraal.com/",
+    "selector_css": ""
+  },
+  {
+    "nombre": "LetyShops - España",
+    "url": "https://letyshops.com/es",
+    "selector_css": ""
+  },
+  {
+    "nombre": "Bit2Me - Tarjeta",
+    "url": "https://bit2me.com/es/card",
+    "selector_css": ""
   }
 ]

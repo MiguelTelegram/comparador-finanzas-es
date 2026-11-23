@@ -40,6 +40,24 @@ Los bancos que **no** tienen Plan Amigo (o cuando ya llegues al tope de 10 amigo
 
 ---
 
+## Opción 3: Plan Amigo en apps y tarjetas de Cashback (sin límite y sin nómina)
+
+Además de los bancos tradicionales, las **apps y tarjetas de cashback** tienen programas de invitación muy fáciles de activar (normalmente basta registrarse gratis en su app o web) y muchos **no tienen tope anual de invitados**:
+
+| Plataforma / Tarjeta | Qué ganas TÚ por amigo | Qué gana tu invitado | Dónde sacar tu enlace o código |
+| :--- | :--- | :--- | :--- |
+| **iGraal** | **10 % vitalicio** del cashback de tus amigos | **3 €** de bienvenida | Web/App → *Invitar amigos* |
+| **LetyShops** | **5 €** | **5 €** (tras 30 € en compras en 30 días) | Web/App → *Refiere y gana* |
+| **TopCashback España** | **10 € – 40 €** (según campaña) | **5 €** al acumular el mínimo | Web → *Invita y Gana* |
+| **Widilo** | **3 € – 6 €** | **3 € – 10 €** al validar el 1.er cashback | Web/App → *Invitar* |
+| **beruby** | Comisión/bono por 1.ª compra | **1 € – 3 €** de bienvenida | Web → *Invita a tus amigos* |
+| **Waylet (Repsol)** | **3 €** (app) / **40–80 €** (Plan Amigo luz/gas) | **3 €** en saldo | App Waylet → *Beneficios / Código amigo* |
+| **Gelt** | **2 €** | **2 €** tras subir su 1.er ticket válido | App Gelt → *Invita y gana* |
+| **Curve** | **1 % cashback** extra 30 días | **1 % cashback** extra 30 días (5 compras) | App Curve → *Refer a friend* |
+| **Plazo / Bit2Me / Bybit EU / Bleap / Amex** | Bonos o puntos variables según campaña | Bono o % extra según tarjeta | App / área de cliente → *Invitar* |
+
+---
+
 ## ¿Cómo me pasas tus enlaces?
 
 Solo escribe en el chat algo como:

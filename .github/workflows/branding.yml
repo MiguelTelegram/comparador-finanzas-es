@@ -34,7 +34,7 @@ jobs:
 
           curl -sS -X POST "$API/setChatDescription" \
             --data-urlencode "chat_id=${TELEGRAM_CHANNEL_ID}" \
-            --data-urlencode "description=Promociones reales de bancos en España: dinero por abrir cuenta, por la nómina y cuentas remuneradas. Solo avisamos cuando sale una oferta nueva. Todas aquí 👉 promosbanco.github.io" | check
+            --data-urlencode "description=Promociones reales de bancos en España: dinero por abrir cuenta, por la nómina, cuentas remuneradas y cashback en compras. Solo avisamos cuando sale una oferta nueva. Todas aquí 👉 promosbanco.github.io" | check
 
           if [ "$SOLO_DESCRIPCION" != "true" ]; then
             curl -sS -X POST "$API/setChatTitle" \

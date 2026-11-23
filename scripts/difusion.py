@@ -42,7 +42,14 @@ MAX_POR_EJECUCION = 3
 
 MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio",
          "agosto", "septiembre", "octubre", "noviembre", "diciembre"]
-PAISES = {"DE": "IBAN alemán", "NL": "IBAN holandés", "NO": "IBAN noruego", "FR": "IBAN francés"}
+PAISES = {
+    "DE": "IBAN alemán",
+    "NL": "IBAN holandés",
+    "NO": "IBAN noruego",
+    "FR": "IBAN francés",
+    "LT": "IBAN lituano",
+    "IE": "IBAN irlandés",
+}
 
 
 def cargar(ruta: Path, defecto: Any) -> Any:
@@ -80,7 +87,13 @@ def formatear_oferta(o: dict, site_url: str) -> str:
     if pais in PAISES and "iban" not in requisito.lower():
         requisito = f"{requisito} ({PAISES[pais]})" if requisito else PAISES[pais]
 
-    lineas = [f"🏦 <b>{esc(o.get('entidad', ''))}</b>", f"💶 <b>{esc(gancho)}</b>", ""]
+    if o.get("tipo_cashback") == "plataforma":
+        icono = "💸"
+    elif o.get("tipo") == "cashback":
+        icono = "💳"
+    else:
+        icono = "🏦"
+    lineas = [f"{icono} <b>{esc(o.get('entidad', ''))}</b>", f"💶 <b>{esc(gancho)}</b>", ""]
     if requisito:
         lineas.append(f"✅ {esc(requisito)}")
     if o.get("fecha_fin_promo"):

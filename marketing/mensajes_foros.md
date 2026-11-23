@@ -60,3 +60,14 @@ Exactamente el mismo formato ultra corto y claro que publica el canal de Telegra
 Por si te sirve para verlo rápido sin líos, aquí están ordenadas todas las promociones reales de bancos en España ahora mismo (regalos en efectivo y cuentas remuneradas con y sin nómina, poniendo cuánto tienes ahorrado):
 
 👉 https://promosbanco.github.io
+
+---
+
+## 6. Doble cashback en compras, tarjetas y apps (nuevo bloque)
+
+💸 **Truco de doble cashback en España (sin cambiar de nómina):**
+1️⃣ Activa antes una app/portal gratuito (como **iGraal**, **LetyShops**, **TopCashback**, **Widilo** o **Waylet** para gasolina / **Gelt** para tickets de súper).
+2️⃣ Paga con una tarjeta con cashback sin nómina (**SumUp Pay** 0,5%–5%, **Cetelem Cuenta Suma** 1,5% en súper y gasolineras, **Trade Republic** 1% Saveback o **Carrefour PASS** 1%–2%).
+
+Aquí están todas las opciones de cashback en España ordenadas según lo que gastas al mes:
+👉 https://promosbanco.github.io/?tab=cashback

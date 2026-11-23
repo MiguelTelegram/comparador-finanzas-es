@@ -155,6 +155,46 @@ img { display: block; max-width: 100%; }
 .tab:hover { color: var(--text); background: var(--bg); }
 .tab[aria-selected="true"] { background: var(--green); color: #fff; }
 
+.cashback-bar { margin-top: .75rem; display: grid; gap: .6rem; }
+.subtabs {
+  display: flex;
+  gap: .4rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: .1rem;
+}
+.subtabs::-webkit-scrollbar { display: none; }
+.subtab {
+  flex: 0 0 auto;
+  min-height: 36px;
+  padding: .35rem .8rem;
+  font: inherit;
+  font-size: .85rem;
+  font-weight: 700;
+  color: var(--text-2);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color .15s, background-color .15s, color .15s;
+}
+.subtab:hover { color: var(--text); border-color: #cbd5e1; }
+.subtab[aria-pressed="true"] {
+  background: var(--green-soft);
+  border-color: var(--green);
+  color: var(--green-dark);
+}
+.cashback-tip {
+  margin: 0;
+  padding: .65rem .9rem;
+  font-size: .88rem;
+  color: var(--text);
+  background: var(--green-soft);
+  border: 1px solid #c8eed6;
+  border-radius: 12px;
+}
+
 .filters-row {
   display: flex;
   flex-wrap: wrap;
@@ -240,6 +280,7 @@ img { display: block; max-width: 100%; }
 .pill { padding: .15rem .55rem; font-size: .72rem; font-weight: 800; border-radius: 999px; white-space: nowrap; }
 .pill-top { background: var(--green); color: #fff; }
 .pill-time { background: var(--orange-soft); color: var(--orange); }
+.pill-cat { background: var(--blue-soft); color: var(--blue-text); }
 
 .hook { margin: 1rem 0 .15rem; font-size: 1.65rem; font-weight: 800; line-height: 1.15; letter-spacing: -.03em; color: var(--green-dark); }
 .estimate { margin: 0 0 .9rem; font-size: .88rem; color: var(--text-2); }
@@ -344,7 +385,10 @@ img { display: block; max-width: 100%; }
   .hero { padding-top: 1.75rem; }
   .hero-sub { font-size: 1rem; }
   .tab { font-size: .88rem; padding-inline: .8rem; }
+  .subtab { font-size: .82rem; padding-inline: .7rem; }
   .filters-row { justify-content: flex-start; }
+  .search { flex: 1 1 100%; }
+  .savings { font-size: .9rem; }
   .hook { font-size: 1.5rem; }
   .telegram-cta { padding: 1.25rem; }
   .telegram-cta .btn { width: 100%; }
