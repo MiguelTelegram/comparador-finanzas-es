@@ -3,26 +3,24 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Comparador de cuentas remuneradas, regalos por nómina, Black Friday y cashback en España</title>
-  <meta name="description" content="Calcula cuánto dinero real ganas al año con cuentas remuneradas, promociones de Black Friday, regalos por nómina y tarjetas cashback en España. Filtra por nómina, IBAN español o extranjero y compara bancos lado a lado.">
+  <title>PromosBanco · Regalos de bancos y cuentas remuneradas en España</title>
+  <meta name="description" content="PromosBanco: todas las promociones reales de bancos en España en un solo sitio. Dinero por abrir cuenta o domiciliar la nómina y las cuentas remuneradas que más pagan, explicadas fácil.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://migueltelegram.github.io/comparador-finanzas-es/">
   <meta name="color-scheme" content="light">
-  <meta name="theme-color" content="#f4f7fb">
+  <meta name="theme-color" content="#16a34a">
 
-  <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:locale" content="es_ES">
-  <meta property="og:site_name" content="Chollos Bancos España · Comparador">
-  <meta property="og:title" content="¿Qué banco o tarjeta te da más dinero al año en España?">
-  <meta property="og:description" content="Calculadora gratuita con cuentas remuneradas, promociones Black Friday, regalos por nómina y tarjetas cashback reales en España. Bruto y neto tras IRPF.">
+  <meta property="og:site_name" content="PromosBanco">
+  <meta property="og:title" content="PromosBanco · Los bancos te pagan. Te decimos cuál.">
+  <meta property="og:description" content="Promociones reales de bancos en España: dinero por abrir cuenta, por la nómina y cuentas remuneradas. Gratis y sin registro.">
   <meta property="og:url" content="https://migueltelegram.github.io/comparador-finanzas-es/">
   <meta property="og:image" content="https://migueltelegram.github.io/comparador-finanzas-es/logo.png">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Comparador de bancos, cuentas remuneradas, bonos y cashback en España">
-  <meta name="twitter:description" content="Calcula tu beneficio anual real respetando topes, nómina y retención IRPF.">
 
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232563eb'/%3E%3Cpath d='M9 21l5-5 4 4 6-8' stroke='white' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="logo.png">
   <link rel="stylesheet" href="styles.css">
   <script src="app.js" defer></script>
 
@@ -33,299 +31,122 @@
     "mainEntity": [
       {
         "@type": "Question",
+        "name": "¿De verdad los bancos regalan dinero?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Sí. Para conseguir clientes nuevos, muchos bancos pagan un dinero en efectivo por abrir una cuenta o por llevar la nómina, o dan intereses altos por tus ahorros. A cambio suelen pedir algunos requisitos, como domiciliar la nómina, activar Bizum o mantener la cuenta unos meses." }
+      },
+      {
+        "@type": "Question",
         "name": "¿Qué es una cuenta remunerada?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Es una cuenta que paga intereses por el dinero que mantienes en ella, normalmente expresados en TAE. Muchas solo remuneran hasta un saldo máximo: por encima de ese importe el dinero no genera intereses o lo hace a un tipo menor. La calculadora aplica ese tope automáticamente."
-        }
+        "acceptedAnswer": { "@type": "Answer", "text": "Es una cuenta que te paga intereses por el dinero que tienes en ella, normalmente expresados en TAE. Por ejemplo, un 3% TAE sobre 10.000 € son unos 300 € al año." }
       },
       {
         "@type": "Question",
-        "name": "¿Qué diferencia hay entre TAE y TIN?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "El TIN es el tipo de interés nominal pactado con la entidad. La TAE incluye además la frecuencia de liquidación de los intereses (diaria, mensual…) y sirve para comparar productos entre sí. Usamos la TAE publicada como referencia; si la entidad cambia el tipo, los intereses reales también cambian."
-        }
+        "name": "¿Tengo que pagar impuestos por estos regalos?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Sí. Los regalos en efectivo y los intereses tributan en el IRPF. Los bancos españoles suelen retener el 19 % automáticamente. Si la cuenta tiene IBAN extranjero, lo declaras tú en la renta." }
       },
       {
         "@type": "Question",
-        "name": "¿Qué debo vigilar en los regalos en efectivo por domiciliar la nómina?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Los bancos suelen exigir un importe mínimo mensual de nómina o ingresos, una permanencia de entre 6 y 48 meses y activar Bizum o recibos. Si incumples la permanencia, te cobran la parte proporcional del regalo. Además, los incentivos en efectivo tributan en el IRPF con una retención habitual del 19 %."
-        }
+        "name": "¿Es seguro abrir una cuenta en otro banco?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Todos los bancos de esta web están autorizados en la Unión Europea y tu dinero está protegido por un fondo de garantía hasta 100.000 € por persona y banco (salvo los servicios cripto, que lo indicamos)." }
       },
       {
         "@type": "Question",
-        "name": "¿Cómo funciona el cashback y por qué importa el tope mensual?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "El cashback devuelve un porcentaje de tus compras con tarjeta, en euros, en acciones o ETF (saveback) o en criptomonedas. Casi siempre tiene un tope mensual: si gastas por encima de ese límite, no recibes más. Por eso una tarjeta con menor porcentaje pero sin tope puede compensar más si gastas mucho."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "¿Es seguro tener una cuenta con IBAN europeo (DE, NL, NO…) siendo residente en España?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Sí, siempre que la entidad esté autorizada en la Unión Europea o el Espacio Económico Europeo. Los depósitos están cubiertos por el fondo de garantía del país de origen hasta 100.000 € por titular y entidad (o su equivalente). Además, el Reglamento SEPA prohíbe la discriminación por IBAN."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "¿Cómo tributan los intereses, bonos y cashback en España?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Los intereses y regalos bancarios en efectivo tributan en la base del ahorro del IRPF (19 % hasta 6.000 €, 21 % hasta 50.000 €, 23 % hasta 200.000 €, 27 % hasta 300.000 € y 30 % a partir de ahí). Los bancos españoles suelen retener el 19 % automáticamente; las entidades extranjeras normalmente no retienen y debes declararlos tú en la renta."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "¿Cuándo tengo que presentar el Modelo 720 o el Modelo 721?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Si eres residente fiscal en España y, a 31 de diciembre o de media en el último trimestre, tienes más de 50.000 € sumando tus cuentas en el extranjero, debes presentar el Modelo 720 entre el 1 de enero y el 31 de marzo. Para criptomonedas custodiadas en el extranjero existe el Modelo 721 con el mismo umbral de 50.000 €."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "¿Cómo tributan las recompensas y ganancias en criptomonedas?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Las recompensas recibidas en cripto se valoran en euros en el momento de recibirlas y tributan en el IRPF. Al vender o intercambiar criptomonedas, la diferencia entre el valor de adquisición y el de transmisión tributa en la base del ahorro."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "¿Cómo se calcula el beneficio anual estimado?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Intereses anuales = mínimo entre tu saldo y el saldo máximo remunerado, multiplicado por la TAE. Cashback anual = mínimo entre tu gasto mensual por el porcentaje de cashback y el tope mensual, multiplicado por 12. A eso se suma el bono o regalo del primer año. Si activas el modo neto, aplicamos un descuento orientativo del 19 % por retención IRPF."
-        }
+        "name": "¿Qué pasa si cancelo la cuenta antes de tiempo?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Si la promoción tiene permanencia y te vas antes, el banco puede pedirte que devuelvas parte del regalo. En cada oferta indicamos los meses de permanencia." }
       }
     ]
   }
   </script>
 </head>
 <body>
-  <a class="skip-link" href="#calculadora">Saltar a la calculadora</a>
-
   <header class="site-header">
     <div class="container header-inner">
-      <a class="brand" href="./" aria-label="Comparador Finanzas ES, inicio">
-        <svg class="brand-logo" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="8"/><path d="M9 21l5-5 4 4 6-8"/></svg>
-        <span>Comparador Finanzas <abbr title="España">ES</abbr></span>
+      <a class="brand" href="./" aria-label="PromosBanco, inicio">
+        <img src="logo.png" alt="" width="36" height="36">
+        <span>Promos<strong>Banco</strong></span>
       </a>
-      <div class="header-actions">
-        <a class="btn btn-subtle telegram-btn" href="https://t.me/comparador_finanzas_es" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21.9 4.3 18.8 19c-.2 1-.8 1.3-1.7.8l-4.7-3.5-2.3 2.2c-.3.3-.5.5-1 .5l.3-4.8 8.8-7.9c.4-.3-.1-.5-.6-.2L6.7 12.9 2 11.4c-1-.3-1-1 .2-1.5L20.6 2.8c.8-.3 1.6.2 1.3 1.5z"/></svg>
-          <span>Avisos de promos en Telegram</span>
-        </a>
-        <button id="theme-toggle" type="button" class="btn btn-icon" aria-label="Cambiar tema claro u oscuro" title="Cambiar a modo oscuro" aria-pressed="false">
-          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
-          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32 1.41-1.41"/></svg>
-        </button>
-      </div>
+      <a class="btn btn-telegram" href="https://t.me/comparador_finanzas_es" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21.9 4.3 18.8 19c-.2 1-.8 1.3-1.7.8l-4.7-3.5-2.3 2.2c-.3.3-.5.5-1 .5l.3-4.8 8.8-7.9c.4-.3-.1-.5-.6-.2L6.7 12.9 2 11.4c-1-.3-1-1 .2-1.5L20.6 2.8c.8-.3 1.6.2 1.3 1.5z"/></svg>
+        <span class="hide-sm">Avisos en Telegram</span><span class="show-sm">Telegram</span>
+      </a>
     </div>
   </header>
 
-  <main id="contenido">
-    <section class="hero container" aria-labelledby="titulo">
-      <p class="kicker">Promociones y cuentas reales en España · Revisadas en noviembre de 2026</p>
-      <h1 id="titulo">Descubre qué banco te da <span class="text-accent">más dinero limpio al año</span></h1>
-      <p class="lead">Pon cuánto tienes ahorrado, cuánto gastas al mes con tarjeta y si puedes domiciliar nómina. Ordenamos cuentas remuneradas, regalos en efectivo, promos de Black Friday y tarjetas cashback reales de mayor a menor ganancia.</p>
-      <ul class="hero-stats" aria-label="Resumen actual">
-        <li><span>Mejor ganancia con tu perfil</span><strong id="stat-mejor">—</strong></li>
-        <li><span>Ofertas comparadas</span><strong id="stat-ofertas">—</strong></li>
-        <li><span>Regalos en efectivo</span><strong id="stat-bonos">—</strong></li>
-      </ul>
+  <main>
+    <section class="hero">
+      <div class="container">
+        <p class="hero-kicker">Promociones reales · Actualizado <span id="fecha-actualizacion">noviembre 2026</span></p>
+        <h1>Los bancos te pagan por ser su cliente.<br><span>Te decimos cuál te da más.</span></h1>
+        <p class="hero-sub">Dinero por abrir una cuenta, por llevar la nómina o por tus ahorros. Todo explicado fácil, gratis y sin registrarte.</p>
+      </div>
     </section>
 
-    <section id="calculadora" class="container card calculator" aria-labelledby="calc-titulo" tabindex="-1">
-      <h2 id="calc-titulo" class="calc-section-title">Tu perfil en 5 segundos</h2>
-
-      <div class="calc-grid">
-        <div class="field">
-          <div class="field-head">
-            <label for="saldo-num" id="saldo-label">Dinero que vas a meter (€)</label>
-            <div class="input-wrap">
-              <input id="saldo-num" class="num-input" type="number" inputmode="numeric" min="0" max="100000" step="500" value="10000">
-              <span class="input-suffix" aria-hidden="true">€</span>
-            </div>
-          </div>
-          <input id="saldo-range" type="range" min="0" max="100000" step="500" value="10000" aria-labelledby="saldo-label">
-          <div class="range-foot">
-            <div class="range-scale" aria-hidden="true"><span>0 €</span><span>100.000 €</span></div>
-            <div class="presets" aria-label="Cantidades rápidas de saldo">
-              <button type="button" class="preset-btn" data-target="saldo" data-val="3000">3.000 €</button>
-              <button type="button" class="preset-btn" data-target="saldo" data-val="10000">10.000 €</button>
-              <button type="button" class="preset-btn" data-target="saldo" data-val="25000">25.000 €</button>
-              <button type="button" class="preset-btn" data-target="saldo" data-val="50000">50.000 €</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="field">
-          <div class="field-head">
-            <label for="gasto-num" id="gasto-label">Gasto mensual con tarjeta (€)</label>
-            <div class="input-wrap">
-              <input id="gasto-num" class="num-input" type="number" inputmode="numeric" min="0" max="3000" step="10" value="800">
-              <span class="input-suffix" aria-hidden="true">€</span>
-            </div>
-          </div>
-          <input id="gasto-range" type="range" min="0" max="3000" step="10" value="800" aria-labelledby="gasto-label">
-          <div class="range-foot">
-            <div class="range-scale" aria-hidden="true"><span>0 €</span><span>3.000 €</span></div>
-            <div class="presets" aria-label="Cantidades rápidas de gasto">
-              <button type="button" class="preset-btn" data-target="gasto" data-val="300">300 €</button>
-              <button type="button" class="preset-btn" data-target="gasto" data-val="800">800 €</button>
-              <button type="button" class="preset-btn" data-target="gasto" data-val="1500">1.500 €</button>
-            </div>
-          </div>
-        </div>
+    <section class="container filters" aria-label="Filtrar ofertas">
+      <div class="tabs" role="tablist" aria-label="Tipo de oferta">
+        <button type="button" class="tab" role="tab" data-tipo="todas" aria-selected="true">Todas</button>
+        <button type="button" class="tab" role="tab" data-tipo="regalo" aria-selected="false">🎁 Dinero de regalo</button>
+        <button type="button" class="tab" role="tab" data-tipo="intereses" aria-selected="false">📈 Intereses por ahorrar</button>
       </div>
 
-      <div class="switches-row">
-        <label class="switch-label" for="toggle-nomina">
-          <input id="toggle-nomina" type="checkbox" checked>
-          <span class="switch-track" aria-hidden="true"></span>
-          <span>Puedo domiciliar nómina / ingresos</span>
+      <div class="filters-row">
+        <input id="buscar" class="search" type="search" placeholder="Buscar banco (BBVA, Openbank, ING…)" aria-label="Buscar banco" autocomplete="off">
+        <label class="check">
+          <input id="sin-nomina" type="checkbox">
+          <span>Solo sin nómina</span>
         </label>
-
-        <label class="switch-label" for="toggle-neto">
-          <input id="toggle-neto" type="checkbox">
-          <span class="switch-track" aria-hidden="true"></span>
-          <span>Ver beneficio neto aprox. tras Hacienda (-19% IRPF)</span>
-        </label>
-      </div>
-
-      <div class="toolbar">
-        <div class="search-box">
-          <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M8.5 3a5.5 5.5 0 1 0 3.47 9.76l4.13 4.14a.75.75 0 1 0 1.06-1.06l-4.14-4.13A5.5 5.5 0 0 0 8.5 3Zm-4 5.5a4 4 0 1 1 8 0 4 4 0 0 1-8 0Z"/></svg>
-          <label for="buscar" class="visually-hidden">Buscar banco o promoción</label>
-          <input id="buscar" type="search" placeholder="Buscar banco (BBVA, Openbank, Sabadell, ING, MyInvestor…)" autocomplete="off">
-        </div>
-        <div class="sort-box">
-          <label for="ordenar">Ordenar por</label>
-          <select id="ordenar">
-            <option value="total">Mayor beneficio anual</option>
-            <option value="bono">Mayor regalo en efectivo</option>
-            <option value="tae">Mayor TAE (%)</option>
-            <option value="cashback">Mayor cashback (%)</option>
+        <label class="savings">
+          <span>Mis ahorros</span>
+          <select id="ahorros">
+            <option value="0">0 €</option>
+            <option value="3000">3.000 €</option>
+            <option value="10000" selected>10.000 €</option>
+            <option value="25000">25.000 €</option>
+            <option value="50000">50.000 €</option>
           </select>
-        </div>
+        </label>
       </div>
-
-      <div class="chips" role="group" aria-label="Filtros de ofertas">
-        <button type="button" class="chip" data-filter="todos" aria-pressed="true">Todos</button>
-        <button type="button" class="chip" data-filter="promos" aria-pressed="false">🔥 Black Friday y Regalos</button>
-        <button type="button" class="chip" data-filter="remunerada" aria-pressed="false">📈 Cuentas Remuneradas</button>
-        <button type="button" class="chip" data-filter="cashback" aria-pressed="false">💳 Cashback</button>
-        <button type="button" class="chip" data-filter="ibanES" aria-pressed="false">🇪🇸 IBAN Español</button>
-        <button type="button" class="chip" data-filter="ibanUE" aria-pressed="false">🇪🇺 IBAN Extranjero</button>
-        <button type="button" class="chip" data-filter="crypto" aria-pressed="false">🪙 Crypto</button>
-        <button type="button" class="chip" data-filter="sinNomina" aria-pressed="false">🆓 Sin nómina</button>
-      </div>
+      <p id="resumen" class="resumen" aria-live="polite">Cargando ofertas…</p>
     </section>
 
-    <section class="container results" aria-labelledby="resultados-titulo">
-      <div id="combo-banner" class="combo-banner" hidden></div>
+    <section class="container" aria-label="Ofertas">
+      <ol id="ofertas" class="grid"></ol>
+      <noscript><p class="empty">Activa JavaScript para ver las ofertas.</p></noscript>
+    </section>
 
-      <div class="results-head">
-        <h2 id="resultados-titulo">Ranking personalizado para tu perfil</h2>
-        <p id="resumen" class="muted" aria-live="polite">Cargando ofertas…</p>
+    <section class="container how" aria-labelledby="como-titulo">
+      <h2 id="como-titulo">Cómo funciona</h2>
+      <ol class="steps">
+        <li><span>1</span><div><strong>Elige una oferta</strong><p>Están ordenadas de la que más dinero te da a la que menos.</p></div></li>
+        <li><span>2</span><div><strong>Abre la cuenta desde el botón</strong><p>Se hace desde el móvil en unos minutos. Si hay código promocional, cópialo antes.</p></div></li>
+        <li><span>3</span><div><strong>Cumple los requisitos y cobra</strong><p>Normalmente el banco te paga en 1 o 2 meses. Revisa la permanencia en “Ver detalles”.</p></div></li>
+      </ol>
+    </section>
+
+    <section class="container telegram-cta">
+      <div>
+        <h2>¿Quieres enterarte cuando salga una promo nueva?</h2>
+        <p>Te avisamos gratis en Telegram, solo con ofertas nuevas. Sin spam.</p>
       </div>
-
-      <aside id="aviso-fiscal" class="notice" role="note" hidden>
-        <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M10 2a8 8 0 1 1 0 16 8 8 0 0 1 0-16Zm0 7a.75.75 0 0 0-.75.75v4.5a.75.75 0 0 0 1.5 0v-4.5A.75.75 0 0 0 10 9Zm0-3a1 1 0 1 0 0 2 1 1 0 0 0 0-2Z"/></svg>
-        <p><strong>Fiscalidad en España:</strong> si la suma de tus saldos en cuentas en el extranjero supera los 50.000 €, debes presentar el <strong>Modelo 720</strong>. Las recompensas y ganancias en criptomonedas tributan en el <strong>IRPF</strong> (y las cripto custodiadas fuera de España por encima de 50.000 € se declaran en el Modelo 721).</p>
-      </aside>
-
-      <ol id="resultados" class="result-list"></ol>
-      <noscript><p class="notice">Activa JavaScript para usar la calculadora.</p></noscript>
+      <a class="btn btn-white" href="https://t.me/comparador_finanzas_es" target="_blank" rel="noopener">Unirme al canal</a>
     </section>
 
     <section class="container faq" aria-labelledby="faq-titulo">
       <h2 id="faq-titulo">Preguntas frecuentes</h2>
-
-      <details class="card">
-        <summary>¿Qué es una cuenta remunerada?</summary>
-        <p>Es una cuenta que paga intereses por el dinero que mantienes en ella, normalmente expresados en TAE. Muchas solo remuneran hasta un saldo máximo: por encima de ese importe el dinero no genera intereses o lo hace a un tipo menor. La calculadora aplica ese tope automáticamente.</p>
-      </details>
-
-      <details class="card">
-        <summary>¿Qué diferencia hay entre TAE y TIN?</summary>
-        <p>El TIN es el tipo de interés nominal pactado con la entidad. La TAE incluye además la frecuencia de liquidación de los intereses (diaria, mensual…) y sirve para comparar productos entre sí. Usamos la TAE publicada como referencia; si la entidad cambia el tipo, los intereses reales también cambian.</p>
-      </details>
-
-      <details class="card">
-        <summary>¿Qué debo vigilar en los regalos en efectivo por domiciliar la nómina?</summary>
-        <p>Los bancos suelen exigir un importe mínimo mensual de nómina o ingresos, una permanencia de entre 6 y 48 meses y activar Bizum o recibos. Si incumples la permanencia, te cobran la parte proporcional del regalo. Además, los incentivos en efectivo tributan en el IRPF con una retención habitual del 19 %.</p>
-      </details>
-
-      <details class="card">
-        <summary>¿Cómo funciona el cashback y por qué importa el tope mensual?</summary>
-        <p>El cashback devuelve un porcentaje de tus compras con tarjeta, en euros, en acciones o ETF (saveback) o en criptomonedas. Casi siempre tiene un tope mensual: si gastas por encima de ese límite, no recibes más. Por eso una tarjeta con menor porcentaje pero sin tope puede compensar más si gastas mucho.</p>
-      </details>
-
-      <details class="card">
-        <summary>¿Es seguro tener una cuenta con IBAN europeo (DE, NL, NO…) siendo residente en España?</summary>
-        <p>Sí, siempre que la entidad esté autorizada en la Unión Europea o el Espacio Económico Europeo. Los depósitos están cubiertos por el fondo de garantía del país de origen hasta 100.000 € por titular y entidad (o su equivalente). Además, el Reglamento SEPA (UE 260/2012) prohíbe la discriminación por IBAN.</p>
-      </details>
-
-      <details class="card">
-        <summary>¿Cómo tributan los intereses, bonos y cashback en España?</summary>
-        <p>Los intereses y regalos en efectivo tributan en la base del ahorro del IRPF (19 % hasta 6.000 €, 21 % hasta 50.000 €, 23 % hasta 200.000 €, 27 % hasta 300.000 € y 30 % a partir de ahí). Los bancos españoles suelen retener el 19 % automáticamente; las entidades extranjeras normalmente no retienen y debes declararlos tú en la renta.</p>
-      </details>
-
-      <details class="card">
-        <summary>¿Cuándo tengo que presentar el Modelo 720 o el Modelo 721?</summary>
-        <p>Si eres residente fiscal en España y, a 31 de diciembre o de media en el último trimestre, tienes más de 50.000 € sumando tus cuentas en el extranjero, debes presentar el Modelo 720 entre el 1 de enero y el 31 de marzo. Para criptomonedas custodiadas en el extranjero existe el Modelo 721, con el mismo umbral de 50.000 €.</p>
-      </details>
-
-      <details class="card">
-        <summary>¿Cómo tributan las recompensas y ganancias en criptomonedas?</summary>
-        <p>Las recompensas recibidas en cripto (cashback, staking, intereses) se valoran en euros en el momento de recibirlas y tributan en el IRPF. Al vender o intercambiar criptomonedas, la diferencia entre el valor de adquisición y el de transmisión es una ganancia o pérdida patrimonial de la base del ahorro.</p>
-      </details>
-
-      <details class="card">
-        <summary>¿Cómo se calcula el beneficio anual estimado?</summary>
-        <p>Intereses anuales = mínimo entre tu saldo y el saldo máximo remunerado, multiplicado por la TAE. Cashback anual = mínimo entre tu gasto mensual por el porcentaje de cashback y el tope mensual, multiplicado por 12. A eso se suma el regalo o bono del primer año. Si activas el modo neto, aplicamos un descuento orientativo del 19 % por retención IRPF.</p>
-      </details>
+      <details><summary>¿De verdad los bancos regalan dinero?</summary><p>Sí. Para conseguir clientes nuevos, muchos bancos pagan un dinero en efectivo por abrir una cuenta o por llevar la nómina, o dan intereses altos por tus ahorros. A cambio suelen pedir algunos requisitos, como domiciliar la nómina, activar Bizum o mantener la cuenta unos meses.</p></details>
+      <details><summary>¿Qué es una cuenta remunerada?</summary><p>Es una cuenta que te paga intereses por el dinero que tienes en ella, normalmente expresados en TAE. Por ejemplo, un 3% TAE sobre 10.000 € son unos 300 € al año.</p></details>
+      <details><summary>¿Tengo que pagar impuestos por estos regalos?</summary><p>Sí. Los regalos en efectivo y los intereses tributan en el IRPF. Los bancos españoles suelen retener el 19 % automáticamente. Si la cuenta tiene IBAN extranjero, lo declaras tú en la renta (y si superas 50.000 € fuera de España, presentas el Modelo 720).</p></details>
+      <details><summary>¿Es seguro abrir una cuenta en otro banco?</summary><p>Todos los bancos de esta web están autorizados en la Unión Europea y tu dinero está protegido por un fondo de garantía hasta 100.000 € por persona y banco (salvo los servicios cripto, que lo indicamos).</p></details>
+      <details><summary>¿Qué pasa si cancelo la cuenta antes de tiempo?</summary><p>Si la promoción tiene permanencia y te vas antes, el banco puede pedirte que devuelvas parte del regalo. En cada oferta indicamos los meses de permanencia.</p></details>
     </section>
   </main>
 
   <footer class="site-footer">
-    <div class="container footer-inner">
-      <a class="btn btn-subtle telegram-btn" href="https://t.me/comparador_finanzas_es" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21.9 4.3 18.8 19c-.2 1-.8 1.3-1.7.8l-4.7-3.5-2.3 2.2c-.3.3-.5.5-1 .5l.3-4.8 8.8-7.9c.4-.3-.1-.5-.6-.2L6.7 12.9 2 11.4c-1-.3-1-1 .2-1.5L20.6 2.8c.8-.3 1.6.2 1.3 1.5z"/></svg>
-        <span>Únete al canal de Telegram (@comparador_finanzas_es)</span>
-      </a>
-      <p class="disclosure"><strong>Transparencia:</strong> algunos enlaces de esta web pueden ser de afiliación o referido. Si abres una cuenta a través de ellos podemos recibir una comisión o bonificación, <strong>sin ningún coste adicional para ti</strong> y sin que influya en el orden del ranking, que se calcula solo con tus datos.</p>
-      <p class="muted small">La información es orientativa y no constituye asesoramiento financiero ni fiscal. Las condiciones y promociones pueden cambiar sin previo aviso: comprueba siempre la web oficial de cada entidad antes de contratar.</p>
-      <p class="muted small">© 2026 Comparador Finanzas ES</p>
+    <div class="container">
+      <a class="brand brand-sm" href="./"><img src="logo.png" alt="" width="28" height="28"><span>Promos<strong>Banco</strong></span></a>
+      <p><strong>Transparencia:</strong> algunos enlaces son de invitación o afiliación. Si abres una cuenta con ellos podemos recibir una pequeña comisión, sin ningún coste para ti y sin que cambie el orden de las ofertas.</p>
+      <p class="muted">Información orientativa, no es asesoramiento financiero. Las condiciones pueden cambiar: compruébalas siempre en la web del banco antes de contratar. © 2026 PromosBanco</p>
     </div>
   </footer>
-
-  <!-- Barra flotante comparador -->
-  <div id="compare-bar" class="compare-bar" hidden>
-    <div class="compare-bar-inner">
-      <span id="compare-count" class="compare-count">0 seleccionadas</span>
-      <div class="compare-bar-actions">
-        <button id="btn-limpiar-comp" type="button" class="btn btn-subtle btn-sm">Limpiar</button>
-        <button id="btn-abrir-comp" type="button" class="btn btn-primary btn-sm">Comparar lado a lado</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal comparador -->
-  <dialog id="modal-comparar" class="compare-modal" aria-labelledby="modal-comp-titulo">
-    <div class="modal-head">
-      <h2 id="modal-comp-titulo">Comparativa lado a lado</h2>
-      <button id="btn-cerrar-comp" type="button" class="btn btn-icon" aria-label="Cerrar comparativa">✕</button>
-    </div>
-    <div id="tabla-comparar" class="modal-body"></div>
-  </dialog>
 
   <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
 </body>

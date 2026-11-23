@@ -1,687 +1,278 @@
 /* =========================================================
-   Comparador Finanzas ES — lógica interactiva completa
-   Vanilla JS, sin dependencias.
+   PromosBanco — lógica de la web (Vanilla JS, sin dependencias)
    ========================================================= */
 'use strict';
 
 (() => {
   const DATA_URL = 'data/ofertas.json';
   const SHORT_URL = 'https://migueltelegram.github.io';
-  const RETENCION_NETO = 0.81;
+  const GASTO_TARJETA_MES = 500;
 
-  const LIMITES = {
-    gasto: { min: 0, max: 3000 },
-    saldo: { min: 0, max: 100000 },
+  const COLORES = {
+    'BBVA': '#004481', 'Banco Sabadell': '#006dff', 'Banco Santander': '#ec0000', 'ABANCA': '#0369a1',
+    'Deutsche Bank': '#0018a8', 'Cajamar': '#1e3a8a', 'Kutxabank': '#111827', 'Unicaja': '#15803d',
+    'CaixaBank': '#007eae', 'imagin': '#0f172a', 'ING': '#ea580c', 'Ibercaja': '#1e40af',
+    'Bankinter': '#c2410c', 'Openbank': '#dc2626', 'MyInvestor': '#4f46e5', 'B100 (Abanca)': '#0ea5e9',
+    'Renault Bank': '#ca8a04', 'N26': '#0d9488', 'Trade Republic': '#18181b', 'Revolut': '#2563eb',
+    'Raisin': '#0f766e', 'bunq': '#16a34a', 'Bank Norwegian': '#b91c1c', 'Crypto.com': '#1d4ed8', 'Nexo': '#1e40af',
   };
-
-  const PAISES = {
-    ES: 'España', DE: 'Alemania', NL: 'Países Bajos', NO: 'Noruega',
-    FR: 'Francia', IE: 'Irlanda', LT: 'Lituania', BE: 'Bélgica',
+  const INICIALES = {
+    'Banco Sabadell': 'SB', 'Banco Santander': 'BS', 'Deutsche Bank': 'DB', 'B100 (Abanca)': 'B1',
+    'Renault Bank': 'RB', 'Trade Republic': 'TR', 'Bank Norwegian': 'BN', 'Crypto.com': 'C', 'imagin': 'im',
+    'MyInvestor': 'MI', 'Kutxabank': 'KB', 'Cajamar': 'CJ', 'CaixaBank': 'CX',
   };
+  const PAISES = { DE: 'alemán', NL: 'holandés', NO: 'noruego', FR: 'francés', LT: 'lituano', IE: 'irlandés' };
 
-  const AVATARES = {
-    'bbva-black-friday': 'BB', 'bbva-plan-1060': 'BB', 'sabadell-online': 'SB',
-    'santander-online': 'BS', 'abanca-nomina': 'AB', 'deutsche-bank-mas': 'DB',
-    'cajamar-nomina': 'CJ', 'kutxabank-nomina': 'KB', 'unicaja-nomina': 'UN',
-    'caixabank-online': 'CX', 'imagin-nomina': 'im', 'ing-nomina': 'ING',
-    'ibercaja-vamos': 'IB', 'bankinter-nomina': 'BK', 'openbank-remunerada': 'OB',
-    'myinvestor-remunerada': 'MI', 'b100-health': 'B1', 'renault-bank-contigo': 'RB',
-    'n26-ahorro': 'N26', 'trade-republic': 'TR', 'revolut-remunerada': 'R',
-    'raisin-bienvenida': 'Ra', 'bunq-free': 'bq', 'bank-norwegian': 'BN',
-    'cryptocom-levelup': 'C', 'nexo-card': 'Nx',
-  };
+  const fmtEUR = new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0, useGrouping: 'always' });
+  const fmtFecha = new Intl.DateTimeFormat('es-ES', { day: 'numeric', month: 'long', timeZone: 'UTC' });
+  const fmtMes = new Intl.DateTimeFormat('es-ES', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
 
-  const FILTROS = {
-    promos: (o) => o.es_promo_temporal === true || num(o.bono_fijo_eur) > 0,
-    remunerada: (o) => num(o.tae) > 0,
-    cashback: (o) => num(o.porcentaje_cashback) > 0,
-    ibanES: (o) => o.pais_iban === 'ES',
-    ibanUE: (o) => esIbanExtranjero(o),
-    crypto: (o) => o.es_crypto === true,
-    sinNomina: (o) => o.sin_nomina === true,
-  };
-
-  const fmtEUR = new Intl.NumberFormat('es-ES', {
-    style: 'currency', currency: 'EUR', minimumFractionDigits: 2, maximumFractionDigits: 2, useGrouping: 'always',
-  });
-  const fmtEURCorto = new Intl.NumberFormat('es-ES', {
-    style: 'currency', currency: 'EUR', maximumFractionDigits: 0, useGrouping: 'always',
-  });
-  const fmtPct = new Intl.NumberFormat('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
-  const fmtFecha = new Intl.DateTimeFormat('es-ES', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
-
-  const $ = (sel) => document.querySelector(sel);
-
+  const $ = (s) => document.querySelector(s);
   const ui = {
-    gastoRange: $('#gasto-range'),
-    gastoNum: $('#gasto-num'),
-    saldoRange: $('#saldo-range'),
-    saldoNum: $('#saldo-num'),
-    presets: Array.from(document.querySelectorAll('.preset-btn')),
-    toggleNomina: $('#toggle-nomina'),
-    toggleNeto: $('#toggle-neto'),
+    tabs: Array.from(document.querySelectorAll('.tab')),
     buscar: $('#buscar'),
-    ordenar: $('#ordenar'),
-    chips: Array.from(document.querySelectorAll('.chip')),
-    comboBanner: $('#combo-banner'),
-    lista: $('#resultados'),
+    sinNomina: $('#sin-nomina'),
+    ahorros: $('#ahorros'),
+    lista: $('#ofertas'),
     resumen: $('#resumen'),
-    avisoFiscal: $('#aviso-fiscal'),
-    statMejor: $('#stat-mejor'),
-    statOfertas: $('#stat-ofertas'),
-    statBonos: $('#stat-bonos'),
-    themeToggle: $('#theme-toggle'),
-    compareBar: $('#compare-bar'),
-    compareCount: $('#compare-count'),
-    btnLimpiarComp: $('#btn-limpiar-comp'),
-    btnAbrirComp: $('#btn-abrir-comp'),
-    modalComparar: $('#modal-comparar'),
-    btnCerrarComp: $('#btn-cerrar-comp'),
-    tablaComparar: $('#tabla-comparar'),
+    fecha: $('#fecha-actualizacion'),
     toast: $('#toast'),
   };
 
-  const params = new URLSearchParams(window.location.search);
-  const ofertaDestacada = params.get('o') || params.get('oferta');
-
-  const estado = {
-    ofertas: [],
-    filtros: new Set(),
-    comparar: new Set(),
-    busqueda: '',
-    orden: 'total',
-    scrollHecho: false,
-    toastTimer: null,
-  };
-
-  /* ---------- Tema claro / oscuro manual ---------- */
-  function aplicarTema(tema) {
-    const oscuro = tema === 'dark';
-    document.documentElement.dataset.theme = oscuro ? 'dark' : 'light';
-    if (ui.themeToggle) {
-      ui.themeToggle.setAttribute('aria-pressed', String(oscuro));
-      ui.themeToggle.title = oscuro ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro';
-    }
-  }
-
-  function initTema() {
-    let guardado = 'light';
-    try {
-      if (localStorage.getItem('tema') === 'dark') guardado = 'dark';
-    } catch { /* sin storage */ }
-    aplicarTema(guardado);
-
-    if (ui.themeToggle) {
-      ui.themeToggle.addEventListener('click', () => {
-        const siguiente = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
-        aplicarTema(siguiente);
-        try { localStorage.setItem('tema', siguiente); } catch { /* noop */ }
-      });
-    }
-  }
+  const params = new URLSearchParams(location.search);
+  const destacada = params.get('o') || params.get('oferta');
+  const estado = { ofertas: [], tipo: 'todas', busqueda: '', scrollHecho: false, toastTimer: null };
 
   /* ---------- Utilidades ---------- */
-  function num(v) {
-    const n = Number(v);
-    return Number.isFinite(n) ? n : 0;
-  }
-
-  function clamp(v, { min, max }) {
-    return Math.min(Math.max(num(v), min), max);
-  }
-
-  function esIbanExtranjero(o) {
-    return Boolean(o.pais_iban) && o.pais_iban !== 'ES' && o.pais_iban !== 'N/A';
-  }
-
-  function actualizarProgreso(range, limites) {
-    const val = clamp(range.value, limites);
-    const pct = ((val - limites.min) / (limites.max - limites.min)) * 100;
-    range.style.setProperty('--progress', `${pct}%`);
-  }
-
-  function el(tag, attrs = {}, children = []) {
-    const node = document.createElement(tag);
-    for (const [k, v] of Object.entries(attrs)) {
-      if (v === null || v === undefined || v === false) continue;
-      if (k === 'class') node.className = v;
-      else if (k === 'text') node.textContent = v;
-      else node.setAttribute(k, v === true ? '' : String(v));
-    }
-    for (const child of [].concat(children)) {
-      if (child === null || child === undefined || child === false) continue;
-      node.append(child instanceof Node ? child : document.createTextNode(String(child)));
-    }
-    return node;
-  }
-
-  function formatearFecha(iso) {
+  const num = (v) => (Number.isFinite(Number(v)) ? Number(v) : 0);
+  const hoyISO = () => new Date().toISOString().slice(0, 10);
+  const fecha = (iso) => {
     const d = new Date(`${iso}T00:00:00Z`);
     return Number.isNaN(d.getTime()) ? iso : fmtFecha.format(d);
+  };
+  const diasHasta = (iso) => Math.round((new Date(`${iso}T00:00:00Z`) - new Date(`${hoyISO()}T00:00:00Z`)) / 86400000);
+
+  function el(tag, attrs = {}, children = []) {
+    const n = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs)) {
+      if (v === null || v === undefined || v === false) continue;
+      if (k === 'class') n.className = v;
+      else if (k === 'text') n.textContent = v;
+      else if (k === 'style') n.style.cssText = v;
+      else n.setAttribute(k, v === true ? '' : String(v));
+    }
+    for (const c of [].concat(children)) {
+      if (c === null || c === undefined || c === false) continue;
+      n.append(c instanceof Node ? c : document.createTextNode(String(c)));
+    }
+    return n;
   }
 
-  function iniciales(o) {
-    if (AVATARES[o.id]) return AVATARES[o.id];
-    const palabras = String(o.entidad || '?').trim().split(/\s+/);
-    return palabras.length > 1
-      ? (palabras[0][0] + palabras[1][0]).toUpperCase()
-      : String(o.entidad || '?').slice(0, 2);
+  function iniciales(entidad) {
+    if (INICIALES[entidad]) return INICIALES[entidad];
+    const t = String(entidad || '?').replace(/[^\p{L}\p{N} ]/gu, '').trim();
+    return t.length <= 4 ? t : t.slice(0, 2).toUpperCase();
   }
 
-  function urlConUtm(oferta) {
+  function urlConUtm(o) {
     try {
-      const url = new URL(oferta.url_referido);
-      url.searchParams.set('utm_source', 'comparador');
-      url.searchParams.set('utm_medium', 'web');
-      url.searchParams.set('utm_campaign', oferta.utm_campaign || oferta.id);
-      return url.toString();
+      const u = new URL(o.url_referido);
+      u.searchParams.set('utm_source', 'promosbanco');
+      u.searchParams.set('utm_medium', 'web');
+      u.searchParams.set('utm_campaign', o.utm_campaign || o.id);
+      return u.toString();
     } catch {
-      return oferta.url_referido || '#';
+      return o.url_referido || '#';
     }
   }
 
-  function mostrarToast(texto) {
-    if (!ui.toast) return;
+  function toast(texto) {
     ui.toast.textContent = texto;
     ui.toast.hidden = false;
     clearTimeout(estado.toastTimer);
-    estado.toastTimer = setTimeout(() => { ui.toast.hidden = true; }, 2600);
+    estado.toastTimer = setTimeout(() => { ui.toast.hidden = true; }, 2400);
   }
 
-  async function copiarTexto(texto, mensajeToast) {
+  async function copiar(texto, mensaje) {
     try {
       await navigator.clipboard.writeText(texto);
-      mostrarToast(mensajeToast);
+      toast(mensaje);
     } catch {
-      mostrarToast('No se pudo copiar automáticamente.');
+      toast('No se pudo copiar automáticamente');
     }
   }
 
   /* ---------- Cálculo ---------- */
-  function calcular(oferta, gastoMensual, saldo, esNeto) {
-    const factor = esNeto ? RETENCION_NETO : 1;
-    const intereses = Math.min(saldo, oferta.saldo_maximo_remunerado ?? Infinity) * (num(oferta.tae) / 100) * factor;
-    const cashback = Math.min(
-      gastoMensual * (num(oferta.porcentaje_cashback) / 100),
-      oferta.tope_mensual_eur ?? Infinity,
-    ) * 12;
-    const bono = num(oferta.bono_fijo_eur) * factor;
+  function ganancia(o, ahorros) {
+    const intereses = Math.min(ahorros, o.saldo_maximo_remunerado ?? Infinity) * (num(o.tae) / 100);
+    const cashback = Math.min(GASTO_TARJETA_MES * (num(o.porcentaje_cashback) / 100), o.tope_mensual_eur ?? Infinity) * 12;
+    const bono = num(o.bono_fijo_eur);
     return { intereses, cashback, bono, total: intereses + cashback + bono };
   }
 
-  function leerValores() {
-    return {
-      gasto: clamp(ui.gastoNum.value, LIMITES.gasto),
-      saldo: clamp(ui.saldoNum.value, LIMITES.saldo),
-      permiteNomina: ui.toggleNomina ? ui.toggleNomina.checked : true,
-      esNeto: ui.toggleNeto ? ui.toggleNeto.checked : false,
-    };
+  /* ---------- Texto para foros (igual que Telegram) ---------- */
+  function textoForo(o) {
+    const lineas = [`🏦 ${o.entidad}`, `💶 ${o.gancho || o.etiqueta_promo || o.nombre}`, ''];
+    lineas.push(`✅ ${o.requisito_corto || o.requisitos_resumen || ''}`);
+    if (o.fecha_fin_promo) lineas.push(`⏰ Hasta el ${fecha(o.fecha_fin_promo)}`);
+    if (o.codigo_promo) lineas.push(`🔑 Código: ${o.codigo_promo}`);
+    lineas.push('', `👉 ${SHORT_URL}`);
+    return lineas.join('\n');
   }
 
-  function actualizarPresets() {
-    const { gasto, saldo } = leerValores();
-    ui.presets.forEach((btn) => {
-      const v = Number(btn.dataset.val);
-      const actual = btn.dataset.target === 'saldo' ? saldo : gasto;
-      btn.classList.toggle('is-active', actual === v);
-    });
+  /* ---------- Render ---------- */
+  function hechos(o) {
+    const req = String(o.requisito_corto || o.requisitos_resumen || '');
+    const reqLow = req.toLowerCase();
+    const lista = [el('li', { text: req })];
+    const perm = String(o.permanencia || '');
+    if (perm && !/^sin permanencia/i.test(perm) && !reqLow.includes('mes')) {
+      lista.push(el('li', { class: 'warn', text: `Permanencia: ${perm}` }));
+    }
+    if (o.es_crypto) {
+      lista.push(el('li', { class: 'warn', text: 'Servicio cripto (sin fondo de garantía bancario)' }));
+    } else if (o.pais_iban && o.pais_iban !== 'ES') {
+      lista.push(el('li', { class: 'warn', text: `IBAN ${PAISES[o.pais_iban] || o.pais_iban} (lo declaras tú en la renta)` }));
+    }
+    if (o.sin_comisiones) lista.push(el('li', { text: 'Sin comisiones' }));
+    return el('ul', { class: 'facts' }, lista);
   }
 
-  /* ---------- Texto para copiar y pegar en foros ---------- */
-  function textoParaForo(oferta) {
-    const titular = `${oferta.entidad} · ${oferta.etiqueta_promo || oferta.nombre}`;
-    const cuerpo = (oferta.texto_telegram || oferta.requisitos_resumen || oferta.resumen_condiciones || '').trim();
-    return `${titular}\n\n${cuerpo}\n\nMás info y calculadora:\n${SHORT_URL}`;
-  }
-
-  /* ---------- Render combinación óptima ---------- */
-  function renderCombo(items, esNeto) {
-    if (!ui.comboBanner) return;
-    if (items.length < 2) {
-      ui.comboBanner.hidden = true;
-      return;
+  function tarjeta(item, pos) {
+    const { o, g } = item;
+    const pills = [];
+    if (pos === 1 && g.total > 0) pills.push(el('span', { class: 'pill pill-top', text: 'La que más da' }));
+    if (o.fecha_fin_promo) {
+      const d = diasHasta(o.fecha_fin_promo);
+      if (d <= 14) pills.push(el('span', { class: 'pill pill-time', text: d <= 0 ? 'Último día' : `Quedan ${d} día${d === 1 ? '' : 's'}` }));
     }
 
-    const mejorCuenta = [...items]
-      .filter(({ oferta }) => num(oferta.tae) > 0 || num(oferta.bono_fijo_eur) > 0)
-      .sort((a, b) => (b.resultado.intereses + b.resultado.bono) - (a.resultado.intereses + a.resultado.bono))[0];
+    const clases = ['card'];
+    if (pos === 1 && g.total > 0) clases.push('is-top');
+    if (destacada === o.id) clases.push('is-highlight');
 
-    const mejorTarjeta = [...items]
-      .filter(({ oferta }) => (!mejorCuenta || oferta.id !== mejorCuenta.oferta.id) && num(oferta.porcentaje_cashback) > 0)
-      .sort((a, b) => b.resultado.cashback - a.resultado.cashback)[0];
+    const partes = [];
+    if (g.bono > 0) partes.push(`${fmtEUR.format(g.bono)} de regalo`);
+    if (g.intereses > 0) partes.push(`${fmtEUR.format(g.intereses)} de intereses`);
+    if (g.cashback > 0) partes.push(`${fmtEUR.format(g.cashback)} en compras`);
 
-    if (!mejorCuenta || !mejorTarjeta || mejorTarjeta.resultado.cashback <= 0) {
-      ui.comboBanner.hidden = true;
-      return;
-    }
+    const detalles = [
+      ['Condiciones', o.resumen_condiciones],
+      o.permanencia ? ['Permanencia', o.permanencia] : null,
+      o.fgd ? ['Protección', o.fgd] : null,
+      o.fecha_fin_promo ? ['Válida hasta', fecha(o.fecha_fin_promo)] : null,
+      g.cashback > 0 ? ['Cálculo', `Compras con tarjeta: suponemos ${fmtEUR.format(GASTO_TARJETA_MES)}/mes`] : null,
+      ['Revisada', fmtMes.format(new Date(`${o.fecha_actualizacion}T00:00:00Z`))],
+    ].filter(Boolean);
 
-    const gananciaCuenta = mejorCuenta.resultado.intereses + mejorCuenta.resultado.bono;
-    const gananciaTarjeta = mejorTarjeta.resultado.cashback;
-    const totalCombo = gananciaCuenta + gananciaTarjeta;
-    const mejorIndividual = items.reduce((max, it) => Math.max(max, it.resultado.total), 0);
-
-    if (totalCombo <= mejorIndividual + 5) {
-      ui.comboBanner.hidden = true;
-      return;
-    }
-
-    ui.comboBanner.replaceChildren(
-      el('p', {}, [
-        el('strong', { text: '✨ Estrategia combinada recomendada: ' }),
-        `tu saldo y regalo en `,
-        el('strong', { text: mejorCuenta.oferta.entidad }),
-        ` (+${fmtEUR.format(gananciaCuenta)}) + tus compras con `,
-        el('strong', { text: mejorTarjeta.oferta.entidad }),
-        ` (+${fmtEUR.format(gananciaTarjeta)}).`,
+    return el('li', { id: `card-${o.id}`, class: clases.join(' ') }, [
+      el('div', { class: 'card-head' }, [
+        el('span', { class: 'avatar', 'aria-hidden': 'true', style: `background:${COLORES[o.entidad] || '#16a34a'}`, text: iniciales(o.entidad) }),
+        el('div', {}, [el('h3', { class: 'entity', text: o.entidad }), el('p', { class: 'product', text: o.nombre })]),
+        pills.length ? el('div', { class: 'pills' }, pills) : null,
       ]),
-      el('span', { class: 'combo-total', text: `+${fmtEUR.format(totalCombo)} ${esNeto ? 'neto/año' : 'bruto/año'}` }),
-    );
-    ui.comboBanner.hidden = false;
-  }
-
-  /* ---------- Render tarjetas ---------- */
-  function crearBadges(o, esMejor) {
-    const badges = [];
-    if (esMejor) badges.push(['Mejor opción', 'badge-best']);
-    if (o.pais_iban === 'ES') badges.push(['IBAN ES', 'badge-es']);
-    else if (esIbanExtranjero(o)) badges.push([`IBAN ${o.pais_iban}`, 'badge-eu']);
-    if (o.es_crypto) badges.push(['Crypto', 'badge-crypto']);
-    badges.push(o.sin_nomina ? ['Sin nómina', 'badge-ok'] : [`Nómina ≥ ${fmtEURCorto.format(o.nomina_minima_eur || 0)}`, 'badge-nomina']);
-    if (o.sin_comisiones) badges.push(['0% Comisiones', 'badge-ok']);
-
-    return el('ul', { class: 'badges', 'aria-label': 'Características' },
-      badges.map(([texto, cls]) => {
-        const titulo = texto.startsWith('IBAN ') && PAISES[o.pais_iban] ? `IBAN de ${PAISES[o.pais_iban]}` : null;
-        return el('li', { class: `badge ${cls}`, title: titulo, text: texto });
-      }));
-  }
-
-  function crearDesglose(r) {
-    const partes = [
-      ['Intereses TAE', r.intereses],
-      ['Cashback', r.cashback],
-      ['Regalo / Bono', r.bono],
-    ];
-    return el('dl', { class: 'breakdown', 'aria-label': 'Desglose anual' },
-      partes.map(([nombre, valor]) => el('div', { class: valor > 0 ? null : 'is-zero' }, [
-        el('dt', { text: nombre }),
-        el('dd', { text: fmtEUR.format(valor) }),
-      ])));
-  }
-
-  function crearTarjeta(item, posicion, esNeto) {
-    const { oferta: o, resultado: r } = item;
-    const esMejor = posicion === 1 && r.total > 0;
-    const esDestacada = ofertaDestacada === o.id;
-    const idTitulo = `oferta-${o.id}`;
-
-    const clases = ['card', 'offer'];
-    if (esMejor) clases.push('is-best');
-    if (esDestacada) clases.push('is-highlighted');
-
-    const extraMeta = [];
-    if (o.permanencia) extraMeta.push(`Permanencia: ${o.permanencia}`);
-    if (o.fgd) extraMeta.push(o.fgd);
-    if (o.fecha_fin_promo) extraMeta.push(`Válida hasta ${formatearFecha(o.fecha_fin_promo)}`);
-
-    const reqTexto = o.requisitos_resumen || (o.sin_nomina ? 'Sin nómina ni recibos' : 'Requiere domiciliar nómina');
-
-    const checkComp = el('input', {
-      type: 'checkbox',
-      'data-compare-id': o.id,
-      checked: estado.comparar.has(o.id) ? true : null,
-    });
-
-    return el('li', { id: `card-${o.id}`, class: clases.join(' '), 'aria-labelledby': idTitulo }, [
-      o.etiqueta_promo ? el('span', { class: 'offer-promo-pill', text: o.etiqueta_promo }) : null,
-      el('div', { class: 'offer-top' }, [
-        el('div', { class: 'offer-brand' }, [
-          el('span', { class: 'entity-avatar', 'data-entity': o.id, 'aria-hidden': 'true', text: iniciales(o) }),
-          el('div', {}, [
-            el('p', { class: 'offer-entity', text: o.entidad }),
-            el('h3', { class: 'offer-name', id: idTitulo, text: o.nombre }),
-          ]),
-        ]),
-        el('span', { class: 'offer-rank', 'aria-label': `Posición ${posicion}`, text: `#${posicion}` }),
-      ]),
-      el('div', { class: `offer-earnings${r.total > 0 ? '' : ' is-zero'}` }, [
-        el('p', { class: 'offer-total' }, [
-          `+${fmtEUR.format(r.total)}`,
-          el('small', { text: esNeto ? 'neto aprox./año' : '/año' }),
-        ]),
-        crearDesglose(r),
-      ]),
-      crearBadges(o, esMejor),
-      el('p', { class: 'offer-req' }, [
-        el('strong', { text: 'Qué pide: ' }),
-        reqTexto,
-      ]),
-      o.codigo_promo ? el('button', {
-        type: 'button',
-        class: 'code-chip',
-        'data-copy-code': o.codigo_promo,
-        title: 'Pulsa para copiar el código promocional',
-        text: `🔑 Código: ${o.codigo_promo} (copiar)`,
-      }) : null,
-      el('details', { class: 'offer-details' }, [
-        el('summary', { text: 'Ver condiciones y letra pequeña' }),
-        el('p', { text: o.resumen_condiciones }),
-        extraMeta.length ? el('p', { class: 'offer-meta-extra', text: extraMeta.join(' · ') }) : null,
-      ]),
-      el('div', { class: 'offer-foot' }, [
-        el('div', { class: 'offer-actions' }, [
-          el('label', { class: 'compare-check' }, [checkComp, 'Comparar']),
-          el('span', { class: 'muted small', text: `Act. ${formatearFecha(o.fecha_actualizacion)}` }),
-        ]),
-        el('div', { class: 'offer-cta-row' }, [
-          el('button', {
-            type: 'button',
-            class: 'btn btn-subtle btn-sm',
-            'data-copy-offer': o.id,
-            title: 'Copiar resumen listo para pegar en foros',
-            text: '📋 Copiar',
-          }),
-          el('a', {
-            class: 'btn btn-primary btn-sm',
-            href: urlConUtm(o),
-            target: '_blank',
-            rel: 'nofollow sponsored noopener',
-            text: `Ir a ${o.entidad} →`,
-          }),
+      el('p', { class: 'hook', text: o.gancho || o.etiqueta_promo }),
+      el('p', { class: 'estimate' }, g.total > 0
+        ? ['Con tus ahorros ganas ', el('strong', { text: `≈ ${fmtEUR.format(g.total)}` }), ` el primer año${partes.length > 1 ? ` (${partes.join(' + ')})` : ''}`]
+        : ['Ventaja en tus compras con tarjeta']),
+      hechos(o),
+      o.codigo_promo ? el('button', { type: 'button', class: 'code', 'data-code': o.codigo_promo }, [
+        el('span', {}, ['Código: ', el('b', { text: o.codigo_promo })]),
+        el('span', { text: 'Copiar' }),
+      ]) : null,
+      el('div', { class: 'card-actions' }, [
+        el('a', { class: 'btn btn-primary', href: urlConUtm(o), target: '_blank', rel: 'nofollow sponsored noopener', text: `Abrir cuenta en ${o.entidad} →` }),
+        el('details', { class: 'details' }, [
+          el('summary', { text: 'Ver detalles' }),
+          el('dl', {}, detalles.flatMap(([k, v]) => [el('dt', { text: k }), el('dd', { text: v })])),
+          el('button', { type: 'button', class: 'btn btn-ghost', 'data-copy': o.id, text: '📋 Copiar para compartir' }),
         ]),
       ]),
     ]);
   }
 
-  function ordenarItems(items) {
-    const modo = estado.orden;
-    return items.sort((a, b) => {
-      if (modo === 'bono') {
-        return (b.resultado.bono - a.resultado.bono) || (b.resultado.total - a.resultado.total);
-      }
-      if (modo === 'tae') {
-        return (num(b.oferta.tae) - num(a.oferta.tae)) || (b.resultado.total - a.resultado.total);
-      }
-      if (modo === 'cashback') {
-        return (num(b.oferta.porcentaje_cashback) - num(a.oferta.porcentaje_cashback)) || (b.resultado.total - a.resultado.total);
-      }
-      return b.resultado.total - a.resultado.total;
-    });
-  }
-
   function render() {
-    const { gasto, saldo, permiteNomina, esNeto } = leerValores();
-    actualizarPresets();
-
-    const filtros = Array.from(estado.filtros).map((f) => FILTROS[f]).filter(Boolean);
+    const ahorros = num(ui.ahorros.value);
+    const soloSinNomina = ui.sinNomina.checked;
+    const hoy = hoyISO();
     const q = estado.busqueda.trim().toLowerCase();
 
-    const visibles = ordenarItems(
-      estado.ofertas
-        .filter((o) => o.activa === true)
-        .filter((o) => permiteNomina || o.sin_nomina === true)
-        .filter((o) => filtros.every((fn) => fn(o)))
-        .filter((o) => !q || `${o.entidad} ${o.nombre} ${o.resumen_condiciones} ${o.etiqueta_promo || ''}`.toLowerCase().includes(q))
-        .map((oferta) => ({ oferta, resultado: calcular(oferta, gasto, saldo, esNeto) })),
-    );
+    const visibles = estado.ofertas
+      .filter((o) => o.activa === true && (!o.fecha_fin_promo || o.fecha_fin_promo >= hoy))
+      .filter((o) => !soloSinNomina || o.sin_nomina === true)
+      .filter((o) => estado.tipo === 'todas'
+        || (estado.tipo === 'regalo' && num(o.bono_fijo_eur) > 0)
+        || (estado.tipo === 'intereses' && num(o.tae) > 0))
+      .filter((o) => !q || `${o.entidad} ${o.nombre} ${o.gancho || ''} ${o.requisito_corto || ''}`.toLowerCase().includes(q))
+      .map((o) => ({ o, g: ganancia(o, ahorros) }))
+      .sort((a, b) => b.g.total - a.g.total);
 
-    const fragment = document.createDocumentFragment();
-    visibles.forEach((item, i) => fragment.append(crearTarjeta(item, i + 1, esNeto)));
-
-    if (!visibles.length) {
-      fragment.append(el('li', { class: 'card empty-state' }, [
-        'No hay ofertas que coincidan con tu búsqueda o filtros actuales. ',
-        el('button', { type: 'button', class: 'btn btn-subtle', 'data-reset': true, text: 'Ver todas las ofertas' }),
-      ]));
-    }
-
-    ui.lista.replaceChildren(fragment);
-    renderCombo(visibles, esNeto);
-
-    ui.avisoFiscal.hidden = !visibles.some(({ oferta }) => esIbanExtranjero(oferta) || oferta.es_crypto);
+    const frag = document.createDocumentFragment();
+    visibles.forEach((it, i) => frag.append(tarjeta(it, i + 1)));
+    if (!visibles.length) frag.append(el('li', { class: 'empty', text: 'No hay ofertas con estos filtros. Prueba a quitar “Solo sin nómina”.' }));
+    ui.lista.replaceChildren(frag);
 
     const n = visibles.length;
     ui.resumen.textContent = n
-      ? `${n} ${n === 1 ? 'oferta' : 'ofertas'} · saldo ${fmtEURCorto.format(saldo)} · gasto ${fmtEURCorto.format(gasto)}/mes${esNeto ? ' · neto aprox.' : ''}`
-      : 'Sin resultados con estos filtros';
+      ? `${n} ${n === 1 ? 'oferta' : 'ofertas'} ordenadas de más a menos dinero el primer año, con ${fmtEUR.format(ahorros)} de ahorros.`
+      : '';
 
-    if (ui.statMejor) {
-      const mejor = visibles.reduce((max, it) => Math.max(max, it.resultado.total), 0);
-      ui.statMejor.textContent = visibles.length ? `+${fmtEUR.format(mejor)}/año` : '—';
-    }
-    if (ui.statOfertas) {
-      const activas = estado.ofertas.filter((o) => o.activa === true).length;
-      ui.statOfertas.textContent = `${activas} entidades y promos`;
-    }
-    if (ui.statBonos) {
-      const maxBono = estado.ofertas.reduce((m, o) => Math.max(m, num(o.bono_fijo_eur)), 0);
-      ui.statBonos.textContent = maxBono > 0 ? `Hasta ${fmtEURCorto.format(maxBono)}` : '—';
-    }
-
-    if (ofertaDestacada && !estado.scrollHecho) {
-      const target = document.getElementById(`card-${ofertaDestacada}`);
-      if (target) {
+    if (destacada && !estado.scrollHecho) {
+      const t = document.getElementById(`card-${destacada}`);
+      if (t) {
         estado.scrollHecho = true;
-        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        t.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     }
-
-    actualizarBarraComparacion();
   }
 
-  /* ---------- Comparador lado a lado ---------- */
-  function actualizarBarraComparacion() {
-    if (!ui.compareBar || !ui.compareCount) return;
-    const count = estado.comparar.size;
-    ui.compareBar.hidden = count === 0;
-    ui.compareCount.textContent = `${count} ${count === 1 ? 'seleccionada' : 'seleccionadas'} (máx. 3)`;
-    if (ui.btnAbrirComp) ui.btnAbrirComp.disabled = count < 2;
-  }
-
-  function abrirModalComparacion() {
-    const { gasto, saldo, esNeto } = leerValores();
-    const seleccion = Array.from(estado.comparar)
-      .map((id) => estado.ofertas.find((o) => o.id === id))
-      .filter(Boolean)
-      .map((o) => ({ oferta: o, resultado: calcular(o, gasto, saldo, esNeto) }));
-
-    if (seleccion.length < 2) return;
-
-    const filas = [
-      ['Ganancia anual estimada', (x) => el('span', { class: 'compare-highlight', text: `+${fmtEUR.format(x.resultado.total)} (${esNeto ? 'neto' : 'bruto'})` })],
-      ['Regalo en efectivo', (x) => num(x.oferta.bono_fijo_eur) > 0 ? fmtEURCorto.format(x.oferta.bono_fijo_eur) : '—'],
-      ['TAE', (x) => num(x.oferta.tae) > 0 ? `${fmtPct.format(x.oferta.tae)}%${x.oferta.saldo_maximo_remunerado ? ` hasta ${fmtEURCorto.format(x.oferta.saldo_maximo_remunerado)}` : ' sin límite'}` : '—'],
-      ['Cashback tarjeta', (x) => num(x.oferta.porcentaje_cashback) > 0 ? `${fmtPct.format(x.oferta.porcentaje_cashback)}%${x.oferta.tope_mensual_eur ? ` (máx. ${fmtEURCorto.format(x.oferta.tope_mensual_eur)}/mes)` : ''}` : '—'],
-      ['IBAN', (x) => x.oferta.pais_iban === 'N/A' ? 'Crypto (sin IBAN)' : `IBAN ${x.oferta.pais_iban}`],
-      ['Nómina', (x) => x.oferta.sin_nomina ? 'Sin nómina' : `≥ ${fmtEURCorto.format(x.oferta.nomina_minima_eur || 0)}/mes`],
-      ['Permanencia', (x) => x.oferta.permanencia || 'Sin permanencia'],
-      ['Protección FGD', (x) => x.oferta.fgd || '—'],
-      ['Qué pide', (x) => x.oferta.requisitos_resumen || x.oferta.resumen_condiciones],
-    ];
-
-    const thead = el('thead', {}, el('tr', {}, [
-      el('th', { text: 'Característica' }),
-      ...seleccion.map((x) => el('th', { text: `${x.oferta.entidad} · ${x.oferta.nombre}` })),
-    ]));
-
-    const tbody = el('tbody', {}, filas.map(([label, fn]) => el('tr', {}, [
-      el('th', { text: label }),
-      ...seleccion.map((x) => el('td', {}, fn(x))),
-    ])));
-
-    ui.tablaComparar.replaceChildren(el('table', { class: 'compare-table' }, [thead, tbody]));
-    ui.modalComparar.showModal();
-  }
-
-  /* ---------- Interacción ---------- */
-  function sincronizar(range, input, limites) {
-    actualizarProgreso(range, limites);
-
-    range.addEventListener('input', () => {
-      input.value = range.value;
-      actualizarProgreso(range, limites);
-      render();
-    });
-    input.addEventListener('input', () => {
-      if (input.value === '') return;
-      range.value = String(clamp(input.value, limites));
-      actualizarProgreso(range, limites);
-      render();
-    });
-    input.addEventListener('change', () => {
-      const v = clamp(input.value, limites);
-      input.value = String(v);
-      range.value = String(v);
-      actualizarProgreso(range, limites);
-      render();
-    });
-  }
-
-  function actualizarChips() {
-    ui.chips.forEach((chip) => {
-      const f = chip.dataset.filter;
-      const activo = f === 'todos' ? estado.filtros.size === 0 : estado.filtros.has(f);
-      chip.setAttribute('aria-pressed', String(activo));
-    });
-  }
-
-  function alternarFiltro(f) {
-    if (f === 'todos') {
-      estado.filtros.clear();
-      if (ui.buscar) {
-        ui.buscar.value = '';
-        estado.busqueda = '';
-      }
-      if (ui.toggleNomina) ui.toggleNomina.checked = true;
-    } else if (estado.filtros.has(f)) {
-      estado.filtros.delete(f);
-    } else {
-      estado.filtros.add(f);
-    }
-    actualizarChips();
-    render();
-  }
-
+  /* ---------- Eventos ---------- */
   function initEventos() {
-    sincronizar(ui.gastoRange, ui.gastoNum, LIMITES.gasto);
-    sincronizar(ui.saldoRange, ui.saldoNum, LIMITES.saldo);
-
-    ui.presets.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const val = btn.dataset.val;
-        if (btn.dataset.target === 'saldo') {
-          ui.saldoNum.value = val;
-          ui.saldoRange.value = val;
-          actualizarProgreso(ui.saldoRange, LIMITES.saldo);
-        } else {
-          ui.gastoNum.value = val;
-          ui.gastoRange.value = val;
-          actualizarProgreso(ui.gastoRange, LIMITES.gasto);
-        }
-        render();
-      });
-    });
-
-    if (ui.toggleNomina) ui.toggleNomina.addEventListener('change', render);
-    if (ui.toggleNeto) ui.toggleNeto.addEventListener('change', render);
-
+    ui.tabs.forEach((tab) => tab.addEventListener('click', () => {
+      estado.tipo = tab.dataset.tipo;
+      ui.tabs.forEach((t) => t.setAttribute('aria-selected', String(t === tab)));
+      render();
+    }));
     if (ui.buscar) {
       ui.buscar.addEventListener('input', () => {
         estado.busqueda = ui.buscar.value;
         render();
       });
     }
-
-    if (ui.ordenar) {
-      ui.ordenar.addEventListener('change', () => {
-        estado.orden = ui.ordenar.value;
-        render();
-      });
-    }
-
-    ui.chips.forEach((chip) => chip.addEventListener('click', () => alternarFiltro(chip.dataset.filter)));
+    ui.sinNomina.addEventListener('change', render);
+    ui.ahorros.addEventListener('change', render);
 
     ui.lista.addEventListener('click', (e) => {
-      const target = e.target instanceof Element ? e.target : null;
-      if (!target) return;
-
-      if (target.closest('[data-reset]')) {
-        alternarFiltro('todos');
+      const t = e.target instanceof Element ? e.target : null;
+      if (!t) return;
+      const code = t.closest('[data-code]');
+      if (code) {
+        copiar(code.dataset.code, `Código ${code.dataset.code} copiado`);
         return;
       }
-
-      const copyCodeBtn = target.closest('[data-copy-code]');
-      if (copyCodeBtn) {
-        const code = copyCodeBtn.getAttribute('data-copy-code');
-        copiarTexto(code, `Código ${code} copiado`);
-        return;
-      }
-
-      const copyOfferBtn = target.closest('[data-copy-offer]');
-      if (copyOfferBtn) {
-        const id = copyOfferBtn.getAttribute('data-copy-offer');
-        const oferta = estado.ofertas.find((o) => o.id === id);
-        if (oferta) {
-          copiarTexto(textoParaForo(oferta), `Resumen de ${oferta.entidad} copiado para foro`);
-        }
+      const cp = t.closest('[data-copy]');
+      if (cp) {
+        const o = estado.ofertas.find((x) => x.id === cp.dataset.copy);
+        if (o) copiar(textoForo(o), 'Texto copiado, ¡pégalo donde quieras!');
       }
     });
-
-    ui.lista.addEventListener('change', (e) => {
-      const input = e.target instanceof HTMLInputElement ? e.target : null;
-      if (!input || !input.hasAttribute('data-compare-id')) return;
-      const id = input.getAttribute('data-compare-id');
-      if (input.checked) {
-        if (estado.comparar.size >= 3) {
-          input.checked = false;
-          mostrarToast('Puedes comparar hasta 3 ofertas a la vez');
-          return;
-        }
-        estado.comparar.add(id);
-      } else {
-        estado.comparar.delete(id);
-      }
-      actualizarBarraComparacion();
-    });
-
-    if (ui.btnLimpiarComp) {
-      ui.btnLimpiarComp.addEventListener('click', () => {
-        estado.comparar.clear();
-        render();
-      });
-    }
-
-    if (ui.btnAbrirComp) ui.btnAbrirComp.addEventListener('click', abrirModalComparacion);
-    if (ui.btnCerrarComp) ui.btnCerrarComp.addEventListener('click', () => ui.modalComparar.close());
-    if (ui.modalComparar) {
-      ui.modalComparar.addEventListener('click', (e) => {
-        if (e.target === ui.modalComparar) ui.modalComparar.close();
-      });
-    }
   }
 
   /* ---------- Arranque ---------- */
-  async function cargarJson(url) {
-    const res = await fetch(url, { cache: 'no-cache' });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const datos = await res.json();
-    if (!Array.isArray(datos)) throw new Error('Formato no válido');
-    return datos;
-  }
-
   async function init() {
-    initTema();
     initEventos();
-
     try {
-      estado.ofertas = await cargarJson(DATA_URL);
+      const res = await fetch(DATA_URL, { cache: 'no-cache' });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const datos = await res.json();
+      if (!Array.isArray(datos)) throw new Error('Formato no válido');
+      estado.ofertas = datos;
+      const ultima = datos.map((o) => o.fecha_actualizacion).filter(Boolean).sort().pop();
+      if (ultima && ui.fecha) ui.fecha.textContent = fmtMes.format(new Date(`${ultima}T00:00:00Z`));
       render();
     } catch (err) {
       console.warn('No se pudieron cargar las ofertas:', err);
-      ui.resumen.textContent = 'No se pudieron cargar las ofertas.';
-      ui.lista.replaceChildren(el('li', { class: 'card empty-state' }, [
-        'No se ha podido cargar data/ofertas.json. Sirve la carpeta /web con un servidor local (por ejemplo: python3 -m http.server).',
-      ]));
+      ui.resumen.textContent = 'No se pudieron cargar las ofertas. Recarga la página.';
     }
   }
 

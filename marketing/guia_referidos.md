@@ -1,29 +1,48 @@
-# Guía rápida de Plan Amigo (cómo ganar dinero con tus enlaces)
+# Cómo poner TUS enlaces de referido en PromosBanco (guía desde cero)
 
-Para ganar dinero cada vez que alguien abra una cuenta desde la web o desde tus mensajes en foros, sustituye `url_referido` en `data/ofertas.json` por **tu enlace o código personal** (o simplemente pega tus enlaces/códigos en el chat y yo los coloco al instante).
+No hace falta ser empresa, ni autónomo, ni pagar nada para empezar a cobrar con tus enlaces. Hay **dos formas** muy sencillas:
 
 ---
 
-## Bancos que más pagan por invitar (noviembre 2026)
+## Opción 1: Plan Amigo de los propios bancos (la más fácil, empiezas hoy)
 
-| Banco / App | Qué ganas tú (padrino) | Qué gana tu amigo | Tope / Dónde sacar tu invitación |
+**¿Qué necesitas?**
+1. Tener abierta cuenta gratis en el banco del que quieras cobrar invitaciones (casi todas las cuentas online no tienen comisiones ni permanencia).
+2. Entrar en la app de ese banco → buscar la sección **«Invita a un amigo»** o **«Plan Amigo»**.
+3. Copiar **tu enlace personal** o **tu código personal** y pasármelo en el chat. Yo lo pongo en el botón **«Abrir cuenta en …»** y en la caja de código de **PromosBanco**.
+
+Cada vez que una persona abra cuenta desde tu web o tu canal de Telegram y cumpla el requisito, el banco os ingresa el premio a los dos:
+
+| Banco / App | Qué ganas TÚ por amigo | Qué gana tu invitado | Tope / Dónde está en la app |
 | :--- | :--- | :--- | :--- |
-| **Banco Santander** | **80 € brutos** por amigo | Hasta **840 €** en 24 meses (nómina + recibos + Bizum) | Máx. 10 amigos (**800 €**). App Santander → *Plan Amigo* |
-| **BBVA** | **50 € – 70 €** por amigo (escalonado) | Hasta **450 €** (nómina/saldo + tarjeta) | Máx. 10 amigos (**660 €/año**). App BBVA → *Invita a un amigo* |
-| **imagin (CaixaBank)** | **50 € – 75 €** en efectivo | Cupón 50 € Facilitea (sin nómina, saldo 50 € + Bizum) | Máx. 10 amigos (**500 – 750 €**). App imagin → *Plan Amigo* |
-| **Raisin** | **50 €** por amigo | **50 €** al contratar un producto colaborador | Máx. 10 amigos (**500 €**). Área privada web → *Invitar amigos* |
-| **Banco Sabadell** | ~**50 €** por amigo (en campañas activas) | 50 € extra + promo Cuenta Online | Campaña *Cuenta con 5 Amigos* en app Sabadell (revisar vigencia) |
-| **MyInvestor** | **25 € brutos** por amigo | **25 € brutos** (invertir 100 € o mantener 1.000 € en 3m) | Hasta **60 amigos (1.500 €)** · Activo hasta **31 dic 2026**. App → *Trae a tus amigos* |
-| **Revolut** | **10 € – 200 €** (según campaña en app) | Bono campaña + 3,51% TAE | Máx. 5 amigos por campaña. App Revolut → *Invitar amigos* |
-| **N26** | ~**20 €** por amigo (variable) | ~**15 €** tras pagar con tarjeta | App N26 → *Invita a tus amigos* |
-| **Trade Republic** | TAE extra / incentivo en app | Acción/ETF regalo (5 – 200 €) | Máx. 4 amigos. App Trade Republic → *Invitar* |
+| **Banco Santander** | **80 € brutos** | Hasta **840 €** en 24 meses | Hasta 10 amigos (**800 €**). App → *Plan Amigo* |
+| **BBVA** | **50 € – 70 €** | Hasta **450 €** | Hasta 10 amigos (**660 €/año**). App → *Invita a un amigo* |
+| **imagin (CaixaBank)** | **50 € – 75 €** | Cupón 50 € (sin nómina) | Hasta 10 amigos (**500 – 750 €**). App → *Plan Amigo* |
+| **Raisin** | **50 €** | **50 €** | Hasta 10 amigos (**500 €**). Web → *Invitar amigos* |
+| **Banco Sabadell** | ~**50 €** (en campañas) | 50 € extra + Cuenta Online | Campaña *Cuenta con 5 Amigos* en la app |
+| **MyInvestor** | **25 € brutos** | **25 € brutos** (sin nómina) | Hasta **60 amigos (1.500 €)** hasta 31 dic. App → *Trae a tus amigos* |
+| **Revolut** | **10 € – 200 €** | Bono + 3,51% TAE | Hasta 5 amigos por campaña. App → *Invitar amigos* |
+| **N26** | ~**20 €** | ~**15 €** | App → *Invita a tus amigos* |
+| **Trade Republic** | TAE extra / bono | Acción o ETF gratis | Hasta 4 amigos. App → *Invitar* |
 
-> **Nota sobre Openbank:** la promoción actual `OPEN325` (3,25% TAE + 200 € por recibos hasta el 30 de noviembre) no suele ser acumulable con Plan Amigo. Para el resto de bancos que solo tienen enlace web directo (Cajamar, Kutxabank, Ibercaja, etc.), si usas programas de afiliación (Awin, TradeTracker, etc.) también puedes poner esos enlaces en `url_referido`.
+> **Consejo práctico:** empieza solo por los 2 o 3 bancos en los que **ya eres cliente** (o abre primero **MyInvestor**, **imagin** o **Revolut**, que son 100 % sin nómina y en 5 minutos ya te dan tu código).
 
 ---
 
-## Cómo poner tus enlaces en 10 segundos
+## Opción 2: Redes de afiliados (para cuando tengas más visitas y sin límite de amigos)
 
-1. Abre tu banco (empieza por los que ya tengas cuenta: **Santander, BBVA, imagin, MyInvestor, Revolut, Raisin o Trade Republic**).
-2. Copia tu **enlace de invitación** (o tu código Plan Amigo si ese banco funciona solo con código, como BBVA o MyInvestor).
-3. Pégamelos aquí en el chat diciendo *"Este es mi link de Revolut: ... y mi código de MyInvestor: ..."* y actualizo al momento los botones, el campo `codigo_promo` y el mensaje para foros.
+Los bancos que **no** tienen Plan Amigo (o cuando ya llegues al tope de 10 amigos en BBVA/Santander) pagan comisiones mediante plataformas de afiliación gratuitas como **Awin**, **TradeTracker** o **FinanceAds**.
+
+**¿Qué necesitas para esa segunda fase?**
+1. Tener ya la web online (`https://migueltelegram.github.io`) y algo de actividad en el canal de Telegram (ya lo tienes montado).
+2. Registrarte gratis como editor/publisher en Awin o TradeTracker poniendo la URL de tu web y tu canal.
+3. Solicitar los programas de bancos (Openbank, Sabadell, Bankinter, ING, etc.). Cuando te aprueben, te dan enlaces propios sin tope de invitados y los cambiamos igual en `data/ofertas.json`.
+
+---
+
+## ¿Cómo me pasas tus enlaces?
+
+Solo escribe en el chat algo como:
+> *"Aquí tienes mis enlaces: Revolut https://revolut.com/referral/... · MyInvestor código ABC123 · BBVA código XYZ999"*
+
+Yo actualizo la web, el botón y los textos de Telegram en 1 minuto.

@@ -28,7 +28,8 @@
     "utm_campaign": "bbva_black_friday",
     "fecha_actualizacion": "2026-11-22",
     "activa": true,
-    "publicar_telegram": false
+    "gancho": "150 € sin nómina",
+    "requisito_corto": "Sin nómina: paga con la tarjeta y activa Bizum"
   },
   {
     "id": "bbva-plan-1060",
@@ -59,7 +60,8 @@
     "utm_campaign": "bbva_plan1060",
     "fecha_actualizacion": "2026-11-22",
     "activa": true,
-    "publicar_telegram": false
+    "gancho": "Hasta 1.060 €",
+    "requisito_corto": "Nómina desde 800 €"
   },
   {
     "id": "sabadell-online",
@@ -90,7 +92,8 @@
     "utm_campaign": "sabadell_online",
     "fecha_actualizacion": "2026-11-22",
     "activa": true,
-    "publicar_telegram": false
+    "gancho": "400 € + 2,75% TAE",
+    "requisito_corto": "Nómina desde 1.000 € y Bizum"
   },
   {
     "id": "santander-online",
@@ -121,7 +124,8 @@
     "utm_campaign": "santander_online",
     "fecha_actualizacion": "2026-11-22",
     "activa": true,
-    "publicar_telegram": false
+    "gancho": "Hasta 840 €",
+    "requisito_corto": "Nómina desde 800 €, recibos y Bizum"
   },
   {
     "id": "abanca-nomina",
@@ -152,7 +156,8 @@
     "utm_campaign": "abanca_nomina",
     "fecha_actualizacion": "2026-11-22",
     "activa": true,
-    "publicar_telegram": false
+    "gancho": "500 €",
+    "requisito_corto": "Nómina desde 1.200 € (24 meses)"
   },
   {
     "id": "deutsche-bank-mas",
@@ -183,7 +188,8 @@
     "utm_campaign": "deutsche_bank_mas",
     "fecha_actualizacion": "2026-11-22",
     "activa": true,
-    "publicar_telegram": false
+    "gancho": "500 € + 2,02% TAE",
+    "requisito_corto": "Nómina desde 2.000 €"
   },
   {
     "id": "cajamar-nomina",
@@ -214,7 +220,8 @@
     "utm_campaign": "cajamar_nomina",
     "fecha_actualizacion": "2026-11-22",
     "activa": true,
-    "publicar_telegram": false
+    "gancho": "Hasta 750 € + 2,27% TAE",
+    "requisito_corto": "Nómina desde 600 € (36 meses)"
   },
   {
     "id": "kutxabank-nomina",
@@ -245,7 +252,8 @@
     "utm_campaign": "kutxabank_nomina",
     "fecha_actualizacion": "2026-11-22",
     "activa": true,
-    "publicar_telegram": false
+    "gancho": "Hasta 600 €",
+    "requisito_corto": "Nómina desde 800 € (36 meses)"
   },
   {
     "id": "unicaja-nomina",
@@ -258,26 +266,27 @@
     "porcentaje_cashback": 0,
     "tope_mensual_eur": null,
     "tae": 2.55,
-    "saldo_maximo_remunerado": 20000,
+    "saldo_maximo_remunerado": 50000,
     "bono_fijo_eur": 450,
     "sin_nomina": false,
     "sin_comisiones": true,
-    "etiqueta_promo": "Hasta 450 € + 2,55% TAE",
+    "etiqueta_promo": "Hasta 570 € + 2,55% TAE",
     "es_promo_temporal": true,
     "codigo_promo": null,
     "nomina_minima_eur": 600,
     "permanencia": "24 meses",
-    "requisitos_resumen": "Nómina ≥ 600 €/mes (el incentivo máximo de 450 € se alcanza según tramo de ingresos)",
+    "requisitos_resumen": "Nómina o pensión ≥ 600 €/mes (hasta 450 € según tramo) + 5% de devolución en pagos Bizum (máx. 120 €)",
     "fgd": "FGD España (100.000 €)",
     "fecha_fin_promo": "2027-01-31",
-    "resumen_condiciones": "Hasta 450 € de incentivo por domiciliar nómina ≥ 600 € + remuneración en torno al 2,55% TAE en cuenta hasta 20.000 €. IBAN español.",
-    "texto_telegram": "Hasta 450 € de regalo por llevar nómina desde 600 € (permanencia 24 meses) y un 2,55% TAE aproximado hasta 20.000 € de saldo.",
+    "resumen_condiciones": "Hasta 450 € por domiciliar nómina o pensión ≥ 600 € netos y hasta 120 € más devolviendo el 5% de tus pagos con Bizum (570 € en total en 12 meses) + 2,55% TAE hasta 50.000 €. Sin comisiones. IBAN español.",
+    "texto_telegram": "Hasta 450 € por nómina desde 600 € (24 meses) + hasta 120 € devolviendo el 5% en Bizum y 2,55% TAE hasta 50.000 €.",
     "url_referido": "https://www.unicajabanco.es/",
     "omitir_monitor_enlace": true,
     "utm_campaign": "unicaja_nomina",
-    "fecha_actualizacion": "2026-11-22",
+    "fecha_actualizacion": "2026-11-23",
     "activa": true,
-    "publicar_telegram": false
+    "gancho": "Hasta 570 € + 2,55% TAE",
+    "requisito_corto": "Nómina desde 600 € (24 meses)"
   },
   {
     "id": "caixabank-online",
@@ -308,7 +317,8 @@
     "utm_campaign": "caixabank_online",
     "fecha_actualizacion": "2026-11-22",
     "activa": true,
-    "publicar_telegram": false
+    "gancho": "100 € sin nómina",
+    "requisito_corto": "Sin nómina: Bizum y 3 compras con tarjeta"
   },
   {
     "id": "imagin-nomina",
@@ -339,7 +349,8 @@
     "utm_campaign": "imagin_nomina",
     "fecha_actualizacion": "2026-11-22",
     "activa": true,
-    "publicar_telegram": false
+    "gancho": "250 € netos",
+    "requisito_corto": "Nómina desde 900 € (48 meses)"
   },
   {
     "id": "ing-nomina",
@@ -370,7 +381,8 @@
     "utm_campaign": "ing_nomina",
     "fecha_actualizacion": "2026-11-22",
     "activa": true,
-    "publicar_telegram": false
+    "gancho": "1% TAE sin límite",
+    "requisito_corto": "Ingresos desde 700 €/mes"
   },
   {
     "id": "ibercaja-vamos",
@@ -401,7 +413,8 @@
     "utm_campaign": "ibercaja_vamos",
     "fecha_actualizacion": "2026-11-22",
     "activa": true,
-    "publicar_telegram": false
+    "gancho": "5,10% TAE",
+    "requisito_corto": "Nómina desde 600 €, recibos y tarjeta"
   },
   {
     "id": "bankinter-nomina",
@@ -432,7 +445,40 @@
     "utm_campaign": "bankinter_nomina",
     "fecha_actualizacion": "2026-11-22",
     "activa": true,
-    "publicar_telegram": false
+    "gancho": "5% TAE",
+    "requisito_corto": "Nómina desde 800 €, recibos y tarjeta"
+  },
+  {
+    "id": "bankinter-digital",
+    "nombre": "Cuenta Digital",
+    "entidad": "Bankinter",
+    "categoria": "banca_tradicional",
+    "tipo": "cuenta_remunerada",
+    "pais_iban": "ES",
+    "es_crypto": false,
+    "porcentaje_cashback": 0,
+    "tope_mensual_eur": null,
+    "tae": 3.0,
+    "saldo_maximo_remunerado": null,
+    "bono_fijo_eur": 0,
+    "sin_nomina": true,
+    "sin_comisiones": true,
+    "etiqueta_promo": "3% TAE sin nómina · Hasta 16 dic",
+    "es_promo_temporal": true,
+    "codigo_promo": null,
+    "nomina_minima_eur": null,
+    "permanencia": "Sin permanencia",
+    "requisitos_resumen": "Sin nómina ni recibos · Nuevos clientes (o sin operar en Bankinter 6 meses) · Tipo garantizado 12 meses",
+    "fgd": "FGD España (100.000 €)",
+    "fecha_fin_promo": "2026-12-16",
+    "resumen_condiciones": "3% TAE (2,96% TIN) garantizado durante 12 meses desde el primer euro y sin límite de saldo, sin nómina, sin recibos y sin comisiones. Intereses mensuales y tarjeta de débito gratis. Contratación online hasta el 16 de diciembre de 2026. IBAN español.",
+    "texto_telegram": "3% TAE durante 12 meses sin límite de saldo, sin nómina ni recibos. Solo hasta el 16 de diciembre.",
+    "gancho": "3% TAE sin nómina",
+    "requisito_corto": "Sin nómina ni límite de saldo",
+    "url_referido": "https://www.bankinter.com/",
+    "utm_campaign": "bankinter_digital",
+    "fecha_actualizacion": "2026-11-23",
+    "activa": true
   },
   {
     "id": "openbank-remunerada",
@@ -463,7 +509,40 @@
     "utm_campaign": "openbank_remunerada",
     "fecha_actualizacion": "2026-11-22",
     "activa": true,
-    "publicar_telegram": false
+    "gancho": "200 € + 3,25% TAE",
+    "requisito_corto": "Sin nómina: Bizum y 2 recibos"
+  },
+  {
+    "id": "openbank-nomina",
+    "nombre": "Cuenta Nómina Open",
+    "entidad": "Openbank",
+    "categoria": "banca_tradicional",
+    "tipo": "promo_bono",
+    "pais_iban": "ES",
+    "es_crypto": false,
+    "porcentaje_cashback": 0,
+    "tope_mensual_eur": null,
+    "tae": 0,
+    "saldo_maximo_remunerado": null,
+    "bono_fijo_eur": 300,
+    "sin_nomina": false,
+    "sin_comisiones": true,
+    "etiqueta_promo": "300 € por la nómina · Hasta 31 dic",
+    "es_promo_temporal": true,
+    "codigo_promo": "NOMINA300F",
+    "nomina_minima_eur": 900,
+    "permanencia": "Según bases de la promoción",
+    "requisitos_resumen": "Nómina, pensión o paro ≥ 900 €/mes + mantener 2.000 € invertidos en Openbank (fondos, roboadvisor, bróker…)",
+    "fgd": "FGD España (100.000 €)",
+    "fecha_fin_promo": "2026-12-31",
+    "resumen_condiciones": "300 € brutos por domiciliar nómina, pensión o prestación ≥ 900 €/mes usando el código NOMINA300F antes del 31 de diciembre, manteniendo al menos 2.000 € invertidos en Openbank. Además, 1% de devolución durante 6 meses en lo que inviertas en fondos. Tarjetas gratis y sin comisiones. IBAN español.",
+    "texto_telegram": "300 € por llevar la nómina desde 900 € y tener 2.000 € invertidos en Openbank. Código NOMINA300F hasta el 31 de diciembre.",
+    "gancho": "300 €",
+    "requisito_corto": "Nómina desde 900 € y 2.000 € invertidos",
+    "url_referido": "https://www.openbank.es/",
+    "utm_campaign": "openbank_nomina",
+    "fecha_actualizacion": "2026-11-23",
+    "activa": true
   },
   {
     "id": "myinvestor-remunerada",
@@ -494,7 +573,8 @@
     "utm_campaign": "myinvestor",
     "fecha_actualizacion": "2026-11-22",
     "activa": true,
-    "publicar_telegram": false
+    "gancho": "2,50% TAE + 25 €",
+    "requisito_corto": "Sin nómina"
   },
   {
     "id": "b100-health",
@@ -525,7 +605,8 @@
     "utm_campaign": "b100_health",
     "fecha_actualizacion": "2026-11-22",
     "activa": true,
-    "publicar_telegram": false
+    "gancho": "3,15% TAE",
+    "requisito_corto": "Sin nómina (retos de pasos y compras)"
   },
   {
     "id": "renault-bank-contigo",
@@ -556,7 +637,8 @@
     "utm_campaign": "renault_contigo",
     "fecha_actualizacion": "2026-11-22",
     "activa": true,
-    "publicar_telegram": false
+    "gancho": "2,61% TAE sin límite",
+    "requisito_corto": "Sin nómina ni recibos"
   },
   {
     "id": "n26-ahorro",
@@ -587,7 +669,8 @@
     "utm_campaign": "n26",
     "fecha_actualizacion": "2026-11-22",
     "activa": true,
-    "publicar_telegram": false
+    "gancho": "Cuenta gratis + 15 €",
+    "requisito_corto": "Sin nómina"
   },
   {
     "id": "trade-republic",
@@ -618,7 +701,8 @@
     "utm_campaign": "trade_republic",
     "fecha_actualizacion": "2026-11-22",
     "activa": true,
-    "publicar_telegram": false
+    "gancho": "4,07% TAE + 1% en compras",
+    "requisito_corto": "Sin nómina"
   },
   {
     "id": "revolut-remunerada",
@@ -649,7 +733,8 @@
     "utm_campaign": "revolut",
     "fecha_actualizacion": "2026-11-22",
     "activa": true,
-    "publicar_telegram": false
+    "gancho": "3,51% TAE + 10 €",
+    "requisito_corto": "Sin nómina"
   },
   {
     "id": "raisin-bienvenida",
@@ -680,7 +765,8 @@
     "utm_campaign": "raisin",
     "fecha_actualizacion": "2026-11-22",
     "activa": true,
-    "publicar_telegram": false
+    "gancho": "3,30% TAE",
+    "requisito_corto": "Sin nómina"
   },
   {
     "id": "bunq-free",
@@ -711,7 +797,8 @@
     "utm_campaign": "bunq",
     "fecha_actualizacion": "2026-11-22",
     "activa": true,
-    "publicar_telegram": false
+    "gancho": "3,16% TAE",
+    "requisito_corto": "Sin nómina"
   },
   {
     "id": "bank-norwegian",
@@ -742,7 +829,8 @@
     "utm_campaign": "bank_norwegian",
     "fecha_actualizacion": "2026-11-22",
     "activa": true,
-    "publicar_telegram": false
+    "gancho": "3,01% TAE",
+    "requisito_corto": "Sin nómina ni mínimo"
   },
   {
     "id": "cryptocom-levelup",
@@ -773,7 +861,8 @@
     "utm_campaign": "cryptocom",
     "fecha_actualizacion": "2026-11-22",
     "activa": true,
-    "publicar_telegram": false
+    "gancho": "2% en compras (cripto)",
+    "requisito_corto": "Sin nómina · Plan LevelUp"
   },
   {
     "id": "nexo-card",
@@ -804,6 +893,7 @@
     "utm_campaign": "nexo",
     "fecha_actualizacion": "2026-11-22",
     "activa": true,
-    "publicar_telegram": false
+    "gancho": "Hasta 2% en compras (cripto)",
+    "requisito_corto": "Requiere 5.000 $ en la cuenta"
   }
 ]

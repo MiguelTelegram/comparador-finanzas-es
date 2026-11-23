@@ -1,0 +1,39 @@
+name: Imagen del canal de Telegram
+
+# Se lanza a mano (Actions > "Imagen del canal de Telegram" > Run workflow).
+# Cambia el nombre, la descripción y la foto del canal usando el bot,
+# sin exponer el token (va en los secretos de GitHub).
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  branding:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Nombre, descripción y foto del canal
+        run: |
+          set -e
+          API="https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}"
+          check() { python3 -c 'import json,sys; d=json.load(sys.stdin); print(d.get("ok"), d.get("description","")); sys.exit(0 if d.get("ok") else 1)'; }
+
+          curl -sS -X POST "$API/setChatTitle" \
+            --data-urlencode "chat_id=${TELEGRAM_CHANNEL_ID}" \
+            --data-urlencode "title=PromosBanco 🏦 Regalos de bancos y cuentas" | check
+
+          curl -sS -X POST "$API/setChatDescription" \
+            --data-urlencode "chat_id=${TELEGRAM_CHANNEL_ID}" \
+            --data-urlencode "description=Promociones reales de bancos en España: dinero por abrir cuenta, por la nómina y cuentas remuneradas. Solo avisamos cuando sale una oferta nueva. Todas aquí 👉 migueltelegram.github.io" | check
+
+          curl -sS -X POST "$API/setChatPhoto" \
+            -F "chat_id=${TELEGRAM_CHANNEL_ID}" \
+            -F "photo=@marketing/logo_promosbanco.png" | check

@@ -22,6 +22,6 @@
   {
     "nombre": "MyInvestor - Cuenta remunerada",
     "url": "https://myinvestor.es/",
-    "selector_css": "main"
+    "selector_css": ""
   }
 ]

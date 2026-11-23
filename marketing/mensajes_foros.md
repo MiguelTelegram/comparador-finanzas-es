@@ -1,46 +1,62 @@
 # Mensajes listos para copiar y pegar en foros
 
-Formato corto y directo (igual que los del canal de Telegram `@comparador_finanzas_es`), sin rollos ni enlaces a noticias. Ya llevan la URL corta `https://migueltelegram.github.io`.
+Exactamente el mismo formato ultra corto y claro que publica el canal de Telegram de **PromosBanco** (`https://migueltelegram.github.io`).
 
 ---
 
-## 1. Openbank · 3,25% TAE + 200 € recibos (hasta el 30 de noviembre)
+## 1. Bankinter Cuenta Digital · 3% TAE sin nómina (hasta 16 dic)
 
-Openbank · 3,25% TAE + 200 € recibos · Hasta 30 nov
+🏦 Bankinter
+💶 3% TAE sin nómina
 
-3,25% TAE durante 12 meses sin límite de saldo solo activando Bizum (sin nómina) y 200 € extra (20 €/mes durante 10 meses) domiciliando 2 recibos. Usa el código OPEN325 antes del 30 de noviembre.
+✅ Sin nómina ni límite de saldo
+⏰ Hasta el 16 de diciembre
 
-Más info y calculadora:
-https://migueltelegram.github.io
-
----
-
-## 2. BBVA Black Friday · 150 € sin nómina (hasta el 1 de diciembre)
-
-BBVA · Black Friday · Hasta 1 dic
-
-Te devuelven hasta 150 € en compras con la tarjeta Aqua Débito el primer mes. Sin nómina ni permanencia, solo activando Bizum y usando el código TARJETA150 antes del 1 de diciembre.
-
-Más info y calculadora:
-https://migueltelegram.github.io
+👉 https://migueltelegram.github.io
 
 ---
 
-## 3. MyInvestor · 2,50% TAE + 25 € Plan Amigo
+## 2. Openbank · 200 € + 3,25% TAE sin nómina (hasta 30 nov)
 
-MyInvestor · 2,50% TAE (6m) + 25 € Plan Amigo
+🏦 Openbank
+💶 200 € + 3,25% TAE
 
-2,50% TAE los primeros 6 meses hasta 70.000 € sin nómina ni comisiones, más 25 € brutos de bienvenida invirtiendo 100 € o manteniendo 1.000 € en cuenta.
+✅ Sin nómina: Bizum y 2 recibos
+⏰ Hasta el 30 de noviembre
+🔑 Código: OPEN325
 
-Más info y calculadora:
-https://migueltelegram.github.io
+👉 https://migueltelegram.github.io
 
 ---
 
-## 4. Hilos generales ("¿Dónde meter ahorros o domiciliar la nómina?")
+## 3. Openbank Cuenta Nómina · 300 € (hasta 31 dic)
 
-Por si te sirve para comparar rápido según lo que tengas ahorrado y lo que gastes con tarjeta, aquí tienes una calculadora gratuita con las promos reales activas en España (Openbank 3,25% + 200 €, BBVA Black Friday 150 € o Plan 1.060 €, Sabadell 400 € + 2,75%, Cajamar hasta 750 € + 2,27%, Kutxabank hasta 600 €, MyInvestor, ING Cuenta Naranja, Trade Republic, Revolut, etc.):
+🏦 Openbank
+💶 300 €
 
-https://migueltelegram.github.io
+✅ Nómina desde 900 € y 2.000 € invertidos
+⏰ Hasta el 31 de diciembre
+🔑 Código: NOMINA300F
 
-Te ordena de mayor a menor cuánto dinero limpio te llevas al año (en bruto y neto tras Hacienda) y puedes filtrar por cuentas sin nómina o IBAN español.
+👉 https://migueltelegram.github.io
+
+---
+
+## 4. BBVA Black Friday · 150 € sin nómina (hasta 1 dic)
+
+🏦 BBVA
+💶 150 € sin nómina
+
+✅ Sin nómina: paga con la tarjeta y activa Bizum
+⏰ Hasta el 1 de diciembre
+🔑 Código: TARJETA150
+
+👉 https://migueltelegram.github.io
+
+---
+
+## 5. Respuesta rápida en hilos generales ("¿Dónde meter ahorros o nómina?")
+
+Por si te sirve para verlo rápido sin líos, aquí están ordenadas todas las promociones reales de bancos en España ahora mismo (regalos en efectivo y cuentas remuneradas con y sin nómina, poniendo cuánto tienes ahorrado):
+
+👉 https://migueltelegram.github.io
