@@ -1,0 +1,65 @@
+name: Vaciar canal de Telegram
+
+# Borra los mensajes existentes en el canal usando el bot administrador.
+# Se lanza manualmente desde Actions > "Vaciar canal de Telegram".
+
+on:
+  workflow_dispatch:
+    inputs:
+      max_id:
+        description: "Último ID de mensaje aproximado a revisar"
+        required: false
+        default: "40"
+
+permissions:
+  contents: read
+
+jobs:
+  limpiar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
+      MAX_ID: ${{ github.event.inputs.max_id || '40' }}
+    steps:
+      - name: Borrar mensajes del canal
+        run: |
+          python3 - <<'PY'
+          import json, os, urllib.request, urllib.error
+
+          token = os.environ["TELEGRAM_BOT_TOKEN"].strip()
+          chat_id = os.environ["TELEGRAM_CHANNEL_ID"].strip()
+          max_id = int(os.environ.get("MAX_ID") or "40")
+          api = f"https://api.telegram.org/bot{token}"
+
+          def call(method, payload):
+              req = urllib.request.Request(
+                  f"{api}/{method}",
+                  data=json.dumps(payload).encode("utf-8"),
+                  headers={"Content-Type": "application/json"},
+              )
+              try:
+                  with urllib.request.urlopen(req, timeout=15) as r:
+                      return json.loads(r.read().decode("utf-8"))
+              except urllib.error.HTTPError as e:
+                  return json.loads(e.read().decode("utf-8"))
+
+          borrados = []
+          no_borrables = []
+
+          for mid in range(1, max_id + 1):
+              res = call("deleteMessage", {"chat_id": chat_id, "message_id": mid})
+              if res.get("ok"):
+                  borrados.append(mid)
+              else:
+                  desc = res.get("description", "")
+                  if "not found" not in desc.lower():
+                      no_borrables.append((mid, desc))
+
+          print(f"Mensajes borrados ({len(borrados)}): {borrados}")
+          if no_borrables:
+              print(f"No borrables por limite de Telegram ({len(no_borrables)}): {no_borrables}")
+          else:
+              print("Canal completamente limpio.")
+          PY
