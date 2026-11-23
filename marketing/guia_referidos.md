@@ -34,7 +34,7 @@ Cada vez que una persona abra cuenta desde tu web o tu canal de Telegram y cumpl
 Los bancos que **no** tienen Plan Amigo (o cuando ya llegues al tope de 10 amigos en BBVA/Santander) pagan comisiones mediante plataformas de afiliación gratuitas como **Awin**, **TradeTracker** o **FinanceAds**.
 
 **¿Qué necesitas para esa segunda fase?**
-1. Tener ya la web online (`https://migueltelegram.github.io`) y algo de actividad en el canal de Telegram (ya lo tienes montado).
+1. Tener ya la web online (`https://promosbanco.github.io`) y algo de actividad en el canal de Telegram (ya lo tienes montado).
 2. Registrarte gratis como editor/publisher en Awin o TradeTracker poniendo la URL de tu web y tu canal.
 3. Solicitar los programas de bancos (Openbank, Sabadell, Bankinter, ING, etc.). Cuando te aprueben, te dan enlaces propios sin tope de invitados y los cambiamos igual en `data/ofertas.json`.
 

@@ -6,6 +6,11 @@ name: Imagen del canal de Telegram
 
 on:
   workflow_dispatch:
+    inputs:
+      solo_descripcion:
+        description: "Actualizar solo la descripción (no añade aviso de foto/título en el canal)"
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -17,6 +22,7 @@ jobs:
     env:
       TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
       TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
+      SOLO_DESCRIPCION: ${{ github.event.inputs.solo_descripcion || 'false' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -26,14 +32,16 @@ jobs:
           API="https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}"
           check() { python3 -c 'import json,sys; d=json.load(sys.stdin); desc=d.get("description",""); ok=d.get("ok") or "not modified" in desc.lower(); print(d.get("ok"), desc); sys.exit(0 if ok else 1)'; }
 
-          curl -sS -X POST "$API/setChatTitle" \
-            --data-urlencode "chat_id=${TELEGRAM_CHANNEL_ID}" \
-            --data-urlencode "title=PromosBanco 🏦 Regalos de bancos y cuentas" | check
-
           curl -sS -X POST "$API/setChatDescription" \
             --data-urlencode "chat_id=${TELEGRAM_CHANNEL_ID}" \
-            --data-urlencode "description=Promociones reales de bancos en España: dinero por abrir cuenta, por la nómina y cuentas remuneradas. Solo avisamos cuando sale una oferta nueva. Todas aquí 👉 migueltelegram.github.io" | check
+            --data-urlencode "description=Promociones reales de bancos en España: dinero por abrir cuenta, por la nómina y cuentas remuneradas. Solo avisamos cuando sale una oferta nueva. Todas aquí 👉 promosbanco.github.io" | check
 
-          curl -sS -X POST "$API/setChatPhoto" \
-            --form-string "chat_id=${TELEGRAM_CHANNEL_ID}" \
-            -F "photo=@marketing/logo_promosbanco.png" | check
+          if [ "$SOLO_DESCRIPCION" != "true" ]; then
+            curl -sS -X POST "$API/setChatTitle" \
+              --data-urlencode "chat_id=${TELEGRAM_CHANNEL_ID}" \
+              --data-urlencode "title=PromosBanco 🏦 Regalos de bancos y cuentas" | check
+
+            curl -sS -X POST "$API/setChatPhoto" \
+              --form-string "chat_id=${TELEGRAM_CHANNEL_ID}" \
+              -F "photo=@marketing/logo_promosbanco.png" | check
+          fi

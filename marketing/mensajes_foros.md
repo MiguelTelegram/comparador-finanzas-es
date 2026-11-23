@@ -1,6 +1,6 @@
 # Mensajes listos para copiar y pegar en foros
 
-Exactamente el mismo formato ultra corto y claro que publica el canal de Telegram de **PromosBanco** (`https://migueltelegram.github.io`).
+Exactamente el mismo formato ultra corto y claro que publica el canal de Telegram de **PromosBanco** (`https://promosbanco.github.io`).
 
 ---
 
@@ -12,7 +12,7 @@ Exactamente el mismo formato ultra corto y claro que publica el canal de Telegra
 ✅ Sin nómina ni límite de saldo
 ⏰ Hasta el 16 de diciembre
 
-👉 https://migueltelegram.github.io
+👉 https://promosbanco.github.io
 
 ---
 
@@ -25,7 +25,7 @@ Exactamente el mismo formato ultra corto y claro que publica el canal de Telegra
 ⏰ Hasta el 30 de noviembre
 🔑 Código: OPEN325
 
-👉 https://migueltelegram.github.io
+👉 https://promosbanco.github.io
 
 ---
 
@@ -38,7 +38,7 @@ Exactamente el mismo formato ultra corto y claro que publica el canal de Telegra
 ⏰ Hasta el 31 de diciembre
 🔑 Código: NOMINA300F
 
-👉 https://migueltelegram.github.io
+👉 https://promosbanco.github.io
 
 ---
 
@@ -51,7 +51,7 @@ Exactamente el mismo formato ultra corto y claro que publica el canal de Telegra
 ⏰ Hasta el 1 de diciembre
 🔑 Código: TARJETA150
 
-👉 https://migueltelegram.github.io
+👉 https://promosbanco.github.io
 
 ---
 
@@ -59,4 +59,4 @@ Exactamente el mismo formato ultra corto y claro que publica el canal de Telegra
 
 Por si te sirve para verlo rápido sin líos, aquí están ordenadas todas las promociones reales de bancos en España ahora mismo (regalos en efectivo y cuentas remuneradas con y sin nómina, poniendo cuánto tienes ahorrado):
 
-👉 https://migueltelegram.github.io
+👉 https://promosbanco.github.io

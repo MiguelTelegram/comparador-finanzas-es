@@ -5,7 +5,7 @@
 
 (() => {
   const DATA_URL = 'data/ofertas.json';
-  const SHORT_URL = 'https://migueltelegram.github.io';
+  const SHORT_URL = 'https://promosbanco.github.io';
   const GASTO_TARJETA_MES = 500;
 
   const COLORES = {

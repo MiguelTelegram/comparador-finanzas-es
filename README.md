@@ -1,6 +1,6 @@
 # PromosBanco
 
-Web y canal de Telegram gratuitos con **promociones reales de bancos y cuentas remuneradas en España**, publicados en **[https://migueltelegram.github.io](https://migueltelegram.github.io)** (→ `https://migueltelegram.github.io/comparador-finanzas-es/`).
+Web y canal de Telegram gratuitos con **promociones reales de bancos y cuentas remuneradas en España**, publicados en **[https://promosbanco.github.io](https://promosbanco.github.io)**.
 
 - **Web estática ultrarrápida** (`/web`: HTML + CSS + Vanilla JS, cero frameworks) alojada gratis en **GitHub Pages**.
 - **Solo avisos de ofertas nuevas en Telegram:** `scripts/difusion.py` compara `data/ofertas.json` contra `data/publicadas.json` y publica únicamente las altas nuevas (sin repetir nunca una oferta).

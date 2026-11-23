@@ -15,7 +15,7 @@ Formato corto y fácil de leer (también sirve para copiar y pegar en foros):
     ⏰ Hasta el 30 de noviembre
     🔑 Código: OPEN325
 
-    👉 https://migueltelegram.github.io
+    👉 https://promosbanco.github.io
 
 Variables de entorno: TELEGRAM_BOT_TOKEN, TELEGRAM_CHANNEL_ID,
 TELEGRAM_ADMIN_CHAT_ID, SITE_URL.
@@ -36,7 +36,7 @@ import requests
 ROOT = Path(__file__).resolve().parent.parent
 OFERTAS_PATH = ROOT / "data" / "ofertas.json"
 PUBLICADAS_PATH = ROOT / "data" / "publicadas.json"
-DEFAULT_SITE_URL = "https://migueltelegram.github.io"
+DEFAULT_SITE_URL = "https://promosbanco.github.io"
 TIMEOUT = 20
 MAX_POR_EJECUCION = 3
 
