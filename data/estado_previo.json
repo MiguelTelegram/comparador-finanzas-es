@@ -22,5 +22,11 @@
     "selector_css": null,
     "hash": "a1daca2ff344f5f44fe1c0a8fd0882195321fdd89030a93bf8ff8181571192da",
     "ultimo_cambio": "2026-11-23T04:31:15+00:00"
+  },
+  "https://myinvestor.es/": {
+    "nombre": "MyInvestor - Cuenta remunerada",
+    "selector_css": null,
+    "hash": "586350b857f697df7fba35c01bdbad461a93530c0c653fc80d5802abe06e11a9",
+    "ultimo_cambio": "2026-11-23T07:15:22+00:00"
   }
 }
