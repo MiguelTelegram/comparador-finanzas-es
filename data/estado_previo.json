@@ -20,13 +20,43 @@
   "https://www.raisin.es/": {
     "nombre": "Raisin - Depósitos y cuentas",
     "selector_css": null,
-    "hash": "a1daca2ff344f5f44fe1c0a8fd0882195321fdd89030a93bf8ff8181571192da",
-    "ultimo_cambio": "2026-11-23T04:31:15+00:00"
+    "hash": "737c3d22c23f23e7b74be6308120eee59b1fb6241f72b00a03606e8022ce4fe9",
+    "ultimo_cambio": "2026-11-23T23:00:20+00:00"
   },
   "https://myinvestor.es/": {
     "nombre": "MyInvestor - Cuenta remunerada",
     "selector_css": null,
     "hash": "586350b857f697df7fba35c01bdbad461a93530c0c653fc80d5802abe06e11a9",
     "ultimo_cambio": "2026-11-23T07:15:22+00:00"
+  },
+  "https://www.cetelem.es/": {
+    "nombre": "Cetelem - Cuenta Suma",
+    "selector_css": null,
+    "hash": "022830833bf69f9480d61a216d459c3e8b516acf563e4cd5d4764076d3b0f8d8",
+    "ultimo_cambio": "2026-11-23T23:00:20+00:00"
+  },
+  "https://www.sumup.com/es-es/pay/": {
+    "nombre": "SumUp Pay - Cashback",
+    "selector_css": null,
+    "hash": "770a6745fb19aa4ffad055388d076ed1c99057e88aeb93c28d3e3eebf41390ff",
+    "ultimo_cambio": "2026-11-23T23:00:20+00:00"
+  },
+  "https://plazo.es/": {
+    "nombre": "Plazo - Cashback",
+    "selector_css": null,
+    "hash": "e1add53879790a4d9df70913ea04ec27dcc1a120f92d85c5f07d12257a3e53be",
+    "ultimo_cambio": "2026-11-23T23:00:20+00:00"
+  },
+  "https://es.igraal.com/": {
+    "nombre": "iGraal - España",
+    "selector_css": null,
+    "hash": "3099286d197355ea4ec0540156329d87aa3e50cf6ee34ec718a887825db6aa96",
+    "ultimo_cambio": "2026-11-23T23:00:20+00:00"
+  },
+  "https://letyshops.com/es": {
+    "nombre": "LetyShops - España",
+    "selector_css": null,
+    "hash": "e165662459c81c4bdc477169894d37ed82c9b1408ab94166aff944e3aba56e71",
+    "ultimo_cambio": "2026-11-23T23:00:20+00:00"
   }
 }
