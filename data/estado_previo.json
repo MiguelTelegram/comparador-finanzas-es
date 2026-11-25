@@ -2,8 +2,8 @@
   "https://www.bunq.com/es/savings": {
     "nombre": "bunq - Cuenta de ahorro",
     "selector_css": "main",
-    "hash": "e73970e338e601a092e4301ed681e5866f9123f8df27257ef328e6009bd41985",
-    "ultimo_cambio": "2026-11-24T21:40:05+00:00"
+    "hash": "d68f806dbaf4eaa4db7505c8f841f7b83c5589e33d2aa416eba3a970ef23c743",
+    "ultimo_cambio": "2026-11-25T05:56:33+00:00"
   },
   "https://crypto.com/es/cards": {
     "nombre": "Crypto.com - Tarjetas",
@@ -50,13 +50,13 @@
   "https://es.igraal.com/": {
     "nombre": "iGraal - España",
     "selector_css": null,
-    "hash": "f4150f325eeb0b93e0648b42dfd8321a9e4ca27219f552141004ca6bbcc24181",
-    "ultimo_cambio": "2026-11-24T21:40:05+00:00"
+    "hash": "97071002118559bb72225618a95fc0d102cb0474db33ddaed32e3051bf249854",
+    "ultimo_cambio": "2026-11-25T05:56:33+00:00"
   },
   "https://letyshops.com/es": {
     "nombre": "LetyShops - España",
     "selector_css": null,
-    "hash": "a04d968356af8b4ebda2995cb3b2933e586e86a0a232424073ebd6bf8747d09c",
-    "ultimo_cambio": "2026-11-24T21:40:05+00:00"
+    "hash": "5f350ae076dcebaae2e63188f6f2204041aa6b128ae70cddc4cfef8adeb0b54a",
+    "ultimo_cambio": "2026-11-25T05:56:33+00:00"
   }
 }
