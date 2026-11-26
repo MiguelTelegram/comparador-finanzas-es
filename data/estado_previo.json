@@ -20,8 +20,8 @@
   "https://www.raisin.es/": {
     "nombre": "Raisin - Depósitos y cuentas",
     "selector_css": null,
-    "hash": "9fef24622702b0a3bddde99ae61b928abca878a602160d0c2f9eb791070ee313",
-    "ultimo_cambio": "2026-11-25T20:47:32+00:00"
+    "hash": "cf434611907cecacf2f8db1e92d4cea3ae98800f885f7883a08fc1b671aa58c4",
+    "ultimo_cambio": "2026-11-26T05:47:15+00:00"
   },
   "https://myinvestor.es/": {
     "nombre": "MyInvestor - Cuenta remunerada",
@@ -50,13 +50,13 @@
   "https://es.igraal.com/": {
     "nombre": "iGraal - España",
     "selector_css": null,
-    "hash": "a4a92af5b908444b54dd54707a4542ade8ada1a36e189af1d7e08dbd71d085e6",
-    "ultimo_cambio": "2026-11-25T20:47:32+00:00"
+    "hash": "9525fb89a0900840f0d59701223a52cc068ae3c76fc6d1eb9477311b24033557",
+    "ultimo_cambio": "2026-11-26T05:47:15+00:00"
   },
   "https://letyshops.com/es": {
     "nombre": "LetyShops - España",
     "selector_css": null,
-    "hash": "558cd5afe9d6a1eeb084bcde1cfd90980caff2b87e7c28e984ceb24b79559ce6",
-    "ultimo_cambio": "2026-11-25T20:47:32+00:00"
+    "hash": "37cfb61df6b61410df88b1c9890f540d50ff04e8a084b01db56abd58f43d4001",
+    "ultimo_cambio": "2026-11-26T05:47:15+00:00"
   }
 }
